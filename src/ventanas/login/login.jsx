@@ -31,7 +31,7 @@ function LoginScreen({history}) {
                     <form onSubmit={enviarFormulario} className="formulario">
                         <input type="text" autoComplete="off" required name="username" value={user} onChange={nameChange} placeholder="Usuario..." />
                         <input type="password" value={password} onChange={passwordChange} required placeholder="Contraseña..." />
-                        <input type="submit" value="submit"/>
+                        <input type="submit" value="Ingresar"/>
                     </form>
                 </div>
                 

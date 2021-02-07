@@ -48,7 +48,7 @@
     font-size: 0.95rem;
 }
 
-.formulario > button{
+.formulario [type="submit"]{
     padding: 10px;
     font-size: 1rem;
     align-self: center;
@@ -61,7 +61,7 @@
     
 }
 
-.formulario > button:hover {
+.formulario > [type="submit"]:hover {
     background: rgba(205, 109, 147, 0.8);
 }
 
