@@ -2,7 +2,7 @@
     display: flex;
     height: 100%;
     width: 100%;
-    background-image: url('../../extras/images/fondoinicio.jpg');
+    background-image: url('../../extras/images/fondopower.png');
     background-size: cover;
     justify-content: center;
     align-items: center;
@@ -45,12 +45,11 @@
     width: 80%;
     border-bottom: 1px solid black;
     background: rgba(255, 255, 255, 0);
-    font-size: 0.99rem;
+    font-size: 0.95rem;
 }
 
 .formulario > button{
     padding: 10px;
-    border: 0px;
     font-size: 1rem;
     align-self: center;
     text-align: center;

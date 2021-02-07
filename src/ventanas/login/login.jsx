@@ -24,6 +24,7 @@ function LoginScreen({history}) {
 
     return (
         userContext.user ? <Redirect to="/" /> :
+            
             <div className="login-contenedor">
                 <div className="login-form">
                     <h1>Gestion Multirubro</h1>
@@ -33,7 +34,9 @@ function LoginScreen({history}) {
                         <input type="submit" value="submit"/>
                     </form>
                 </div>
+                
             </div>
+
 
     );
 }
