@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../componentes/Navbar/navbar';
-import LoginScreen from '../login/login';
+import Inventario from '../inventario/Inventario';
 import './main.css';
 
 function Main(props) {
@@ -10,7 +10,7 @@ function Main(props) {
         <Navbar />
       </div>
       <div className="main">
-        <LoginScreen />
+        <Inventario />
       </div>
       <div className="footer">
         <h3><strong>RT Development ©</strong></h3>

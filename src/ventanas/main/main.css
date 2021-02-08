@@ -15,6 +15,16 @@
 
 .main {
     grid-area: main;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.main table {
+    text-align: center;
+}
+.main table,th,td{
+table-layout: auto;
+border: 0.5px solid gray;
 }
 
 .footer {

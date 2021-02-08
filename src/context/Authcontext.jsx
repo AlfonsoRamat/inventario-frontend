@@ -34,10 +34,10 @@ function AuthProvider({ children }) {
             setUser(userResult);
         }
         else if (result.status === 404) {
-            console.log('User not found');
+            console.log('Usuario no encontrado');
             console.log(`${nombre}, ${password}`)
         } else if (result.status === 401) {
-            console.log('Unauthorized');
+            console.log('Contraseña/password incorrectos');
         }
     }
 
