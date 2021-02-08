@@ -15,8 +15,8 @@ function Navbar(props) {
                 {(user.permisos === "MASTER") && <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/reportes'>REPORTES</NavLink></li>}
             </ul>
             <div className="user-section">
-                <NavLink className="user-links" to="/notifications"><MdNotificationsOff size="1.1em" color="yellow" /></NavLink>
-                <NavLink className="user-links" to="/details"><MdVerifiedUser className="username" size="1.1em" color="yellow" />{user.nombre}</NavLink>
+                <NavLink className="user-links" to="/notifications"><MdNotificationsOff size="1.1em" color="white" /></NavLink>
+                <NavLink className="user-links" to="/details"><MdVerifiedUser className="username" size="1.1em" color="white" />{user.nombre}</NavLink>
             </div>
         </nav>
     );

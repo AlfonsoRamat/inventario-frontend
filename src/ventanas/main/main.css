@@ -2,7 +2,7 @@
     display: grid;
     height: 100%;
     grid-template-columns: auto auto auto auto auto auto;
-    grid-template-rows: 5% 90% 5%;
+    grid-template-rows: 5% 93% 2%;
     grid-template-areas: 
     'header header header header header header'
     'main main main main main main'
@@ -15,21 +15,17 @@
 
 .main {
     grid-area: main;
-    display: flex;
     justify-content: center;
-    margin-top: 50px;
-}
-.main table {
-    text-align: center;
-}
-.main table,th,td{
-table-layout: auto;
-border: 0.5px solid gray;
+    margin-top: 65px;
 }
 
+
 .footer {
-    padding: 10px;
+    
     grid-area: footer;
-    background: grey;
-    text-align: center;
+    font-size: 0.85rem;
+    text-align: right;
+    font-weight: lighter;
+    font-family: 'Bungee Inline', cursive;
+ 
 }
