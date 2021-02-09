@@ -58,10 +58,12 @@ selectAllRowsItem:true,
 selectAllRowsItemText:'Todo'
 }
 
+
+
 function Inventario(props) {
 
     const [items, setItems] = useState([]);
-
+    const [search,setsearch]= useState("");
     async function getItems() {
 
         const url = 'http://localhost:3004';
@@ -78,19 +80,36 @@ function Inventario(props) {
     useEffect(() => {
         getItems();
     }, []);
-
+function buscar(rows) {
+ return rows.filter(row => row.nombre.toLowerCase().indexOf(search)>-1) 
+ 
+    }
     return (
-        <div className='table-responsive'>
+        <div>
+        <div className='agrupo'>
+          <td><h1>Inventario</h1></td>
+          <td align="right" > 
+              <div class="input-icono">
+              <input type="text" value={search} onChange={(e) => setsearch(e.target.value)}  placeholder="Buscar" />
+              </div>
+          </td>
+               
+            
+          
+        </div>
+        <div className="table-responsive">
+        
             <DataTable
             columns={columnas}
-            data={items}
-            title="INVENTARIO"
+            data={buscar(items)}
             pagination
             paginationComponentOptions={opcionesdepagina}
             fixedHeader
             fixedHeaderScrollHeight="600px"
             />
         </div>
+        </div>
+        
     );
 }
 
