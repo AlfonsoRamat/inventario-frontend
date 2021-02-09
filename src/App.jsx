@@ -5,6 +5,8 @@ import Main from "./ventanas/main/main";
 import RutasPrivadas from "./ventanas/privadas/RutasPrivadas";
 import './App.css';
 
+
+
 function App() {
   return (
     <AuthProvider>
