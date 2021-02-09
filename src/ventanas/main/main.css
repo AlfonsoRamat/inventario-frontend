@@ -17,6 +17,25 @@
     grid-area: main;
     justify-content: center;
     margin-top: 65px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+button{
+    padding: 10px;
+    border: 0px;
+    font-size: 1rem;
+    align-self: center;
+    text-align: center;
+    width: 50%;
+    text-decoration: none;
+    color: white;
+    background: rgba(212, 154, 169, 1);
+    border-radius: 1.5%;
+    
+}
+
+button:hover {
+    background: rgba(205, 109, 147, 0.8);
 }
 
 

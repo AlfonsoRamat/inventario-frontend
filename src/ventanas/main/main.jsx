@@ -1,7 +1,8 @@
 import React from 'react';
 import Navbar from '../../componentes/Navbar/navbar';
 import Inventario from '../inventario/Inventario';
-import { card } from 'react-bootstrap';
+import { Card } from "react-bootstrap";
+import {Button} from "react-bootstrap";
 
 import './main.css';
 
@@ -12,20 +13,41 @@ function Main(props) {
         <Navbar />
       </div>
       <div className="main">
-       <div> 
-       <Card style={{ width: '18rem' }}>
-        <Card.Body>
-        <Card.Title>Card Title</Card.Title>
-       <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-        <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-         </Card.Text>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
-        </Card.Body>
-        </Card>
-       </div>
+          <div>
+            <div class="card-deck">
+              <div class="card" >
+                 <div class="card-body">
+                  <h5 class="card-title">Productos</h5>
+                  <p class="card-text text-white"  ><p>.<p>.</p></p></p>
+                  <button type="submit" onClick={console.log(`ando`)}>Agregar producto</button>
+              </div>
+          </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Ordenes de pedido</h5>
+        <p class="card-text text-white"  ><p>.<p>.</p></p></p>
+        <button type="submit" onClick={console.log(`ando`)}>Hacer pedido</button>
+        </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Reservas</h5>
+        <p class="card-text text-white"  ><p>.<p>.</p></p></p>
+        <button type="submit" onClick={console.log(`ando`)}>Ver</button>
+       
+      </div>
+    </div>
+
+           
+  
+    
+  
+    
+ 
+     </div>
+            
+    
+        </div>
         <div><Inventario /></div>
       </div>
       <div className="footer">
