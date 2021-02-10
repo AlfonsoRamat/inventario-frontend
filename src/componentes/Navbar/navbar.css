@@ -42,3 +42,15 @@
 .username{
     margin-right: 5px;
 }
+@media (max-width: 648px) {
+    .navbar .list {
+        display: block;
+        flex-direction: row;
+        list-style-type: none;
+    }
+    .navbar .list .item{
+        font-size: large;
+        padding: 15px 30px;
+    }
+    
+}

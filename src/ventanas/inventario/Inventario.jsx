@@ -1,10 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import './Inventario.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import DataTable from 'react-data-table-component';
+import { Container, Row, Col } from "react-bootstrap";
+
+const columnas = [
+    {
+        name: 'Codigo Interno',
+        selector: 'codigoInterno',
+        sortable: true
+    },
+    {
+        name: 'Codigo de barra',
+        selector: 'codigoPaquete',
+        sortable: true
+    },
+    {
+        name: 'Ubicacion',
+        selector: 'ubicacion',
+        sortable: true
+    },
+    {
+        name: 'Nombre',
+        selector: 'nombre',
+        sortable: true
+    },
+    {
+        name: 'Marca',
+        selector: 'marca',
+        sortable: true
+    },
+    {
+        name: 'Descripcion',
+        selector: 'descripcion',
+        sortable: true
+    },
+
+    {
+        name: 'Alerta Min',
+        selector: 'alertaMin',
+        sortable: true
+    },
+    {
+        name: 'Alerta Max',
+        selector: 'alertaMax',
+        sortable: true
+    },
+    {
+        name: 'Estado',
+        selector: 'estado',
+        sortable: true
+    }
+]
+const opcionesdepagina = {
+    rowsPerPageText: 'Filas por pagina',
+    rangeSeparatorText: 'de',
+    selectAllRowsItem: true,
+    selectAllRowsItemText: 'Todo'
+}
+
+
 
 function Inventario(props) {
 
     const [items, setItems] = useState([]);
-
+    const [search, setsearch] = useState("");
     async function getItems() {
 
         const url = 'http://localhost:3004';
@@ -21,31 +81,32 @@ function Inventario(props) {
     useEffect(() => {
         getItems();
     }, []);
-
+    function buscar(rows) {
+        return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
+            row.codigoInterno.toString().toLowerCase().indexOf(search) > -1 ||
+            row.codigoPaquete.toString().toLowerCase().indexOf(search) > -1)
+    }
     return (
         <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>codigoInterno</th>
-                        <th>codigoPaquete</th>
-                        <th>ubicacion</th>
-                        <th>nombre</th>
-                        <th>marca</th>
-                        <th>descripcion</th>
-                        <th>alertaMin</th>
-                        <th>alertaMax</th>
-                        <th>estado</th>
-                        <th>precio</th>
-                        <th>cantidad</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {items.map((item) => (<tr key={item.codigoInterno}>{Object.values(item).forEach((valor) => {<td>{valor}</td>})}</tr>))}
-                </tbody>
-            </table>
-            
+            <div className='agrupo'>
+                <h1>Inventario</h1>
+                <div class="input-icono">
+                    <input type="text" value={search} onChange={(e) => setsearch(e.target.value)} placeholder="Buscar" />
+                </div>
+            </div>
+            <div className="table-responsive">
+
+                <DataTable
+                    columns={columnas}
+                    data={buscar(items)}
+                    pagination
+                    paginationComponentOptions={opcionesdepagina}
+                    fixedHeader
+                    fixedHeaderScrollHeight="600px"
+                />
+            </div>
         </div>
+
     );
 }
 
