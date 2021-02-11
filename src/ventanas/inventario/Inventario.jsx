@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Inventario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from 'react-data-table-component';
-import { Container, Row, Col } from "react-bootstrap";
+
 
 const columnas = [
     {
@@ -62,7 +62,6 @@ const opcionesdepagina = {
 
 
 function Inventario(props) {
-
     const [items, setItems] = useState([]);
     const [search, setsearch] = useState("");
     async function getItems() {
@@ -75,7 +74,6 @@ function Inventario(props) {
             setItems([...productos]);
             console.log(productos);
         }
-
     }
 
     useEffect(() => {
@@ -90,7 +88,7 @@ function Inventario(props) {
         <div>
             <div className='agrupo'>
                 <h1>Inventario</h1>
-                <div class="input-icono">
+                <div className="input-icono">
                     <input type="text" value={search} onChange={(e) => setsearch(e.target.value)} placeholder="Buscar" />
                 </div>
             </div>
