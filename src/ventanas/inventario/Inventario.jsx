@@ -43,11 +43,6 @@ const columnas = [
         sortable: true
     },
     {
-        name: 'Marca',
-        selector: 'marca',
-        sortable: true
-    },
-    {
         name: 'Descripcion',
         selector: 'descripcion',
         sortable: true
@@ -59,8 +54,8 @@ const columnas = [
         sortable: true
     },
     {
-        name: 'Alerta Max',
-        selector: 'alertaMax',
+        name: 'Precio de lista',
+        selector: 'precio',
         sortable: true
     },
     {
@@ -90,15 +85,14 @@ function Inventario(props) {
         setSelectedItem(item);
         toggleModal();
     }
-    const handleChange = (state) => {
-        console.log('Selected Rows: ', state.rowData);
-        userSelection(state.selectedRows);
-    };
+
+
     const [modal, setModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [items, setItems] = useState([]);
     const [search, setsearch] = useState("");
-    const [selectfila, setSelectfila] =useState(null);
+    const [redirState, setState] = useState(false);
+    const [shortName, setData] = useState('');
     
     async function getItems() {
 
@@ -174,10 +168,14 @@ function Inventario(props) {
                         fixedHeader
                         fixedHeaderScrollHeight="600px"
                         highlightOnHover
-                        onRowClicked={handleChange}
+                        onRowClicked={items => {
+                            console.log(items)
+                            userSelection(items)
+                            }}
                        responsive
                        customStyles={customStyles}
                     />
+                    
                 </div>
             </div>
         </div>
