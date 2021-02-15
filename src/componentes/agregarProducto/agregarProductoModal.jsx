@@ -105,8 +105,8 @@ function AgregarProductosModal({ modalState, item, toggle }) {
         <Modal isOpen={modalState} onRequestClose={toggle} style={
             {
                 content: {
-                    width: '30%',
-                    height: '75%',
+                    width: '50%',
+                    height: '90%',
                     top: '50%',
                     left: '50%',
                     right: 'auto',
@@ -169,7 +169,7 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
                     </div>
                 </div>
-                <div className="modal-footer">
+                <div className="modal-pie">
                     <button className="botones" type="submit">Agregar</button>
                     <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                 </div>

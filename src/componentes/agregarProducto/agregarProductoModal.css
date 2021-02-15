@@ -35,25 +35,23 @@
     margin: 10px 0px
 }
 
-.modal-footer {
-    margin-top: 10px;
-    align-items: center;
-    justify-content: center;
+.modal-pie{
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 
 botones {
-    margin: 10px;
+    margin: 10px 0px;
     padding: 10px;
     border: 0px;
     font-size: 1rem;
-    align-self: center;
     text-align: center;
     width: 50%;
     text-decoration: none;
     color: white;
-    background: rgba(212, 154, 169, 1);
+    background: rgba(156, 32, 86, 1);
     border-radius: 1.5%;
 }
 

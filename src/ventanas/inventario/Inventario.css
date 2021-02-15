@@ -23,6 +23,34 @@ td {
     outline: none;
   }
   
-  .titulo_tabla{
-    justify-content: space-between;
+  .titulo-tabla{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
       }
+  .titulo-izq{
+    padding: 10px;
+   align-content: flex-start;
+   align-self: initial;
+  }
+  .titulo-der{
+    float: right;
+  }
+      
+button{
+  padding: 10px;
+  border: 0px;
+  font-size: 1rem;
+  align-self: center;
+  text-align: center;
+  width: 50%;
+  text-decoration: none;
+  color: white;
+  background:rgba(156, 32, 86, 1);
+  border-radius: 1.5%;
+  
+}
+
+button:hover {
+  background: rgba(205, 109, 147, 0.8);
+}
