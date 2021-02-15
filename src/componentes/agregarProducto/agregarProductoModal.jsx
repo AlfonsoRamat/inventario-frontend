@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProductoModal.css';
+import Select from "react-select";
 
 
-Modal.setAppElement('#root');
+
+
 
 function AgregarProductosModal({ modalState, item, toggle }) {
+    const [selectedOption, setSelectedOption] = useState(null);
     const [codInterno, setCodInterno] = useState('');
     const [codBarras, setCodBarras] = useState('');
     const [ubicacion, setUbicacion] = useState('');
@@ -18,8 +21,8 @@ function AgregarProductosModal({ modalState, item, toggle }) {
     const [precio, setPrecio] = useState(1);
     const [cantidad, setCantidad] = useState(1);
     const [proveedor, setProveedor] = useState('');
-
     const [proveedores, setProveedores] = useState([]);
+
 
     async function getProveedores() {
 
@@ -29,10 +32,12 @@ function AgregarProductosModal({ modalState, item, toggle }) {
         if (result.ok) {
             const productos = await result.json();
             setProveedores([...productos]);
+            console.log(proveedores)
         }
 
     }
 
+    const options = [{ key: proveedores.id, value: proveedores.id , label: proveedores.nombre } ];
 
     useEffect(() => {
         getProveedores();
@@ -113,8 +118,6 @@ function AgregarProductosModal({ modalState, item, toggle }) {
                     bottom: 'auto',
                     marginRight: '-50%',
                     transform: 'translate(-50%, -50%)'
-
-
                 }
             }} >
             <form onSubmit={handleAgregar} className="formulario-modal">
@@ -165,6 +168,11 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
 
                         <label name="">Proveedor</label>
+                        <Select
+                            defaultValue={selectedOption}
+                            onChange={setSelectedOption}
+                            options={options}
+                        />
                         <input type="text" onChange={(event) => { setProveedor(event.target.value) }} value={proveedor} placeholder="" />
 
                     </div>
