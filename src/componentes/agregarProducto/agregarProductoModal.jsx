@@ -177,13 +177,8 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
                     </div>
                 </div>
-<<<<<<< HEAD
-                <div className="modal-footer">
-                    <button className="botones" type="button" onClick={handleAgregar}>Agregar</button>
-=======
                 <div className="modal-pie">
-                    <button className="botones" type="submit">Agregar</button>
->>>>>>> 0b096c666837ebf9307797f5967ddbff9cb57884
+                    <button className="botones" onClick={handleAgregar} type="submit">Agregar</button>
                     <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                 </div>
             </form>
