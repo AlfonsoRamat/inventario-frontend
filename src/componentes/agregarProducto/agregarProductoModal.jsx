@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProductoModal.css';
+import Select from "react-select";
 
 
-Modal.setAppElement('#root');
+
+
 
 function AgregarProductosModal({ modalState, item, toggle }) {
+    const [selectedOption, setSelectedOption] = useState(null);
     const [codInterno, setCodInterno] = useState('');
     const [codBarras, setCodBarras] = useState('');
     const [ubicacion, setUbicacion] = useState('');
@@ -18,8 +21,8 @@ function AgregarProductosModal({ modalState, item, toggle }) {
     const [precio, setPrecio] = useState(1);
     const [cantidad, setCantidad] = useState(1);
     const [proveedor, setProveedor] = useState('');
-
     const [proveedores, setProveedores] = useState([]);
+
 
     async function getProveedores() {
 
@@ -29,10 +32,12 @@ function AgregarProductosModal({ modalState, item, toggle }) {
         if (result.ok) {
             const productos = await result.json();
             setProveedores([...productos]);
+            console.log(proveedores)
         }
 
     }
 
+    const options = [{ key: proveedores.id, value: proveedores.id , label: proveedores.nombre } ];
 
     useEffect(() => {
         getProveedores();
@@ -105,16 +110,14 @@ function AgregarProductosModal({ modalState, item, toggle }) {
         <Modal isOpen={modalState} onRequestClose={toggle} style={
             {
                 content: {
-                    width: '30%',
-                    height: '75%',
+                    width: '50%',
+                    height: '90%',
                     top: '50%',
                     left: '50%',
                     right: 'auto',
                     bottom: 'auto',
                     marginRight: '-50%',
                     transform: 'translate(-50%, -50%)'
-
-
                 }
             }} >
             <form className="formulario-modal">
@@ -165,12 +168,22 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
 
                         <label name="">Proveedor</label>
+                        <Select
+                            defaultValue={selectedOption}
+                            onChange={setSelectedOption}
+                            options={options}
+                        />
                         <input type="text" onChange={(event) => { setProveedor(event.target.value) }} value={proveedor} placeholder="" />
 
                     </div>
                 </div>
+<<<<<<< HEAD
                 <div className="modal-footer">
                     <button className="botones" type="button" onClick={handleAgregar}>Agregar</button>
+=======
+                <div className="modal-pie">
+                    <button className="botones" type="submit">Agregar</button>
+>>>>>>> 0b096c666837ebf9307797f5967ddbff9cb57884
                     <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                 </div>
             </form>
