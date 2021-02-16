@@ -117,7 +117,7 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
                 }
             }} >
-            <form onSubmit={handleAgregar} className="formulario-modal">
+            <form className="formulario-modal">
                 <div className="inputs">
                     <div className="left-inputs">
                         <label name="">Codigo interno</label>
@@ -141,7 +141,7 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
 
                         <label name="">Descripcion</label>
-                        <input type="text-area" onChange={(event) => { setDescripcion(event.target.value) }} value={descripcion} placeholder="" />
+                        <textarea onChange={(event) => { setDescripcion(event.target.value) }} value={descripcion} placeholder="" />
                     </div>
                     <div className="right-inputs">
                         <label name="">Alerta minima</label>
@@ -170,7 +170,7 @@ function AgregarProductosModal({ modalState, item, toggle }) {
                     </div>
                 </div>
                 <div className="modal-footer">
-                    <button className="botones" type="submit">Agregar</button>
+                    <button className="botones" type="button" onClick={handleAgregar}>Agregar</button>
                     <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                 </div>
             </form>
