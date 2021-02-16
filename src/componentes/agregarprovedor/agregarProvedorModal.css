@@ -1,0 +1,51 @@
+.formulario-provedor {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputsprovedor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.imput-pie{
+    display: flex;
+    flex-direction: column;
+}
+.izq-inputs {
+
+    display: flex;
+    flex-direction: column;
+}
+.der-inputs {
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.modal-botones{
+    display: flex;
+    flex-direction: column;
+}
+
+botones {
+    margin: 10px 0px;
+    padding: 10px;
+    border: 0px;
+    font-size: 1rem;
+    text-align: center;
+
+    text-decoration: none;
+    color: white;
+    background: rgba(156, 32, 86, 1);
+    border-radius: 1.5%;
+}
+
+botones:hover {
+    background: rgba(205, 109, 147, 0.8);
+}
