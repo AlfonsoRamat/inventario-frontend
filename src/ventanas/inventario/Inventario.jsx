@@ -91,8 +91,6 @@ function Inventario(props) {
     const [selectedItem, setSelectedItem] = useState(null);
     const [items, setItems] = useState([]);
     const [search, setsearch] = useState("");
-    const [redirState, setState] = useState(false);
-    const [shortName, setData] = useState('');
     
     async function getItems() {
 
@@ -135,7 +133,7 @@ function Inventario(props) {
                                 <p className="card-text text-white"  >.</p>
                                 <p className="card-text text-white"  >.</p>
                                 <p className="card-text text-white"  >.</p>
-                                <button type="submit" onClick={console.log(`ando`)}>Hacer pedido</button>
+                                <button type="submit" onClick={console.log(`pedido`)}>Hacer pedido</button>
                             </div>
                         </div>
                         <div className="card">
@@ -144,7 +142,7 @@ function Inventario(props) {
                                 <p className="card-text text-white"  >.</p>
                                 <p className="card-text text-white"  >.</p>
                                 <p className="card-text text-white"  >.</p>
-                                <button type="submit" onClick={console.log(`ando`)}>Ver</button>
+                                <button type="submit" onClick={console.log(`reservas`)}>Ver</button>
                             </div>
                         </div>
                     </div>

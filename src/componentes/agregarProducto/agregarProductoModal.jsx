@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProductoModal.css';
-import Select from "react-select";
 
 
 
 
 
 function AgregarProductosModal({ modalState, item, toggle }) {
-    const [selectedOption, setSelectedOption] = useState(null);
+
     const [codInterno, setCodInterno] = useState('');
     const [codBarras, setCodBarras] = useState('');
     const [ubicacion, setUbicacion] = useState('');
@@ -37,8 +36,7 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
     }
 
-    const options = [{ key: proveedores.id, value: proveedores.id , label: proveedores.nombre } ];
-
+   
     useEffect(() => {
         getProveedores();
         if (item) {
@@ -168,17 +166,12 @@ function AgregarProductosModal({ modalState, item, toggle }) {
 
 
                         <label name="">Proveedor</label>
-                        <Select
-                            defaultValue={selectedOption}
-                            onChange={setSelectedOption}
-                            options={options}
-                        />
                         <input type="text" onChange={(event) => { setProveedor(event.target.value) }} value={proveedor} placeholder="" />
 
                     </div>
                 </div>
                 <div className="modal-pie">
-                    <button className="botones" onClick={handleAgregar} type="submit">Agregar</button>
+                    <button className="botones" onClick={handleAgregar} type="button">Agregar</button>
                     <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                 </div>
             </form>
