@@ -1,0 +1,6 @@
+
+
+.titulo-tabla{
+    display: flex;
+    flex-direction: row;
+}

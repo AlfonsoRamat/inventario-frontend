@@ -1,29 +1,19 @@
 .formulario-provedor {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .inputsprovedor {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
 .imput-pie{
     display: flex;
-    flex-direction: column;
-}
-.izq-inputs {
-
-    display: flex;
-    flex-direction: column;
-}
-.der-inputs {
-
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 

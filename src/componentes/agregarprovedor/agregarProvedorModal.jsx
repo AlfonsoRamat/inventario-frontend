@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProvedorModal.css';
-import DataTable from 'react-data-table-component';
-import { columnas, customStyles, opcionesdepagina } from "../../extras/configs/tablaprovedores";
+
 
 function AgregarProvedorModal({ modalState, toggle }) {
 
 
-    const [search, setsearch] = useState("");
+
     const [codigoInterno, setCodInterno] = useState('');
     const [nombre, setNombre] = useState('');
     const [email, setemail] = useState('');
@@ -29,10 +28,6 @@ function AgregarProvedorModal({ modalState, toggle }) {
 
     }
 
-    function buscar(rows) {
-        return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codigoInterno.toString().toLowerCase().indexOf(search) > -1)
-    }
 
     useEffect(() => {
         getProveedores();
@@ -121,38 +116,6 @@ function AgregarProvedorModal({ modalState, toggle }) {
 
 
                 </form>
-                <div className="body">
-                    <div>
-                        <div className='titulo-tabla'>
-                            <div className='titulo-izq'><h1>Proveedores</h1></div>
-                            <div className='titulo-der'>
-                                <div className="input-icono">
-                                    <input type="text" value={search} onChange={(e) => setsearch(e.target.value)} placeholder="Buscar..." />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div className="table-responsive">
-
-                            <DataTable
-                                columns={columnas}
-                                data={buscar(proveedores)}
-                                pagination
-                                paginationComponentOptions={opcionesdepagina}
-                                fixedHeader
-                                fixedHeaderScrollHeight="600px"
-                                highlightOnHover
-                                onRowClicked={items => {
-                                    console.log(items)
-                                }}
-                                responsive
-                                customStyles={customStyles}
-                            />
-
-                        </div>
-                    </div>
-                </div>
-
 
             </Modal >
 
