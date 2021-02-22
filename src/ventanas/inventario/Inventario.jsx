@@ -16,8 +16,7 @@ function Inventario(props) {
 
     function toogleTableProv() {
         setverprovedor((prev) => prev ? false : true);
-        setetiqueta((prev)=> prev?"Ver Proveedor":"Ver Producto")
-    }
+      }
 
     function toggleModal() {
         setModal((prev) => prev ? false : true);
@@ -52,7 +51,7 @@ function Inventario(props) {
         <div className="body">
             <div>
                 <div>
-                    <InventarioCards modal={modal} selectedItem={selectedItem} toggleModal={toggleModal} toogleTableProv={toogleTableProv} etiqueta={etiqueta} />
+                    <InventarioCards modal={modal} selectedItem={selectedItem} toggleModal={toggleModal} toogleTableProv={toogleTableProv} verprovedor={verprovedor} />
                 </div>
                 <div className="verprovedores">
                     {

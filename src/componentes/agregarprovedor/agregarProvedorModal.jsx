@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProvedorModal.css';
 
 
-function AgregarProvedorModal({ modalState, toggle }) {
+function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
 
 
 
@@ -12,31 +12,12 @@ function AgregarProvedorModal({ modalState, toggle }) {
     const [email, setemail] = useState('');
     const [telefono, setTelefono] = useState('');
     const [descripcion, setDescripcion] = useState('');
-    const [proveedores, setProveedores] = useState([]);
 
 
-    async function getProveedores() {
-
-        const url = 'http://localhost:3004/proveedores/getAll';
-
-        const result = await fetch(url);
-        if (result.ok) {
-            const productos = await result.json();
-            setProveedores([...productos]);
-            console.log(proveedores)
-        }
-
-    }
-
-
-    useEffect(() => {
-        getProveedores();
-
-    });
 
     async function handleAgregar(e) {
         const url = 'http://localhost:3004/proveedores/create';
-
+        
         const item = {
             codigoInterno: codigoInterno,
             nombre: nombre,
@@ -54,7 +35,7 @@ function AgregarProvedorModal({ modalState, toggle }) {
         });
 
         if (result.ok) {
-            console.log('Exito');
+            fadditem(true)
             limpiarCampos();
         }
         e.preventDefault();
@@ -70,7 +51,7 @@ function AgregarProvedorModal({ modalState, toggle }) {
 
     return (
         <div className="contenedor-provedor">
-            <Modal isOpen={modalState} onRequestClose={toggle} style={
+            <Modal isOpen={toogle} onRequestClose={setoggle} style={
                 {
                     content: {
                         width: '90%',
@@ -110,7 +91,7 @@ function AgregarProvedorModal({ modalState, toggle }) {
                         </div>
                         <div className="modal-botones">
                                 <button className="botones" onClick={handleAgregar} type="button">Agregar</button>
-                                <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
+                                <button className="botones" type="reset" value="finalizar" onClick={setoggle}>Finalizar</button>
                         </div>
                     </div>
 
