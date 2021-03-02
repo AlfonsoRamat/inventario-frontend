@@ -6,7 +6,6 @@ import './navbar.css';
 
 function Navbar(props) {
     const user = useContext(AuthContext).user;
-    console.log(user.permisos);
     return (
         <nav className="navbar">
             <ul className="list">

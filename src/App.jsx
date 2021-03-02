@@ -5,15 +5,13 @@ import Main from "./ventanas/main/main";
 import RutasPrivadas from "./ventanas/privadas/RutasPrivadas";
 import './App.css';
 
-
-
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="contenedor">
           <Switch>
-            <Route path="/login" component={LoginScreen} />
+          <Route exact path="/login" component={LoginScreen} />
             <RutasPrivadas path="/">
               <Main />
             </RutasPrivadas>
