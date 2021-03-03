@@ -54,8 +54,8 @@ function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
             <Modal isOpen={toogle} onRequestClose={setoggle} style={
                 {
                     content: {
-                        width: '90%',
-                        height: '90%',
+                        width: '30%',
+                        height: '70%',
                         top: '50%',
                         left: '50%',
                         right: 'auto',
@@ -66,7 +66,8 @@ function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
                 }} >
                 <form className="formulario-povedor">
                     <div className="inputsprovedor">
-                        <div className="izq-inputs">
+                        <div className="imputDatos">
+                            <div className="leftinputs">
                             <label name="">Codigo interno</label>
                             <input type="text" onChange={(event) => { setCodInterno(event.target.value) }} value={codigoInterno} placeholder="" />
 
@@ -74,21 +75,21 @@ function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
                             <label name="">Nombre</label>
                             <input type="text" onChange={(event) => { setNombre(event.target.value) }} value={nombre} placeholder="" />
 
-                        </div>
-                        <div className="der-inputs">
-
                             <label name="">Telefono</label>
                             <input type="text" onChange={(event) => { setTelefono(event.target.value) }} value={telefono} placeholder="" />
 
+
+                            </div>
+                            <div className="rightinputs">
                             <label name="">Descripcion</label>
                             <textarea onChange={(event) => { setDescripcion(event.target.value) }} value={descripcion} placeholder="" />
 
-                        </div>
-                        <div className="imput-pie">
                             <label name="">Email</label>
                             <input type="text" onChange={(event) => { setemail(event.target.value) }} value={email} placeholder="" />
-                           
-                        </div>
+                        
+                            </div>
+                            </div>
+
                         <div className="modal-botones">
                                 <button className="botones" onClick={handleAgregar} type="button">Agregar</button>
                                 <button className="botones" type="reset" value="finalizar" onClick={setoggle}>Finalizar</button>
