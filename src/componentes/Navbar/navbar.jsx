@@ -9,7 +9,7 @@ function Navbar(props) {
     return (
         <nav className="navbar">
             <ul className="list">
-                <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/operaciones'>OPERACIONES</NavLink></li>
+                <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/venta'>OPERACIONES</NavLink></li>
                 {(user.permisos === "MASTER" || user.permisos === "ADMIN") && <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/inventario'>INVENTARIO</NavLink></li>}
                 {(user.permisos === "MASTER") && <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/reportes'>REPORTES</NavLink></li>}
             </ul>

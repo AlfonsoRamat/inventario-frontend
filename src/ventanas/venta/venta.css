@@ -1,0 +1,25 @@
+.bodyVenta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cabecera{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.cabeceraIzqVenta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cabeceraDerVenta{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.listaVenta{
+    display: flex;
+    flex-direction: row;
+    align-items: center;  
+}
