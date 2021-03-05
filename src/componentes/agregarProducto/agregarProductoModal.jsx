@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './agregarProductoModal.css';
 
@@ -20,42 +20,31 @@ function AgregarProductosModal({ modalState, item, toggle }) {
     const [precio, setPrecio] = useState(1);
     const [cantidad, setCantidad] = useState(1);
     const [proveedor, setProveedor] = useState('');
-    const [proveedores, setProveedores] = useState([]);
+    
 
 
-    async function getProveedores() {
-
-        const url = 'http://localhost:3004/proveedores/getAll';
-
-        const result = await fetch(url);
-        if (result.ok) {
-            const productos = await result.json();
-            setProveedores([...productos]);
-            console.log(proveedores)
-        }
-
+    function placeValues(item) {
+        setCodInterno(item.codigoInterno)
+        setCodBarras(item.codigoPaquete)
+        setUbicacion(item.ubicacion)
+        setNombre(item.nombre)
+        setMarca(item.marca)
+        setDescripcion(item.descripcion)
+        setAlertaMin(item.alertaMin)
+        setAlertaMax(item.alertaMax)
+        setEstado(item.estado)
+        setPrecio(item.precio)
+        setCantidad(item.cantidad)
+        setProveedor(item.proveedorId)
     }
 
-   
-    useEffect(() => {
-        getProveedores();
-        if (item) {
-            setCodInterno(item.codigoInterno)
-            setCodBarras(item.codigoPaquete)
-            setUbicacion(item.ubicacion)
-            setNombre(item.nombre)
-            setMarca(item.marca)
-            setDescripcion(item.descripcion)
-            setAlertaMin(item.alertaMin)
-            setAlertaMax(item.alertaMax)
-            setEstado(item.estado)
-            setPrecio(item.precio)
-            setCantidad(item.cantidad)
-            setProveedor(item.proveedorId)
-        }
 
-
-    }, [item]);
+    // useEffect(() => {
+    //     getProveedores();
+    //     if (item) {
+    //         placeValues(item);
+    //     }
+    // });
 
     async function handleAgregar(e) {
         const url = 'http://localhost:3004/productos/create';

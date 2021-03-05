@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
 import Navbar from '../../componentes/Navbar/navbar';
 import Inventario from '../inventario/Inventario';
-
 import './main.css';
-
 
 function Main(props) {
 

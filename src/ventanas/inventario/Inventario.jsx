@@ -5,8 +5,9 @@ import DataTable from 'react-data-table-component';
 import { columnas, customStyles, opcionesdepagina } from "../../extras/configs/TablaInventario";
 import InventarioCards from "../../componentes/inventarioCards/InventarioCards";
 import Tablaproveedor from "../../componentes/tablas/tablaproveedor"
-function Inventario(props) {
+import AxiosInstance from '../../extras/configs/AxiosInstance';
 
+function Inventario(props) {
     const [modal, setModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [items, setItems] = useState([]);
@@ -28,15 +29,9 @@ function Inventario(props) {
     }
 
     async function getItems() {
-
-        const url = 'http://localhost:3004';
-
-        const result = await fetch(`${url}/productos/getall`);
-        if (result.ok) {
-            const productos = await result.json();
-            setItems([...productos]);
-            console.log(productos);
-        }
+        
+        const result = await (await AxiosInstance('/productos/getall').get()).data;
+        setItems(result);
     }
 
     useEffect(() => {
