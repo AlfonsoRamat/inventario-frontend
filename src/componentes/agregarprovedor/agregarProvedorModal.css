@@ -5,23 +5,23 @@
     align-items: center;
 }
 
-.inputsprovedor {
+
+.imputDatos {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
-.imput-pie{
+.leftinputs {
+    width: 50%;
+    height: 70%;
     display: flex;
     flex-direction: column;
 }
-.izq-inputs {
-
-    display: flex;
-    flex-direction: column;
-}
-.der-inputs {
-
+.rightinputs {
+    margin-left: 20px;
+    width: 50%;
+    height: 70%;
     display: flex;
     flex-direction: column;
 }
@@ -29,8 +29,9 @@
 
 
 .modal-botones{
+    padding-top: 3rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 botones {
