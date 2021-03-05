@@ -29,7 +29,6 @@ function Inventario(props) {
     }
 
     async function getItems() {
-        
         const result = await (await AxiosInstance('/productos/getall').get()).data;
         setItems(result);
     }
