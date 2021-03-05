@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './tablaproveedor.css';
 import DataTable from 'react-data-table-component';
 import { columnas, customStyles, opcionesdepagina } from "../../extras/configs/tablaprovedores";
-import AgregarProvedorModal from '../agregarprovedor/AgregarProvedorModal';
+import AgregarProvedorModal from '../agregarprovedor/agregarProvedorModal';
 
 
 function Tablaproveedor(props) {

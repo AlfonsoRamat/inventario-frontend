@@ -19,6 +19,7 @@
     "react-scripts": "4.0.1",
     "react-select": "^4.1.0",
     "react-simple-card": "^2.0.2",
+    "react-spinners": "^0.10.6",
     "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
   },
