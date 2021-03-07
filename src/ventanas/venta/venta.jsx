@@ -5,17 +5,61 @@ import DataTable from 'react-data-table-component';
 import AxiosInstance from '../../extras/configs/AxiosInstance';
 import { columnasVenta, customStyles, opcionesdepagina } from "../../extras/configs/TablaInventario";
 function Venta(props) {
+    
+    const [codInterno, setCodInterno] = useState('');
+    const [codBarras, setCodBarras] = useState('');
+    const [ubicacion, setUbicacion] = useState('');
+    const [nombre, setNombre] = useState('');
+    const [marca, setMarca] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [alertaMin, setAlertaMin] = useState(1);
+    const [alertaMax, setAlertaMax] = useState(10000);
+    const [estado, setEstado] = useState('');
+    const [precio, setPrecio] = useState(1);
+    const [cantidad, setCantidad] = useState(1);
+    const [proveedor, setProveedor] = useState('');
+    
+
+
+    function placeValues(item) {
+        setCodInterno(item.codigoInterno)
+        setCodBarras(item.codigoPaquete)
+        setUbicacion(item.ubicacion)
+        setNombre(item.nombre)
+        setMarca(item.marca)
+        setDescripcion(item.descripcion)
+        setAlertaMin(item.alertaMin)
+        setAlertaMax(item.alertaMax)
+        setEstado(item.estado)
+        setPrecio(item.precio)
+        setCantidad(item.cantidad)
+        setProveedor(item.proveedorId)
+    }
+    const item = {
+        codigoInterno: codInterno,
+        codigoPaquete: codBarras,
+        ubicacion: ubicacion,
+        nombre: nombre,
+        marca: marca,
+        descripcion: descripcion,
+        alertaMin: alertaMin,
+        alertaMax: alertaMax,
+        estado: estado,
+        precio: precio,
+        cantidad: cantidad,
+        proveedorId: proveedor
+    }
 
     const [items, setItems] = useState([]);
     const [itemsVenta, setItemsVenta] = useState([]);
     const [search, setsearch] = useState("");
-    const [cantidad, setCantidad] = useState('');
+  
     async function handleAgregar(e) {
         console.log("boton venta")
+
     }
     async function getItemsVenta(items) {
-        const result = await (await AxiosInstance('/productos/getall').get()).data;
-        setItems(result);
+
     }
     async function getItems() {
         const result = await (await AxiosInstance('/productos/getall').get()).data;
@@ -70,6 +114,7 @@ function Venta(props) {
                 <div classname="cabeceraDerVenta"> 
                 <label name="">Total
                 <h1 name="total">$ 0.0</h1></label> 
+                <button className="boton" onClick={handleAgregar} type="button">Cobrar</button>
                 </div>
             </div>
             <div className="listaVenta">
