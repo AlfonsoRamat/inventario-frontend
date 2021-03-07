@@ -57,6 +57,35 @@ const columnas = [
         sortable: true
     }
 ]
+const columnasVenta = [
+  {
+      name: 'Codigo Interno',
+      selector: 'codigoInterno',
+      sortable: true
+  },
+  {
+      name: 'Codigo de barra',
+      selector: 'codigoPaquete',
+      sortable: true
+  },
+  {
+      name: 'Nombre',
+      selector: 'nombre',
+      sortable: true
+  },
+  {
+      name: 'Descripcion',
+      selector: 'descripcion',
+      sortable: true
+  },
+
+  {
+      name: 'Precio de lista',
+      selector: 'precio',
+      sortable: true
+  },
+
+]
 const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',
@@ -64,4 +93,4 @@ const opcionesdepagina = {
     selectAllRowsItemText: 'Todo'
 }
 
-export { customStyles, columnas, opcionesdepagina};
+export { customStyles, columnas,columnasVenta, opcionesdepagina};
