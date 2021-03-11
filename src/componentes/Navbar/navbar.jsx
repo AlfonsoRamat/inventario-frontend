@@ -5,7 +5,9 @@ import { NavLink } from "react-router-dom";
 import './navbar.css';
 
 function Navbar(props) {
-    const user = useContext(AuthContext).user;
+
+    const auth = useContext(AuthContext);
+    const user = auth.user;
     return (
         <nav className="navbar">
             <ul className="list">
@@ -15,7 +17,7 @@ function Navbar(props) {
             </ul>
             <div className="user-section">
                 <NavLink className="user-links" to="/notifications"><MdNotificationsOff size="1.1em" color="white" /></NavLink>
-                <NavLink className="user-links" to="/details"><MdVerifiedUser className="username" size="1.1em" color="white" />{user.nombre}</NavLink>
+                <NavLink className="user-links" onClick={()=> auth.signOut()} to="/details"><MdVerifiedUser className="username" size="1.1em" color="white" />{user.nombre}</NavLink>
             </div>
         </nav>
     );

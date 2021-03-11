@@ -6,7 +6,10 @@ import RutasPrivadas from "./ventanas/privadas/RutasPrivadas";
 import { PropagateLoader } from "react-spinners";
 import './App.css';
 import { useContext, useEffect, useState } from "react";
+import ReactModal from "react-modal";
 
+
+ReactModal.setAppElement(document.getElementById('root'));
 function App() {
 
   const userContext = useContext(AuthContext);
@@ -16,18 +19,27 @@ function App() {
 
   async function initialRun() {
     if (localStorage.getItem("token")) {
-     await userContext.getData(history);
+      console.log('Token encontrado');
+     await userContext.getData(history); 
      setLoading(false);
     } else {
-     await userContext.signOut();
-     setLoading(false);
+      console.log('No se encontro un token');
+      setLoading(false);
+      try {
+        await userContext.signOut();   
+      } catch (error) {
+        console.log(error);
+      }
+     
     }
   }
 
   useEffect(() => {
     initialRun();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    console.log('Initial run');
+    //
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
   return (
     <BrowserRouter>
       <div className="contenedor">
@@ -38,7 +50,7 @@ function App() {
           <Switch>
             <Route exact path="/login" component={LoginScreen} />
             <RutasPrivadas path="/">
-              <Main />
+              <Main history={history} />
             </RutasPrivadas>
           </Switch>
         }

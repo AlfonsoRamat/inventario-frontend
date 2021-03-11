@@ -62,8 +62,12 @@ function Venta(props) {
 
     }
     async function getItems() {
-        const result = await (await AxiosInstance('/productos/getall').get()).data;
+        try {
+            const result = await (await AxiosInstance('/productos/getall').get()).data;
         setItems(result);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
@@ -78,7 +82,7 @@ function Venta(props) {
     return (
         <div className="bodyVenta">
             <div className="cabecera">
-                <div classname="cabeceraIzqVenta">
+                <div className="cabeceraIzqVenta">
                     <div className="Tablas">
                         <div className='titulo-tabla'>
                             <dir className="primeralinea">
@@ -111,7 +115,7 @@ function Venta(props) {
                         </div>
                     </div>
                 </div>
-                <div classname="cabeceraDerVenta"> 
+                <div className="cabeceraDerVenta"> 
                 <label name="">Total
                 <h1 name="total">$ 0.0</h1></label> 
                 <button className="boton" onClick={handleAgregar} type="button">Cobrar</button>

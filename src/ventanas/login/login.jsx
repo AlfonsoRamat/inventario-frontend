@@ -1,41 +1,51 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './login.css';
-import { useState } from 'react';
+import { Formik, Field, ErrorMessage, Form } from "formik";
+import * as Yup from "yup";
 import { AuthContext } from '../../context/Authcontext';
 import { Redirect } from 'react-router-dom';
 
+const validator = Yup.object({
+    user: Yup.string().min(5, 'Debe contener al menos 5 caracteres').required('Debe completar este campo'),
+    password: Yup.string().min(5, 'Debe contener al menos 5 caracteres').required('Debe completar este campo')
+});
+
 function LoginScreen({ history }) {
     const userContext = useContext(AuthContext);
-    const [user, setUser] = useState('');
-    const [password, setpassword] = useState('');
-
-    function nameChange(event) {
-        setUser(event.target.value);
-    }
-    function passwordChange(event) {
-        setpassword(event.target.value);
-    }
-
-    const enviarFormulario = (event) => {
-        userContext.signIn(user, password);
-        history.push("/");
-        event.preventDefault();
+    const [errorMessage, setErrorMessage] = useState(null);
+    const submiting = async values => {
+        const resultado = await userContext.signIn(values.user, values.password);
+        if (resultado.data) {
+            if (resultado.data.error) {
+                console.log('error', resultado.data.error.message)
+                setErrorMessage(resultado.data.error.message);
+            } else {
+                history.push("/");
+            }
+        }
+    
     }
 
     return (
         userContext.user ? <Redirect to="/" /> :
-            <div className="login-contenedor">
-                <div className="login-form">
-                    <h1>Gestion Multirubro</h1>
-                    <form onSubmit={enviarFormulario} className="formulario">
-                        <input type="text" autoComplete="off" required name="username" value={user} onChange={nameChange} placeholder="Usuario..." />
-                        <input type="password" value={password} onChange={passwordChange} required placeholder="Contraseña..." />
-                        <input type="submit" value="submit" />
-                    </form>
+            <Formik initialValues={{ user: '', password: '' }} validationSchema={validator} onSubmit={submiting}>
+                <div className="login-contenedor">
+                    <div className="login-form">
+                        <h1>Gestion Multirubro</h1>
+                        <Form className="formulario">
+                            {/* <label htmlFor="usuario">Usuario</label> */}
+                            <Field placeholder="Nombre de usuario" className="login-input" type="text" name="user" />
+                            <ErrorMessage className="error" name="user">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            {/* <label htmlFor="password">Password</label> */}
+                            <Field placeholder="Contraseña" className="login-input" type="password" name="password" />
+                            <ErrorMessage className="error" name="password">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            <input type="submit" value="Ingresar" />
+                            {errorMessage ? <div className="error">{errorMessage}</div> : null}
+                        </Form>
+                    </div>
                 </div>
 
-            </div>
-
+            </Formik >
 
     );
 }

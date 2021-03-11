@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
-const AxiosInstance = (history = null) => {
+const AxiosInstance = () => {
 
     const baseURL = 'http://localhost:3004';
 
@@ -26,14 +26,12 @@ const AxiosInstance = (history = null) => {
                 const pedidoOriginal = error.config;
                 if (error.response && error.response.status === 401 && error.config && !error.config._retry) {
                     pedidoOriginal._retry = true;
-                    console.log('about to retry');
                     const resultado = fetch(`${baseURL}/usuarios/refresh-token`, {
                         method: 'POST',
                         credentials: 'include'
                     }).then(res => {
                         if (res.status === 200) {
                             res.json().then(res => {
-                                console.log('res is 200');
                                 localStorage.setItem('token', res.accessToken);
                                 return axios(pedidoOriginal);
                             }).catch(err => console.log(err));
@@ -41,7 +39,7 @@ const AxiosInstance = (history = null) => {
                     });
                     resolve(resultado);
                 }
-                reject('log in again');
+                reject(error.response);
             });
         }
     );
