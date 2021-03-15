@@ -63,7 +63,7 @@ function Inventario(props) {
                 <div className="verprovedores">
                     {
                         verProvedor ? <div className="Tablas"><Tablaproveedor proveedores={proveedores} /></div> :
-                           <TablaItems   items={items} proveedores={proveedores} userSelection={userSelection} />
+                           <TablaItems modalState={modal} toogle={toggleModal}  items={items} proveedores={proveedores} userSelection={userSelection} />
                     }
                 </div>
             </div>

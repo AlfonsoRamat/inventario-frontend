@@ -36,8 +36,9 @@ const AxiosInstance = () => {
                                 return axios(pedidoOriginal);
                             }).catch(err => console.log(err));
                         }
+                        resolve(res);
                     });
-                    resolve(resultado);
+                    
                 }
                 reject(error.response);
             });

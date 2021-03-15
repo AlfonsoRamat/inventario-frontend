@@ -16,13 +16,14 @@ function LoginScreen({ history }) {
     const submiting = async values => {
         const resultado = await userContext.signIn(values.user, values.password);
         if (resultado.data) {
+            console.log('res.data', resultado.data);
             if (resultado.data.error) {
                 console.log('error', resultado.data.error.message)
                 setErrorMessage(resultado.data.error.message);
             } else {
                 history.push("/");
             }
-        }
+        } else if(resultado.status === 401) setErrorMessage('No autorizado');
     
     }
 
@@ -32,7 +33,7 @@ function LoginScreen({ history }) {
                 <div className="login-contenedor">
                     <div className="login-form">
                         <h1>Gestion Multirubro</h1>
-                        <Form className="formulario">
+                        <Form  className="formulario">
                             {/* <label htmlFor="usuario">Usuario</label> */}
                             <Field placeholder="Nombre de usuario" className="login-input" type="text" name="user" />
                             <ErrorMessage className="error" name="user">{msg => <div className="error">{msg}</div>}</ErrorMessage>

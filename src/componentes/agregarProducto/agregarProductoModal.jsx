@@ -1,42 +1,33 @@
 import React from 'react';
 import Modal from 'react-modal';
 import './agregarProductoModal.css';
-import { useFormik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import AxiosInstance from "../../extras/configs/AxiosInstance";
 import ProductoFormValidator from "../../extras/validators/ProductoFormValidation";
 
-function AgregarProductosModal({ modalState, item, toggle }) {
+function AgregarProductosModal({ modalState, item, proveedores, toggle }) {
 
-    const formik = useFormik({
-        initialValues: {
-            codInterno: '',
-            codigoPaquete: '',
-            ubicacion: '',
-            nombre: '',
-            marca: '',
-            descripcion: '',
-            alertaMin: 1,
-            alertaMax: 100000,
-            estado: '',
-            precio: 1,
-            precioVenta: 1,
-            cantidad: 1,
-            proveedor: '',
-        },
-        ProductoFormValidator   ,
-        onSubmit: async values => {
-            await AxiosInstance().post('/productos/create', { ...formik.values })
-                .then(res => alert(JSON.stringify(res, null, 2)))
-                .catch(err => alert(JSON.stringify(err, null, 2)));
-        }
-    });
+    const initialValues = {
+        codInterno: '',
+        codigoPaquete: '',
+        ubicacion: '',
+        nombre: '',
+        marca: '',
+        descripcion: '',
+        alertaMin: 1,
+        alertaMax: 100000,
+        estado: '',
+        precio: 1,
+        precioVenta: 1,
+        cantidad: 1,
+        proveedor: '',
+    };
 
-    // useEffect(() => {
-    //     getProveedores();
-    //     if (item) {
-    //         placeValues(item);
-    //     }
-    // });
+    const submitForm = async values => {
+        await AxiosInstance().post('/productos/create', { ...values })
+            .then(res => alert(JSON.stringify(res, null, 2)))
+            .catch(err => alert(JSON.stringify(err, null, 2)));
+    }
 
     return (
         <Modal isOpen={modalState} onRequestClose={toggle} style={
@@ -52,71 +43,86 @@ function AgregarProductosModal({ modalState, item, toggle }) {
                     transform: 'translate(-50%, -50%)'
                 }
             }} >
-            <form className="formulario-modal">
-                <div className="inputs">
-                    <div className="left-inputs">
-                        <label htmlFor="codInterno">Codigo interno</label>
-                        <input type="text" id="codInterno" name="codInterno" onChange={formik.handleChange} value={formik.values.codInterno} placeholder="" />
-                        {formik.errors.codInterno ? <div>{formik.errors.codInterno}</div> : null}
+            <Formik initialValues={initialValues} validationSchema={ProductoFormValidator} onSubmit={submitForm} >
+                <Form className="formulario-modal">
+                    <div className="inputs">
+                        <div className="left-inputs">
+                            <label htmlFor="codInterno">Codigo interno</label>
+                            <Field type="text" id="codInterno" name="codInterno" />
+                            <ErrorMessage name="codInterno">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                        <label htmlFor="codigoPaquete">Codigo de paquete</label>
-                        <input type="text" id="codigoPaquete" name="codigoPaquete" onChange={formik.handleChange} value={formik.values.codigoPaquete} placeholder="" />
-                        {formik.errors.codigoPaquete ? <div>{formik.errors.codigoPaquete}</div> : null}
+                            <label htmlFor="codigoPaquete">Codigo de paquete</label>
+                            <Field type="text" id="codigoPaquete" name="codigoPaquete" />
+                            <ErrorMessage name="codigoPaquete">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                        <label htmlFor="ubicacion">Ubicacion</label>
-                        <input type="text" id="ubicacion" name="ubicacion" onChange={formik.handleChange} value={formik.values.ubicacion} placeholder="" />
-                        {formik.errors.ubicacion ? <div>{formik.errors.ubicacion}</div> : null}
+                            <label htmlFor="ubicacion">Ubicacion</label>
+                            <Field as="select" id="ubicacion" name="ubicacion">
+                                <option value="PROVEEDOR">PROVEEDOR</option>
+                                <option value="DEPOSITO">DEPOSITO</option>
+                                <option value="LOCAL">LOCAL</option>
+                            </Field>
+                            <ErrorMessage name="ubicacion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                        <label htmlFor="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" onChange={formik.handleChange} value={formik.values.nombre} placeholder="" />
-                        {formik.errors.nombre ? <div>{formik.errors.nombre}</div> : null}
+                            <label htmlFor="nombre">Nombre</label>
+                            <Field type="text" id="nombre" name="nombre" />
+                            <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                        <label htmlFor="marca">Marca</label>
-                        <input type="text" id="marca" name="marca" onChange={formik.handleChange} value={formik.values.marca} placeholder="" />
-                        {formik.errors.marca ? <div>{formik.errors.marca}</div> : null}
+                            <label htmlFor="marca">Marca</label>
+                            <Field type="text" id="marca" name="marca" />
+                            <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                        <label htmlFor="descripcion">Descripcion</label>
-                        <textarea id="descripcion" name="descripcion" onChange={formik.handleChange} value={formik.values.descripcion} placeholder="" />
-                        {formik.errors.descripcion ? <div>{formik.errors.descripcion}</div> : null}
+                            <label htmlFor="descripcion">Descripcion</label>
+                            <Field as="textarea" id="descripcion" name="descripcion" />
+                            <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                        </div>
+                        <div className="right-inputs">
+                            <label htmlFor="alertaMin">Alerta minima</label>
+                            <Field type="text" id="alertaMin" name="alertaMin" />
+                            <ErrorMessage name="alertaMin">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
+
+                            <label htmlFor="alertaMax">Alerta maxima</label>
+                            <Field ttype="text" id="alertaMax" name="alertaMax" />
+                            <ErrorMessage name="alertaMax">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+                            <label htmlFor="estado">Estado</label>
+                            <Field as="select" id="estado" name="estado">
+                                <option value="BUENO">BUENO</option>
+                                <option value="DEFECTUOSO">DEFECTUOSO</option>
+                                <option value="RESERVADO">RESERVADO</option>
+                            </Field>
+                            <ErrorMessage name="estado">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            
+
+                            <label htmlFor="precio">Costo</label>
+                            <Field type="text" id="precio" name="precio" />
+                            <ErrorMessage name="precio">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+                            <label htmlFor="precioVenta">Precio de venta</label>
+                            <Field type="text" id="precioVenta" name="precioVenta" />
+                            <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            
+                            <label htmlFor="cantidad">Cantidad</label>
+                            <Field type="text" id="cantidad" name="cantidad" />
+                            <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            
+                            <label htmlFor="proveedor">Proveedor</label>
+                            <Field as="select" id="proveedor" name="proveedor">
+                                {() =>{
+
+                                }}
+                            </Field>
+                            <ErrorMessage name="proveedor">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+            
+
+                        </div>
                     </div>
-                    <div className="right-inputs">
-                        <label htmlFor="alertaMin">Alerta minima</label>
-                        <input type="text" id="alertaMin" name="alertaMin" onChange={formik.handleChange} value={formik.values.alertaMin} placeholder="" />
-                        {formik.errors.alertaMin ? <div>{formik.errors.alertaMin}</div> : null}
-
-                        <label htmlFor="alertaMax">Alerta maxima</label>
-                        <input type="text" id="alertaMax" name="alertaMax" onChange={formik.handleChange} value={formik.values.alertaMax} placeholder="Alerta maxima" />
-                        {formik.errors.alertaMax ? <div>{formik.errors.alertaMax}</div> : null}
-
-                        <label htmlFor="estado">Estado</label>
-                        <input type="text" id="estado" name="estado" onChange={formik.handleChange} value={formik.values.estado} placeholder="" />
-                        {formik.errors.estado ? <div>{formik.errors.estado}</div> : null}
-
-                        <label htmlFor="precio">Costo</label>
-                        <input type="text" id="precio" name="precio" onChange={formik.handleChange} value={formik.values.precio} placeholder="" />
-                        {formik.errors.precio ? <div>{formik.errors.precio}</div> : null}
-
-                        <label htmlFor="precioVenta">Precio de venta</label>
-                        <input type="text" id="precioVenta" name="precioVenta" onChange={formik.handleChange} value={formik.values.cantidad} placeholder="" />
-                        {formik.errors.precioVenta ? <div>{formik.errors.precioVenta}</div> : null}
-
-                        <label htmlFor="cantidad">Cantidad</label>
-                        <input type="text" id="cantidad" name="cantidad" onChange={formik.handleChange} value={formik.values.cantidad} placeholder="" />
-                        {formik.errors.cantidad ? <div>{formik.errors.cantidad}</div> : null}
-
-                        <label htmlFor="proveedor">Proveedor</label>
-                        <input type="text" id="proveedor" name="proveedor" onChange={formik.handleChange} value={formik.values.proveedor} placeholder="" />
-                        {formik.errors.proveedor ? <div>{formik.errors.proveedor}</div> : null}
-
+                    <div className="modal-pie">
+                        <button className="botones" type="submit">Agregar</button>
+                        <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
                     </div>
-                </div>
-                <div className="modal-pie">
-                    <button className="botones" onClick={formik.handleSubmit} type="button">Agregar</button>
-                    <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
-                </div>
-            </form>
-
+                </Form>
+            </Formik>
         </Modal >
     )
 }
