@@ -40,27 +40,32 @@ const columnas = [
         selector: 'descripcion',
         sortable: true
     },
-
-    {
-        name: 'Alerta Min',
-        selector: 'alertaMin',
-        sortable: true
-    },
+  
     {
         name: 'Precio de lista',
         selector: 'precio',
         sortable: true
     },
     {
-      name: 'Precio de lista',
-      selector: 'precio',
+      name: 'Precio de Venta',
+      selector: 'precioVenta',
       sortable: true
-   },
+   }, 
+   {
+    name: 'Cantidad',
+    selector: 'cantidad',
+    sortable: true
+},
     {
-        name: 'Estado',
-        selector: 'estado',
-        sortable: true
-    }
+    name: 'Alerta Min',
+    selector: 'alertaMin',
+    sortable: true
+},
+{
+  name: 'Estado',
+  selector: 'estado',
+  sortable: true
+}
 ]
 const columnasVenta = [
   {

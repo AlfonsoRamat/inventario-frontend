@@ -5,7 +5,7 @@ import DataTable from 'react-data-table-component';
 import AxiosInstance from '../../extras/configs/AxiosInstance';
 import { columnasVenta, customStyles, opcionesdepagina } from "../../extras/configs/TablaInventario";
 function Venta(props) {
-    
+
     const [codInterno, setCodInterno] = useState('');
     const [codBarras, setCodBarras] = useState('');
     const [ubicacion, setUbicacion] = useState('');
@@ -18,7 +18,7 @@ function Venta(props) {
     const [precio, setPrecio] = useState(1);
     const [cantidad, setCantidad] = useState(1);
     const [proveedor, setProveedor] = useState('');
-    
+
 
 
     function placeValues(item) {
@@ -53,7 +53,7 @@ function Venta(props) {
     const [items, setItems] = useState([]);
     const [itemsVenta, setItemsVenta] = useState([]);
     const [search, setsearch] = useState("");
-  
+
     async function handleAgregar(e) {
         console.log("boton venta")
 
@@ -64,7 +64,7 @@ function Venta(props) {
     async function getItems() {
         try {
             const result = await (await AxiosInstance('/productos/getall').get()).data;
-        setItems(result);
+            setItems(result);
         } catch (error) {
             console.log(error);
         }
@@ -82,6 +82,8 @@ function Venta(props) {
     return (
         <div className="bodyVenta">
             <div className="cabecera">
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
+            
                 <div className="cabeceraIzqVenta">
                     <div className="Tablas">
                         <div className='titulo-tabla'>
@@ -113,28 +115,31 @@ function Venta(props) {
                                 customStyles={customStyles}
                             />
                         </div>
+                    </div></div>
+                </div>
+              
+                    <div className="cabeceraDerVenta">
+                        <label name="">Total
+                <h1 name="total">$ 0.0</h1></label>
+                        <button className="boton" onClick={handleAgregar} type="button">Cobrar</button>
                     </div>
-                </div>
-                <div className="cabeceraDerVenta"> 
-                <label name="">Total
-                <h1 name="total">$ 0.0</h1></label> 
-                <button className="boton" onClick={handleAgregar} type="button">Cobrar</button>
+                
+            </div>
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
+                <div className="listaVenta">
+                    <DataTable
+                        columns={columnasVenta}
+                        data={itemsVenta}
+                        pagination
+                        paginationComponentOptions={opcionesdepagina}
+                        fixedHeader
+                        fixedHeaderScrollHeight="600px"
+                        highlightOnHover
+                        responsive
+                        customStyles={customStyles}
+                    />
                 </div>
             </div>
-            <div className="listaVenta">
-            <DataTable
-                                columns={columnasVenta}
-                                data={itemsVenta}
-                                pagination
-                                paginationComponentOptions={opcionesdepagina}
-                                fixedHeader
-                                fixedHeaderScrollHeight="600px"
-                                highlightOnHover
-                                responsive
-                                customStyles={customStyles}
-                            />
-            </div>
-
         </div>
 
 

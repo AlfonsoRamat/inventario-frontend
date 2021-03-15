@@ -36,7 +36,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
         <Modal isOpen={modalState} onRequestClose={toggle} style={
             {
                 content: {
-                    width: '50%',
+                    width: '70%',
                     height: '90%',
                     top: '50%',
                     left: '50%',
@@ -48,7 +48,9 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
             }} >
             <Formik initialValues={initialValues} validationSchema={ProductoFormValidator} onSubmit={submitForm} >
                 <Form className="formulario-modal">
+               
                     <div className="inputs">
+                        
                         <div className="left-inputs">
                             <label htmlFor="codInterno">Codigo interno</label>
                             <Field type="text" id="codInterno" name="codInterno" />
@@ -62,25 +64,12 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             <Field type="text" id="nombre" name="nombre" />
                             <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                            <label htmlFor="marca">Marca</label>
-                            <Field type="text" id="marca" name="marca" />
-                            <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
-                            <label htmlFor="descripcion">Descripcion</label>
-                            <Field as="textarea" id="descripcion" name="descripcion" />
-                            <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
-
-                            <label htmlFor="alertaMin">Alerta minima</label>
-                            <Field type="text" id="alertaMin" name="alertaMin" />
-                            <ErrorMessage name="alertaMin">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
+                            
                         </div>
                         <div className="right-inputs">
-                            
-                        
-                           
 
+                           
+                            
                             <label htmlFor="precio">Costo</label>
                             <Field type="text" id="precio" name="precio" />
                             <ErrorMessage name="precio">{msg => <div className="error">{msg}</div>}</ErrorMessage>
@@ -88,20 +77,35 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             <label htmlFor="precioVenta">Precio de venta</label>
                             <Field type="text" id="precioVenta" name="precioVenta" />
                             <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                            
+                           
+                            <label htmlFor="descripcion">Descripcion</label>
+                            <Field as="textarea" id="descripcion" name="descripcion" />
+                            <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+                           
+                        </div>
+                        <div className="tercercol">
+                          
                             <label htmlFor="cantidad">Cantidad</label>
                             <Field type="text" id="cantidad" name="cantidad" />
                             <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                             
                             <label htmlFor="proveedor">Proveedor</label>
-                            <Field as="select" id="proveedor" name="proveedor">
+                            <Field as="select" id="proveedor" name="proveedor" >
                                 {
                                     proveedores.map(proveedor => <option key={proveedor.id} value={proveedor.id}>{proveedor.nombre}</option>)
                                 }
                             </Field>
                             <ErrorMessage name="proveedor">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-            
-                            <label htmlFor="estado">Estado</label>
+                           
+                            <label htmlFor="alertaMin">Alerta minima</label>
+                            <Field type="text" id="alertaMin" name="alertaMin" />
+                            <ErrorMessage name="alertaMin">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                        
+                           
+                        </div>
+                        <div className="cuartaCol">
+                        <label htmlFor="estado">Estado</label>
                             <Field as="select" id="estado" name="estado">
                                 <option value="BUENO">BUENO</option>
                                 <option value="DEFECTUOSO">DEFECTUOSO</option>
@@ -122,9 +126,14 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                                 <option value="LOCAL">LOCAL</option>
                             </Field>
                             <ErrorMessage name="ubicacion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            
+                            <label htmlFor="marca">Marca</label>
+                            <Field type="text" id="marca" name="marca" />
+                            <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
                         </div>
                     </div>
+                
                     <div className="modal-pie">
                         <button className="botones" type="submit">Agregar</button>
                         <button className="botones" type="reset" value="finalizar" onClick={toggle}>Finalizar</button>
