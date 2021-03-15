@@ -22,7 +22,6 @@ function Inventario(props) {
         setModal((prev) => prev ? false : true);
     }
 
-    // eslint-disable-next-line no-unused-vars
     function providerSelection(){
         console.log("hello");
     };
@@ -68,7 +67,7 @@ function Inventario(props) {
                 </div>
                 <div className="verprovedores">
                     {
-                        verProvedor ? <div className="Tablas"><Tablaproveedor proveedores={proveedores} /></div> :
+                        verProvedor ? <div className="Tablas"><Tablaproveedor providerSelection={providerSelection} proveedores={proveedores} /></div> :
                            <TablaItems modal={modal} selectedItem={userSelection} toggleModal={toggleModal}  items={items} proveedores={proveedores} />
                     }
                 </div>

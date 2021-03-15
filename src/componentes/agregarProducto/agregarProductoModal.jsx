@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import AxiosInstance from "../../extras/configs/AxiosInstance";
 import ProductoFormValidator from "../../extras/validators/ProductoFormValidation";
 
-function AgregarProductosModal({ modalState, item, proveedores, toggle }) {
+function AgregarProductosModal({ modalState, selectedItem, items, proveedores, toggle }) {
 
     const initialValues = {
         codInterno: '',
@@ -23,10 +23,13 @@ function AgregarProductosModal({ modalState, item, proveedores, toggle }) {
         proveedor: '',
     };
 
-    const submitForm = async values => {
+    const submitForm = async (values, actions) => {
         await AxiosInstance().post('/productos/create', { ...values })
-            .then()
-            .catch();
+            .then(res =>{
+                items.push(res);
+                actions.resetForm();
+            })
+            .catch(error => console.log(error));
     }
 
     return (
