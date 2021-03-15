@@ -58,14 +58,6 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             <Field type="text" id="codigoPaquete" name="codigoPaquete" />
                             <ErrorMessage name="codigoPaquete">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                            <label htmlFor="ubicacion">Ubicacion</label>
-                            <Field as="select" id="ubicacion" name="ubicacion">
-                                <option value="PROVEEDOR">PROVEEDOR</option>
-                                <option value="DEPOSITO">DEPOSITO</option>
-                                <option value="LOCAL">LOCAL</option>
-                            </Field>
-                            <ErrorMessage name="ubicacion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
                             <label htmlFor="nombre">Nombre</label>
                             <Field type="text" id="nombre" name="nombre" />
                             <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
@@ -77,25 +69,17 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             <label htmlFor="descripcion">Descripcion</label>
                             <Field as="textarea" id="descripcion" name="descripcion" />
                             <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                        </div>
-                        <div className="right-inputs">
+
+
                             <label htmlFor="alertaMin">Alerta minima</label>
                             <Field type="text" id="alertaMin" name="alertaMin" />
                             <ErrorMessage name="alertaMin">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-
-                            <label htmlFor="alertaMax">Alerta maxima</label>
-                            <Field ttype="text" id="alertaMax" name="alertaMax" />
-                            <ErrorMessage name="alertaMax">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
-                            <label htmlFor="estado">Estado</label>
-                            <Field as="select" id="estado" name="estado">
-                                <option value="BUENO">BUENO</option>
-                                <option value="DEFECTUOSO">DEFECTUOSO</option>
-                                <option value="RESERVADO">RESERVADO</option>
-                            </Field>
-                            <ErrorMessage name="estado">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                        </div>
+                        <div className="right-inputs">
                             
+                        
+                           
 
                             <label htmlFor="precio">Costo</label>
                             <Field type="text" id="precio" name="precio" />
@@ -117,6 +101,27 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             </Field>
                             <ErrorMessage name="proveedor">{msg => <div className="error">{msg}</div>}</ErrorMessage>
             
+                            <label htmlFor="estado">Estado</label>
+                            <Field as="select" id="estado" name="estado">
+                                <option value="BUENO">BUENO</option>
+                                <option value="DEFECTUOSO">DEFECTUOSO</option>
+                                <option value="RESERVADO">RESERVADO</option>
+                            </Field>
+                            <ErrorMessage name="estado">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                            
+
+
+                            <label htmlFor="alertaMax">Alerta maxima</label>
+                            <Field ttype="text" id="alertaMax" name="alertaMax" />
+                            <ErrorMessage name="alertaMax">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+                            <label htmlFor="ubicacion">Ubicacion</label>
+                            <Field as="select" id="ubicacion" name="ubicacion">
+                                <option value="PROVEEDOR">PROVEEDOR</option>
+                                <option value="DEPOSITO">DEPOSITO</option>
+                                <option value="LOCAL">LOCAL</option>
+                            </Field>
+                            <ErrorMessage name="ubicacion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
                         </div>
                     </div>

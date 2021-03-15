@@ -52,6 +52,11 @@ const columnas = [
         sortable: true
     },
     {
+      name: 'Precio de lista',
+      selector: 'precio',
+      sortable: true
+   },
+    {
         name: 'Estado',
         selector: 'estado',
         sortable: true
