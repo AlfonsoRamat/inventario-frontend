@@ -22,6 +22,7 @@ function Inventario(props) {
         setModal((prev) => prev ? false : true);
     }
 
+    // eslint-disable-next-line no-unused-vars
     function providerSelection(){
         console.log("hello");
     };
@@ -32,10 +33,13 @@ function Inventario(props) {
     }
 
     async function getProveedores() {
+        console.log('Executing get Proveedores');
         try {
             const result = await (await AxiosInstance().get('/proveedores/getAll')).data;
             setProveedores(result);
+            console.log('Proveedores', proveedores);
         } catch (error) {
+            console.log('getProveedores error');
             setProveedores([]);
         }
     }
@@ -44,6 +48,7 @@ function Inventario(props) {
         try {
             const result = await (await AxiosInstance().get('/productos/getall')).data;
             setItems(result);
+            console.log('Items', items);
         } catch (error) {
             setItems([]);
         }
@@ -52,7 +57,8 @@ function Inventario(props) {
     useEffect(() => {
         getItems();
         getProveedores();
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
 
     return (
         <div className="body">
@@ -63,7 +69,7 @@ function Inventario(props) {
                 <div className="verprovedores">
                     {
                         verProvedor ? <div className="Tablas"><Tablaproveedor proveedores={proveedores} /></div> :
-                           <TablaItems modalState={modal} toogle={toggleModal}  items={items} proveedores={proveedores} userSelection={userSelection} />
+                           <TablaItems modal={modal} selectedItem={userSelection} toggleModal={toggleModal}  items={items} proveedores={proveedores} />
                     }
                 </div>
             </div>

@@ -16,7 +16,6 @@ function LoginScreen({ history }) {
     const submiting = async values => {
         const resultado = await userContext.signIn(values.user, values.password);
         if (resultado.data) {
-            console.log('res.data', resultado.data);
             if (resultado.data.error) {
                 console.log('error', resultado.data.error.message)
                 setErrorMessage(resultado.data.error.message);

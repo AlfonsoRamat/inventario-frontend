@@ -3,21 +3,15 @@ import AgregarProductosModal from '../agregarProducto/agregarProductoModal';
 
 
 
-function InventarioCards({ toggleModal, toogleTableProv, verprovedor }) {
+function InventarioCards({ toggleModal, toogleTableProv , verprovedor }) {
 
     return (
         <div className="card-deck">
             <div className="card" >
                 <div className="card-body">
-
                     <h5 className="card-title">Productos</h5>
-                    <a href="/#" onClick={(event) => {
-                        event.preventDefault();
-                        toogleTableProv()
-                    }
-                    } >{verprovedor ? "Ver Producto" : "Ver Provedores"}</a>
                     <p className="card-text text-white"  >.</p>
-                    <button type="submit" onClick={toggleModal}>Agregar producto</button>
+                    <button type="submit" onClick={toogleTableProv}>{verprovedor ? "Ver Producto" : "Ver Provedores"}</button>
                 </div>
             </div>
             <div className="card">

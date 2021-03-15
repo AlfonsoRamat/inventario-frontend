@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import { columnas, customStyles, opcionesdepagina } from "../../../extras/configs/TablaInventario";
 import AgregarProductosModal from '../../agregarProducto/agregarProductoModal';
 
-const TablaItems = ({ items, userSelection, modal, selectedItem, toggleModal }) => {
+const TablaItems = ({ items, proveedores, userSelection, modal, selectedItem, toggleModal }) => {
 
     const [search, setSearch] = useState("");
 
@@ -15,14 +15,18 @@ const TablaItems = ({ items, userSelection, modal, selectedItem, toggleModal }) 
 
     return (
         <div className="Tablas">
-            <AgregarProductosModal modalState={modal} item={selectedItem} toggle={toggleModal} />
+            <AgregarProductosModal modalState={modal} proveedores={proveedores} item={selectedItem} toggle={toggleModal} />
             <div className='titulo-tabla'>
                 <div className='titulo-izq'><h1>Inventario</h1></div>
-                {(items.length !== 0) ? <div className='titulo-der'>
-                    <div className="input-icono">
-                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
-                    </div>
-                </div> : null}
+                {(items.length !== 0) ?
+                    <div className='titulo-der'>
+                        <div className="input-icono">
+                            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                        </div>
+                    </div> : null}
+            </div>
+            <div className="bottonagregar">
+                <button type="button" className="btn-proveedor" onClick={toggleModal} >Agregar Item</button>
             </div>
             <div className="table-responsive">
                 <DataTable

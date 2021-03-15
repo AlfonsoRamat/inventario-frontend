@@ -25,8 +25,8 @@ function AgregarProductosModal({ modalState, item, proveedores, toggle }) {
 
     const submitForm = async values => {
         await AxiosInstance().post('/productos/create', { ...values })
-            .then(res => alert(JSON.stringify(res, null, 2)))
-            .catch(err => alert(JSON.stringify(err, null, 2)));
+            .then()
+            .catch();
     }
 
     return (
@@ -108,9 +108,9 @@ function AgregarProductosModal({ modalState, item, proveedores, toggle }) {
                             
                             <label htmlFor="proveedor">Proveedor</label>
                             <Field as="select" id="proveedor" name="proveedor">
-                                {() =>{
-
-                                }}
+                                {
+                                    proveedores.map(proveedor => <option key={proveedor.id} value={proveedor.id}>{proveedor.nombre}</option>)
+                                }
                             </Field>
                             <ErrorMessage name="proveedor">{msg => <div className="error">{msg}</div>}</ErrorMessage>
             

@@ -5,19 +5,19 @@ import { columnas, customStyles, opcionesdepagina } from "../../../extras/config
 import AgregarProvedorModal from "../../agregarprovedor/agregarProvedorModal";
 
 
-function Tablaproveedor({proveedores, providerSelection}) {
+function Tablaproveedor({ proveedores, providerSelection }) {
 
     const [additem, setAdditem] = useState(true)
     const [toogle, setToogle] = useState(false);
     const [search, setSearch] = useState("");
-    
+
 
     function toogleAddProv() {
         setToogle((prev) => prev ? false : true);
 
     }
 
-    
+
 
     function buscar(rows) {
         return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
@@ -29,7 +29,7 @@ function Tablaproveedor({proveedores, providerSelection}) {
     }
     useEffect(() => {
         if (additem === true) {
-            
+
             addItemProv(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps    
@@ -40,16 +40,16 @@ function Tablaproveedor({proveedores, providerSelection}) {
             <div className='titulo-tabla'>
                 <div className='tituloizq'>
                     <h1>Proveedores</h1></div>
-                {(proveedores.length !== 0) ? <div className='tituloder'>
-                    <div className="input-icono">
-                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
-                    </div>
-                </div> : null}
+                {(proveedores.length !== 0) ?
+                    <div className='tituloder'>
+                        <div className="input-icono">
+                            <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                        </div>
+                    </div> : null}
             </div>
             <div className="bottonagregar">
                 <button type="button" className="btn-proveedor" onClick={toogleAddProv} >Agregar Proveedor</button>
                 <AgregarProvedorModal toogle={toogle} setoggle={toogleAddProv} fadditem={addItemProv} />
-
             </div>
             <div className="table-responsive">
                 <DataTable
