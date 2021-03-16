@@ -48,7 +48,7 @@ function AuthProvider({ children }) {
         localStorage.removeItem('token');
         AxiosInstance().delete('/usuarios/logout').then(res => {
             console.log('Succesfully logged out');
-        }).catch(err => console.log(err.data.error.message)).finally(() => {
+        }).catch(err => console.log(err)).finally(() => {
             console.log('finally');
             setUser(null);
         });

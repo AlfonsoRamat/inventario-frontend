@@ -23,12 +23,10 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
         proveedorId: '',
     };
 
-    const submitForm = async (values, actions) => {
-        console.log('values', values);
-        await AxiosInstance().post('/productos/create', { ...values })
-            .then(res => {
-                console.log('values', values);
-                items.push(res);
+    const submitForm =  (values, actions) => {
+        AxiosInstance().post('/productos/create', { ...values })
+            .then(res => {                
+                items.push(res.data);
                 actions.resetForm();
             })
             .catch(error => console.log(error));
