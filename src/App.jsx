@@ -20,26 +20,31 @@ function App() {
   async function initialRun() {
     if (localStorage.getItem("token")) {
       console.log('Token encontrado');
-     await userContext.getData(history); 
-     setLoading(false);
+      try {
+        await userContext.getData(history);
+      } catch (error) {
+        console.log('catch del initial run', error);
+      } finally {
+        setLoading(false);
+      }
+
     } else {
       console.log('No se encontro un token');
       setLoading(false);
       try {
-        await userContext.signOut();   
+        await userContext.signOut();
       } catch (error) {
         console.log(error);
       }
-     
+
     }
   }
 
   useEffect(() => {
     initialRun();
-    console.log('Initial run');
     //
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <BrowserRouter>
       <div className="contenedor">

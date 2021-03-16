@@ -22,7 +22,7 @@ const customStyles = {
 const columnas = [
     {
         name: 'Codigo Interno',
-        selector: 'codigoInterno',
+        selector: 'codInterno',
         sortable: true
     },
     {
@@ -60,7 +60,7 @@ const columnas = [
 const columnasVenta = [
   {
       name: 'Codigo Interno',
-      selector: 'codigoInterno',
+      selector: 'codInterno',
       sortable: true
   },
   {
@@ -93,4 +93,4 @@ const opcionesdepagina = {
     selectAllRowsItemText: 'Todo'
 }
 
-export { customStyles, columnas,columnasVenta, opcionesdepagina};
+export { customStyles, columnas, columnasVenta, opcionesdepagina};

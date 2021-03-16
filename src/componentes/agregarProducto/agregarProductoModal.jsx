@@ -20,12 +20,14 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
         precio: 1,
         precioVenta: 1,
         cantidad: 1,
-        proveedor: '',
+        proveedorId: '',
     };
 
     const submitForm = async (values, actions) => {
+        console.log('values', values);
         await AxiosInstance().post('/productos/create', { ...values })
-            .then(res =>{
+            .then(res => {
+                console.log('values', values);
                 items.push(res);
                 actions.resetForm();
             })
@@ -60,6 +62,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
 
                             <label htmlFor="ubicacion">Ubicacion</label>
                             <Field as="select" id="ubicacion" name="ubicacion">
+                                <option value="">Seleccione una opcion</option>
                                 <option value="PROVEEDOR">PROVEEDOR</option>
                                 <option value="DEPOSITO">DEPOSITO</option>
                                 <option value="LOCAL">LOCAL</option>
@@ -90,12 +93,13 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
 
                             <label htmlFor="estado">Estado</label>
                             <Field as="select" id="estado" name="estado">
+                                <option value="">Seleccione una opcion</option>
                                 <option value="BUENO">BUENO</option>
                                 <option value="DEFECTUOSO">DEFECTUOSO</option>
                                 <option value="RESERVADO">RESERVADO</option>
                             </Field>
                             <ErrorMessage name="estado">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                            
+
 
                             <label htmlFor="precio">Costo</label>
                             <Field type="text" id="precio" name="precio" />
@@ -104,19 +108,20 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                             <label htmlFor="precioVenta">Precio de venta</label>
                             <Field type="text" id="precioVenta" name="precioVenta" />
                             <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                            
+
                             <label htmlFor="cantidad">Cantidad</label>
                             <Field type="text" id="cantidad" name="cantidad" />
                             <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                            
-                            <label htmlFor="proveedor">Proveedor</label>
-                            <Field as="select" id="proveedor" name="proveedor">
+
+                            <label htmlFor="proveedorId">Proveedor</label>
+                            <Field as="select" id="proveedorId" name="proveedorId">
+                                <option value="">Seleccione un Proveedor</option>
                                 {
                                     proveedores.map(proveedor => <option key={proveedor.id} value={proveedor.id}>{proveedor.nombre}</option>)
                                 }
                             </Field>
-                            <ErrorMessage name="proveedor">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-            
+                            <ErrorMessage name="proveedorId">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
 
                         </div>
                     </div>

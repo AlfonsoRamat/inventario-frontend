@@ -26,7 +26,7 @@ const AxiosInstance = () => {
                 const pedidoOriginal = error.config;
                 if (error.response && error.response.status === 401 && error.config && !error.config._retry) {
                     pedidoOriginal._retry = true;
-                    const resultado = fetch(`${baseURL}/usuarios/refresh-token`, {
+                    fetch(`${baseURL}/usuarios/refresh-token`, {
                         method: 'POST',
                         credentials: 'include'
                     }).then(res => {

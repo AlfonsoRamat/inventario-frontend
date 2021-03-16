@@ -8,14 +8,17 @@ const TablaItems = ({ items, proveedores, userSelection, modal, selectedItem, to
     const [search, setSearch] = useState("");
 
     function buscar(rows) {
-        return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codigoInterno.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codigoPaquete.toString().toLowerCase().indexOf(search) > -1);
+        console.log('rows', rows);
+        return rows.filter(row =>
+            row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
+            row.codInterno.toString().toLowerCase().indexOf(search) > -1 ||
+            row.codigoPaquete.toString().toLowerCase().indexOf(search) > -1
+        );
     }
 
     return (
         <div className="Tablas">
-            <AgregarProductosModal modalState={modal} proveedores={proveedores} item={selectedItem} toggle={toggleModal} />
+            <AgregarProductosModal modalState={modal} items={items} proveedores={proveedores} item={selectedItem} toggle={toggleModal} />
             <div className='titulo-tabla'>
                 <div className='titulo-izq'><h1>Inventario</h1></div>
                 {(items.length !== 0) ?

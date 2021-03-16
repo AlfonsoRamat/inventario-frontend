@@ -1,7 +1,4 @@
 import React from 'react';
-import AgregarProductosModal from '../agregarProducto/agregarProductoModal';
-
-
 
 function InventarioCards({ toggleModal, toogleTableProv , verprovedor }) {
 
