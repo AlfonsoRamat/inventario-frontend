@@ -1,52 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import './agregarProvedorModal.css';
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import AxiosInstance from '../../extras/configs/AxiosInstance';
 
 
-function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
+function AgregarProvedorModal({ toogle, setoggle, proveedores, fadditem }) {
 
-
-
-    const [codigoInterno, setCodInterno] = useState('');
-    const [nombre, setNombre] = useState('');
-    const [email, setemail] = useState('');
-    const [telefono, setTelefono] = useState('');
-    const [descripcion, setDescripcion] = useState('');
-
-
-
-    async function handleAgregar(e) {
-        const url = 'http://localhost:3004/proveedores/create';
-        
-        const item = {
-            codigoInterno: codigoInterno,
-            nombre: nombre,
-            email: email,
-            descripcion: descripcion,
-            telefono: telefono
-        }
-
-        const result = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item)
-        });
-
-        if (result.ok) {
-            fadditem(true)
-            limpiarCampos();
-        }
-        e.preventDefault();
+    const initialValues = {
+        codigoInterno: '',
+        nombre: '',
+        email: '',
+        telefono: '',
+        descripcion: ''
     }
 
-    function limpiarCampos() {
-        setCodInterno('')
-        setNombre('')
-        setemail('')
-        setDescripcion('')
-        setTelefono('')
+    const handleAgregar = (values, actions) => {
+        AxiosInstance().post('/proveedores', { ...values })
+            .then(res => {
+                proveedores.push(res.data);
+                actions.resetForm();
+            })
+            .catch(error => console.log(error));
     }
 
     return (
@@ -64,41 +39,43 @@ function AgregarProvedorModal({ toogle,setoggle,provedores=[],fadditem }) {
                         transform: 'translate(-50%, -50%)'
                     }
                 }} >
-                <form className="formulario-povedor">
-                    <div className="inputsprovedor">
-                        <div className="imputDatos">
-                            <div className="leftinputs">
-                            <label name="">Codigo interno</label>
-                            <input type="text" onChange={(event) => { setCodInterno(event.target.value) }} value={codigoInterno} placeholder="" />
+                <Formik initialValues={initialValues} validationSchema={null} onSubmit={handleAgregar}>
+                    <Form className="formulario-povedor">
+                        <div className="inputsprovedor">
+                            <div className="imputDatos">
+                                <div className="leftinputs">
+                                    <label htmlFor="codigoInterno">Codigo interno</label>
+                                    <Field type="text" id="codigoInterno" name="codigoInterno" />
+                                    <ErrorMessage name="codigoInterno">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
+                                    <label htmlFor="nombre">Nombre</label>
+                                    <Field type="text" id="nombre" name="nombre" />
+                                    <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
-                            <label name="">Nombre</label>
-                            <input type="text" onChange={(event) => { setNombre(event.target.value) }} value={nombre} placeholder="" />
-
-                            <label name="">Telefono</label>
-                            <input type="text" onChange={(event) => { setTelefono(event.target.value) }} value={telefono} placeholder="" />
-
-
+                                    <label htmlFor="telefono">Telefono</label>
+                                    <Field type="text" id="telefono" name="telefono" />
+                                    <ErrorMessage name="telefono">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                </div>
+                                <div className="rightinputs">
+                                <label htmlFor="telefono">Descripcion</label>
+                                    <Field as="textarea" id="descripcion" name="descripcion" />
+                                    <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                    
+                                    <label htmlFor="email">Email</label>
+                                    <Field type="text" id="email" name="email" />
+                                    <ErrorMessage name="email">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                </div>
                             </div>
-                            <div className="rightinputs">
-                            <label name="">Descripcion</label>
-                            <textarea onChange={(event) => { setDescripcion(event.target.value) }} value={descripcion} placeholder="" />
 
-                            <label name="">Email</label>
-                            <input type="text" onChange={(event) => { setemail(event.target.value) }} value={email} placeholder="" />
-                        
-                            </div>
-                            </div>
-
-                        <div className="modal-botones">
-                                <button className="botones" onClick={handleAgregar} type="button">Agregar</button>
+                            <div className="modal-botones">
+                                <button className="botones" type="submit">Agregar</button>
                                 <button className="botones" type="reset" value="finalizar" onClick={setoggle}>Finalizar</button>
+                            </div>
                         </div>
-                    </div>
 
 
-                </form>
-
+                    </Form>
+                </Formik>
             </Modal >
 
         </div>

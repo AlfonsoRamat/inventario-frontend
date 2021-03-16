@@ -17,11 +17,11 @@ function Tablaproveedor({ proveedores, providerSelection }) {
 
     }
 
-
-
     function buscar(rows) {
-        return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codigoInterno.toString().toLowerCase().indexOf(search) > -1)
+        if(rows){
+            return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.codigoInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
+        }else return [];
     }
 
     function addItemProv(etiqueta) {
@@ -29,7 +29,6 @@ function Tablaproveedor({ proveedores, providerSelection }) {
     }
     useEffect(() => {
         if (additem === true) {
-
             addItemProv(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps    
@@ -49,7 +48,7 @@ function Tablaproveedor({ proveedores, providerSelection }) {
             </div>
             <div className="bottonagregar">
                 <button type="button" className="btn-proveedor" onClick={toogleAddProv} >Agregar Proveedor</button>
-                <AgregarProvedorModal toogle={toogle} setoggle={toogleAddProv} fadditem={addItemProv} />
+                <AgregarProvedorModal toogle={toogle} proveedores={proveedores} setoggle={toogleAddProv} fadditem={addItemProv} />
             </div>
             <div className="table-responsive">
                 <DataTable

@@ -32,13 +32,10 @@ function Inventario(props) {
     }
 
     async function getProveedores() {
-        console.log('Executing get Proveedores');
         try {
-            const result = await (await AxiosInstance().get('/proveedores/getAll')).data;
+            const result = await (await AxiosInstance().get('/proveedores')).data;
             setProveedores(result);
-            console.log('Proveedores', proveedores);
         } catch (error) {
-            console.log('getProveedores error');
             setProveedores([]);
         }
     }
@@ -47,7 +44,6 @@ function Inventario(props) {
         try {
             const result = await (await AxiosInstance().get('/productos/getall')).data;
             setItems(result);
-            console.log('Items', items);
         } catch (error) {
             setItems([]);
         }
