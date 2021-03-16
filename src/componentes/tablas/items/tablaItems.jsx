@@ -8,12 +8,13 @@ const TablaItems = ({ items, proveedores, userSelection, modal, selectedItem, to
     const [search, setSearch] = useState("");
 
     function buscar(rows) {
-        console.log('rows', rows);
-        return rows.filter(row =>
-            row.nombre.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codInterno.toString().toLowerCase().indexOf(search) > -1 ||
-            row.codigoPaquete.toString().toLowerCase().indexOf(search) > -1
-        );
+        if (rows) {
+            return rows.filter(row =>
+                row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
+            );
+        } else return [];
     }
 
     return (
