@@ -73,7 +73,7 @@ const columnas = [
   cell: () => <BsTrash/>,
 }
 
-//TODO: re visar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1
+//TODO: revisar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1
 ]
 const columnasVenta = [
   {
