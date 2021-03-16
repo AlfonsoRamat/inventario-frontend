@@ -7,36 +7,38 @@
 
 .inputs {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
 }
-.left-inputs {
-    width: 50%;
-    height: 70zzz%;
+.formatimput{
+    margin-left: 20px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+}
+.left-inputs {
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .right-inputs {
     margin-left: 20px;
-    width: 50%;
-    height: 70%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 .tercercol{
     margin-left: 20px;
-    width: 50%;
-    height: 70%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 .cuartaCol{
     margin-left: 20px;
-    width: 50%;
-    height: 70%;
+ 
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 .form-group {
     width: 100%;
@@ -45,7 +47,7 @@
     outline: 1px solid black;
 }
 .inputs input {
-    margin: 10px 0px
+    top: -1px
 }
 
 .modal-pie{
