@@ -1,3 +1,4 @@
+import { BsTrash } from "react-icons/bs";
 const customStyles = {
     rows: {
       style: {
@@ -65,7 +66,14 @@ const columnas = [
   name: 'Estado',
   selector: 'estado',
   sortable: true
+},
+{
+  name: 'Accion',
+  button: true,
+  cell: () => <BsTrash/>,
 }
+
+//TODO: re visar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1
 ]
 const columnasVenta = [
   {
