@@ -122,6 +122,24 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
 
 
                                 </div>
+                                <div className="cuartaCol">
+
+<div className="formatimput">
+
+    <label htmlFor="alertaMax">Alerta maxima</label>
+    <Field ttype="text" id="alertaMax" name="alertaMax" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+    <ErrorMessage name="alertaMax">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+</div>
+<div className="formatimput">
+
+    <label htmlFor="marca">Marca</label>
+    <Field type="text" id="marca" name="marca" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+    <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
+</div>
+
+</div>
                                 <div className="tercercol">
 
                                     <div className="formatimput">
@@ -163,24 +181,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                                     </div>
 
                                 </div>
-                                <div className="cuartaCol">
-
-                                    <div className="formatimput">
-
-                                        <label htmlFor="alertaMax">Alerta maxima</label>
-                                        <Field ttype="text" id="alertaMax" name="alertaMax" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="alertaMax">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
-                                    </div>
-                                    <div className="formatimput">
-
-                                        <label htmlFor="marca">Marca</label>
-                                        <Field type="text" id="marca" name="marca" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-
-                                    </div>
-
-                                </div>
+                               
                             </div>
 
                             <div className="modal-pie">
