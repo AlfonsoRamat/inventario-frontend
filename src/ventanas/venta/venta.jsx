@@ -122,7 +122,7 @@ function Venta(props) {
                     <div className="cabeceraDerVenta">
                         <label name="">Total
                 <h1 name="total">$ 0.0</h1></label>
-                        <button className="boton" onClick={handleAgregar} type="button">Cobrar</button>
+                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregar} type="button">Cobrar</button>
                     </div>
                 
             </div>
