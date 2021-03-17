@@ -68,9 +68,9 @@ const columnas = [
   sortable: true
 },
 {
-  name: 'Accion',
+  
   button: true,
-  cell: () => <BsTrash/>,
+  cell: row => <BsTrash onClick={console.log("borrar item"+row.nombre)} />,
 }
 
 //TODO: revisar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1

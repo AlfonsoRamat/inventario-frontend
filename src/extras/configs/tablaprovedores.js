@@ -45,6 +45,11 @@ const columnas = [
         name: 'Telefono',
         selector: 'telefono',
         sortable: true
+    },
+    {
+  
+      button: true,
+      cell: row => <BsTrash onClick={console.log("borrar item"+row.nombre)} />,
     }
 ]
 const opcionesdepagina = {
