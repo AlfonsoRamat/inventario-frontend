@@ -24,7 +24,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
     };
 
     const submitForm =  (values, actions) => {
-        AxiosInstance().post('/productos/create', { ...values })
+        AxiosInstance().post('/productos/', { ...values })
             .then(res => {                
                 items.push(res.data);
                 actions.resetForm();
