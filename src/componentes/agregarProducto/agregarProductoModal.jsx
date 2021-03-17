@@ -64,7 +64,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                                     </div>
                                     <div className="formatimput">
                                        
-                                        <label htmlFor="codigoPaquete">Codigo de paquete</label>
+                                        <label htmlFor="codigoPaquete">Codigo de barras</label>
                                         <Field type="text" id="codigoPaquete" name="codigoPaquete" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="codigoPaquete">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 
@@ -90,7 +90,7 @@ function AgregarProductosModal({ modalState, selectedItem, items, proveedores, t
                                 <div className="right-inputs">
                                     <div className="formatimput">
                                     
-                                        <label htmlFor="precio">Costo</label>
+                                        <label htmlFor="precio">Precio de lista</label>
                                         <Field type="text" id="precio" name="precio" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="precio">{msg => <div className="error">{msg}</div>}</ErrorMessage>
 

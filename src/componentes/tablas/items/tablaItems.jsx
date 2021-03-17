@@ -30,7 +30,7 @@ const TablaItems = ({ items, proveedores, userSelection, modal, selectedItem, to
                     </div> : null}
             </div>
             <div className="bottonagregar">
-                <button type="button" className="btn-proveedor" onClick={toggleModal} >Agregar Item</button>
+                <button type="button" className="btn-proveedor" onClick={toggleModal} >Agregar Producto</button>
             </div>
             <div className="table-responsive">
                 <DataTable

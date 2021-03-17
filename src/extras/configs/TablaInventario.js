@@ -2,7 +2,8 @@ import { BsTrash } from "react-icons/bs";
 const customStyles = {
     rows: {
       style: {
-        minHeight: '72px', // override the row height
+        minHeight: '72px',
+        // override the row height
       }
     },
     headCells: {
@@ -15,7 +16,7 @@ const customStyles = {
       style: {
         paddingLeft: '8px', // override the cell padding for data cells
         paddingRight: '8px',
-        fontSize: '20px' ,
+        fontSize: '17px' ,
       },
     },
   };
@@ -34,6 +35,8 @@ const columnas = [
     {
         name: 'Nombre',
         selector: 'nombre',
+        maxWidth: '1000px',
+        width:"10%",
         sortable: true
     },
     {
