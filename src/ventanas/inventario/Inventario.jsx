@@ -42,7 +42,7 @@ function Inventario(props) {
 
     async function getItems() {
         try {
-            const result = await (await AxiosInstance().get('/productos/getall')).data;
+            const result = await (await AxiosInstance().get('/productos/')).data;
             setItems(result);
         } catch (error) {
             setItems([]);
