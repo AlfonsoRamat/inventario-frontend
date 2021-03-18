@@ -1,3 +1,5 @@
+import { BsTrash } from "react-icons/bs";
+
 const customStyles = {
     rows: {
       style: {
