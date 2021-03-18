@@ -79,16 +79,7 @@ const columnas = [
 //TODO: revisar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1
 ]
 const columnasVenta = [
-  {
-      name: 'Codigo Interno',
-      selector: 'codInterno',
-      sortable: true
-  },
-  {
-      name: 'Codigo de barra',
-      selector: 'codigoPaquete',
-      sortable: true
-  },
+ 
   {
       name: 'Nombre',
       selector: 'nombre',
@@ -101,8 +92,13 @@ const columnasVenta = [
   },
 
   {
-      name: 'Precio de lista',
-      selector: 'precio',
+      name: 'Precio',
+      selector: 'precioVenta',
+      sortable: true
+  },
+  {
+      name: 'Cantidad',
+      selector: 'cantidad',
       sortable: true
   },
 

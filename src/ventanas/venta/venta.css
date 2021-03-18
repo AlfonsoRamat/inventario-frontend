@@ -4,44 +4,24 @@
     align-items: center;
 }
 .cabecera{
+    width: 100vw;
     display: flex;
     flex-direction: row;
-    align-items: initial;
+ 
 }
 .cabeceraIzqVenta{
+    width: 70vw;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
    
 }
 .primeralinea {
     display: flex;
     flex-direction: row;
-    padding: 10PX;
     margin: 3px;
 }
-.primeralinea label{
-   margin-left: 10px;
-   margin-right: 10px;
-}
-.primeralinea input {
-    height: 30px;
-    margin-right: 10px;
-}
-.primeralinea button{
-    padding: 0px;
-    border: 0px;
-    height: 30px;
-    font-size: 1rem;
-    align-self: center;
-    text-align: center;
-    width: 80px;
-    text-decoration: none;
-    color: white;
-    background:rgba(156, 32, 86, 1);
-    border-radius: 1.5%;
-    
-  }
+
   .cabeceraDerVenta{
    margin-left: 100px;
     display: flex;
@@ -57,5 +37,10 @@
     flex-direction: row;
     align-items: center;  
 }
-
-
+.piedeventa
+{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: initial;
+}
