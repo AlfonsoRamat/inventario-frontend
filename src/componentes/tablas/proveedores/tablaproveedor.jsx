@@ -1,45 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './tablaproveedor.css';
 import DataTable from 'react-data-table-component';
 import { columnas, customStyles, opcionesdepagina } from "../../../extras/configs/tablaprovedores";
 import AgregarProvedorModal from "../../agregarprovedor/agregarProvedorModal";
+import { InventarioContext } from '../../../ventanas/inventario/InventarioContext';
 
 
-function Tablaproveedor({ proveedores, providerSelection }) {
+function Tablaproveedor() {
 
-    const [additem, setAdditem] = useState(true)
-    const [toogle, setToogle] = useState(false);
+    const { proveedores } = useContext(InventarioContext);
+    const [modal, setModal] = useState(false);
     const [search, setSearch] = useState("");
 
 
-    function toogleAddProv() {
-        setToogle((prev) => prev ? false : true);
-
-    }
 
     function buscar(rows) {
-        if(rows){
+        if (rows) {
             return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
                 row.codigoInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
-        }else return [];
+        } else return [];
     }
 
-    function addItemProv(etiqueta) {
-        setAdditem(etiqueta)
+    function toogleModal() {
+        setModal(!modal);
     }
-    useEffect(() => {
-        if (additem === true) {
-            addItemProv(false);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps    
-    }, [additem]);
 
     return (
         <div className="tablaprovedor">
             <div className='titulo-tabla'>
                 <div className='tituloizq'>
                     <h1>Proveedores</h1></div>
-                {(proveedores.length !== 0) ?
+                {(proveedores && proveedores.length !== 0) ?
                     <div className='tituloder'>
                         <div className="input-icono">
                             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
@@ -47,8 +38,8 @@ function Tablaproveedor({ proveedores, providerSelection }) {
                     </div> : null}
             </div>
             <div className="bottonagregar">
-                <button type="button" className="btn-proveedor" onClick={toogleAddProv} >Agregar Proveedor</button>
-                <AgregarProvedorModal toogle={toogle} proveedores={proveedores} setoggle={toogleAddProv} fadditem={addItemProv} />
+                <button type="button" className="btn-proveedor" onClick={toogleModal} >Agregar Proveedor</button>
+                <AgregarProvedorModal modal={modal} toogleModal={toogleModal} />
             </div>
             <div className="table-responsive">
                 <DataTable
@@ -59,9 +50,7 @@ function Tablaproveedor({ proveedores, providerSelection }) {
                     fixedHeader
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
-                    onRowClicked={selectedProvider => {
-                        providerSelection(selectedProvider);
-                    }}
+                    onRowClicked={selectedProvider => {}}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                     customStyles={customStyles}

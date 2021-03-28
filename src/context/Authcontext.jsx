@@ -16,12 +16,9 @@ function AuthProvider({ children }) {
             console.log('getData executed logout');
             signOut();
         }
-
-
     }
 
     const signIn = async (nombre, password) => {
-
         const request = {
             nombre: nombre,
             password: password

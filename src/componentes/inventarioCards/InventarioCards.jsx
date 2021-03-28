@@ -1,7 +1,6 @@
 import React from 'react';
 
-function InventarioCards({ toggleModal, toogleTableProv , verprovedor }) {
-
+function InventarioCards({ toogleTableProv , verprovedor }) {
     return (
         <div className="card-deck">
             <div className="card" >
