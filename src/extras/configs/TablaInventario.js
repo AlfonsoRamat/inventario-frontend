@@ -2,7 +2,7 @@ import { BsTrash } from "react-icons/bs";
 const customStyles = {
     rows: {
       style: {
-        minHeight: '72px',
+        minHeight: '45px',
         // override the row height
       }
     },
@@ -103,11 +103,33 @@ const columnasVenta = [
   },
 
 ]
+const columnasListaVenta = [
+ 
+  {
+      name: 'Nombre',
+      selector: 'nombre',
+      sortable: true
+  },
+  {
+      name: 'Descripcion',
+      selector: 'descripcion',
+      sortable: true
+  },
+
+  {
+      name: 'Precio',
+      selector: 'precioVenta',
+      sortable: true
+  },
+
+
+]
 const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',
     selectAllRowsItem: true,
-    selectAllRowsItemText: 'Todo'
+    selectAllRowsItemText: 'Todo',
+    
 }
 
-export { customStyles, columnas, columnasVenta, opcionesdepagina};
+export { customStyles, columnas, columnasVenta, opcionesdepagina,columnasListaVenta};
