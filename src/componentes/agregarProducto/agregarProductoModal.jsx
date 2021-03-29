@@ -6,27 +6,25 @@ import AxiosInstance from "../../extras/configs/AxiosInstance";
 import ProductoFormValidator from "../../extras/validators/ProductoFormValidation";
 import { InventarioContext } from '../../ventanas/inventario/InventarioContext';
 
-function AgregarProductosModal({ modal, toggleModal }) {
+function AgregarProductosModal({ modal, toggleModal, userSelection }) {
 
     const { productosDispatch, proveedores } = useContext(InventarioContext);
 
-    const initialValues = {
+    const initialValues = userSelection ? userSelection :  {
         codInterno: '',
         codigoPaquete: '',
-        ubicacion: '',
+        ubicacion: 'LOCAL',
         nombre: '',
         marca: '',
         descripcion: '',
         alertaMin: 1,
         alertaMax: 100000,
-        estado: '',
+        estado: 'BUENO',
         precio: 1,
         precioVenta: 1,
         cantidad: 1,
         proveedorId: '',
     };
-
-    console.log('proveedores de modal', proveedores)
 
     const submitForm = (values, actions) => {
         AxiosInstance().post('/productos/', { ...values })

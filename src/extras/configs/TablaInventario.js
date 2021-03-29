@@ -75,8 +75,6 @@ const columnas = [
   button: true,
   cell: row => <BsTrash onClick={console.log("borrar item"+row.nombre)} />,
 }
-
-//TODO: revisar https://jbetancur.github.io/react-data-table-component/?path=/story/custom-cells--example-1
 ]
 const columnasVenta = [
  

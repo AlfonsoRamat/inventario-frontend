@@ -8,8 +8,11 @@ const TablaItems = () => {
 
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState("");
+    const [userSelection, setUserSelection] = useState(null);
 
     const { productos } = useContext(InventarioContext);
+
+    console.log('array productos', productos);
 
     function toggleModal() {
         setModal((prev) => prev ? false : true);
@@ -27,7 +30,7 @@ const TablaItems = () => {
 
     return (
         <div className="Tablas">
-            <AgregarProductosModal modal={modal} toggleModal={toggleModal} />
+            <AgregarProductosModal modal={modal} userSelection={userSelection} toggleModal={toggleModal} />
             <div className='titulo-tabla'>
                 <div className='titulo-izq'><h1>Inventario</h1></div>
                 {(productos && productos.length !== 0) ?
@@ -42,14 +45,17 @@ const TablaItems = () => {
             </div>
             <div className="table-responsive">
                 <DataTable
-                    columns={columnas}
+                    columns={[...columnas, /*aca va el PromiseRejectionEvent, aca va el boton de borrar*/ ]} //TODO: Agregar despues del spread un boton para borrar, y otro para ver el precio
                     data={buscar(productos)}
                     pagination
                     paginationComponentOptions={opcionesdepagina}
                     fixedHeader
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
-                    onRowClicked={selectedItem => {}}
+                    onRowClicked={selectedItem => {
+                        setUserSelection(selectedItem);
+                        toggleModal();
+                    }}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                     customStyles={customStyles}
