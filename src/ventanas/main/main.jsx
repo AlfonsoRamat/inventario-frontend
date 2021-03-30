@@ -3,7 +3,9 @@ import { Switch, Route, useHistory } from 'react-router';
 import Navbar from '../../componentes/Navbar/navbar';
 import { AuthContext } from '../../context/Authcontext';
 import Inventario from '../inventario/Inventario';
-import Venta from "../venta/venta";
+import { CajaContextProvider } from '../venta/CajaContext';
+import ContenedorVenta from '../venta/ContenedorVenta';
+
 import './main.css';
 
 function Main(props) {
@@ -37,9 +39,14 @@ function Main(props) {
           <Route path="/inventario" exact>
             <Inventario />
           </Route>
+          <CajaContextProvider>
           <Route path="/venta" exact>
-            <Venta />
+            <ContenedorVenta />
           </Route>
+          <Route path="/caja" exact>
+            {/*TODO: Aca va el componente caja*/}
+          </Route>
+          </CajaContextProvider>
         </Switch>
       </div>
       <div className="footer">

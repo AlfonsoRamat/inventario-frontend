@@ -10,8 +10,8 @@ import ComboBox from 'react-responsive-combo-box'
 
 function Venta(props) {
 
-    const [items, setItems] = useState([]);
-    const [itemsVenta, setItemsVenta] = useState([]);
+    const [productos, setProductos] = useState([]);
+    const [productosVenta, setproductosVenta] = useState([]);
     const [search, setsearch] = useState("");
     const [subTotal, setSubTotal] = useState(0);
     const [cantidad, setCantidad] = useState(0);
@@ -35,25 +35,25 @@ function Venta(props) {
 
     async function handleAgregar(row) {
         const cantidadVendida = prompt('Seleccione la cantidad: ');
-        setItemsVenta(prev => [...prev, { ...row, cantidadVendida }]);
+        if(row)
+        setproductosVenta(prev => [...prev, { ...row, cantidadVendida }]);
         setSubTotal(prev => prev + row.precioVenta * cantidadVendida);
     }
-    async function handleAgregarcliente ()
-    {
+    async function handleAgregarcliente() {
         setMostrarCliente((prev) => prev ? false : true);
         console.log(mostrarCliente)
-    } 
-    async function getItems() {
+    }
+    async function getproductos() {
         try {
             const result = await (await AxiosInstance().get('/productos')).data;
-            setItems(result);
+            setProductos(result);
         } catch (error) {
             console.log(error);
         }
     }
 
     useEffect(() => {
-        getItems();
+        getproductos();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -78,7 +78,7 @@ function Venta(props) {
                             <div className="table-responsive">
                                 <DataTable
                                     columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidadVendida', sortable: true }]}
-                                    data={itemsVenta}
+                                    data={productosVenta}
                                     pagination
                                     paginationComponentOptions={opcionesdepagina}
                                     paginationPerPage={5}
@@ -94,8 +94,7 @@ function Venta(props) {
                 </div>
 
                 <div className="cabeceraDerVenta">
-                    <label name="">Total
-                <h1 name="total">${subTotal}</h1></label>
+                    <label name="">Total<h1 name="total">${subTotal}</h1></label>
                     <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregar} type="button">Cobrar</button>
                     <div className="opcionesDeCompra">
                         <div className="renglonDeCompra">
@@ -106,40 +105,35 @@ function Venta(props) {
                             <label >Clientes </label>
                             <ComboBox options={clientes} enableAutocomplete />
                             <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregarcliente} type="button">Nuevo cliente</button>
-                 
+
                         </div>
                     </div>
                 </div>
 
             </div>
-            <span className="spancliente">
-            <div className="VerCliente" >{
-                 mostrarCliente ?(
-                 <div className="VerCliente" >
-                     <div className="colu1">
-                     <label >Nombre</label>
-                     <imput type="text" name ="nombre" id="nombre" />
-                     <label >Email</label>
-                     <imput type="text"/>
-                     </div>
-                     <div className="colu1">
-                     <label >Telefono</label>
-                     <imput type="text"/>
-                     <label >Descripcion</label>
-                     <imput type="text"/>
-                     </div>
-                     <div className="colu1">
-                     <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregar} type="button">Agregar cliente</button>
-                     
-                     </div>
-                     
-                   
-                 </div>
-                 ) : (
-                   <div  />
-                 )
-             } </div>  
-            </span>
+            {
+                mostrarCliente ? (
+                    <div className="ver-cliente">
+                        <div className="cliente-input">
+                            <label htmlFor="nombre">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" />
+                        </div>
+                        <div className="cliente-input">
+                            <label htmlFor="email">E-mail</label>
+                            <input type="text" name="email" id="email" />
+                        </div>
+                        <div className="cliente-input">
+                            <label htmlFor="telefono">Telefono</label>
+                            <input type="text" name="telefono" id="telefono" />
+                        </div>
+                        <div className="cliente-input">
+                            <label htmlFor="descripcion">Descripcion</label>
+                            <input type="text" name="descripcion" id="descripcion" />
+                        </div>
+                        <button className="submitButton" type="submit">Crear Cliente</button>
+                    </div>
+                ) : null
+            }
             <div className="piedeventa">
                 <h4 className="text-gray-800 text-xl font-bold">Agregar Productos</h4>
 
@@ -154,15 +148,15 @@ function Venta(props) {
                 <div className="table-responsive">
                     <DataTable
                         columns={columnasVenta}
-                        data={buscar(items)}
+                        data={buscar(productos)}
                         pagination
                         paginationComponentOptions={opcionesdepagina}
                         paginationPerPage={5}
                         fixedHeader
                         fixedHeaderScrollHeight="600px"
                         highlightOnHover
-                        onRowClicked={items => {
-                            handleAgregar(items)
+                        onRowClicked={produc => {
+                            handleAgregar(produc)
                         }}
                         responsive
                         customStyles={customStyles}

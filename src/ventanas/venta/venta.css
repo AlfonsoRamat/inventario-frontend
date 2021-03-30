@@ -50,17 +50,40 @@
 .renglonDeCompra button{
     width: 200px;
 }
-.verCliente{
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-}
-.colu1{
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-}
-.spancliente{
-    width: 100vw;
 
+.ver-cliente {
+    margin: 5px;
+    padding: 10px 15px;
+    width: 70%;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.cliente-input {
+    width: 30%;
+    height: 50%;    
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-end;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    font-weight: 700;
+}
+
+.cliente-input input {
+    width: 150px;
+    margin-left: 10px;
+}
+.submitButton {
+    position: relative;
+    top: 50%;
+    right: 5px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    width: 30%;
+    transform: translatey(-50%);
 }
