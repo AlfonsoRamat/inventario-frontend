@@ -87,3 +87,13 @@
     width: 30%;
     transform: translatey(-50%);
 }
+.cont{
+
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
