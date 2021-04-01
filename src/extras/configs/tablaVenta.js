@@ -22,29 +22,8 @@ const customStyles = {
 
 const columnas = [
     {
-        name: 'Codigo Interno',
+        name: 'Monto',
         selector: 'codigoInterno',
-        sortable: true
-    },
-    {
-        name: 'Nombre',
-        selector: 'nombre',
-        sortable: true
-    },
-    {
-        name: 'Descripcion',
-        selector: 'descripcion',
-        sortable: true
-    },
-
-    {
-        name: 'Correo Electronico',
-        selector: 'email',
-        sortable: true
-    },
-    {
-        name: 'Telefono',
-        selector: 'telefono',
         sortable: true
     },
     {

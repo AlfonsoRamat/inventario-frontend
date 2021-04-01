@@ -97,3 +97,20 @@
     align-items: center;
     text-align: center;
 }
+.cajaConteiner{
+    display: flex;
+    flex-direction: row;
+}
+.formAbrirCaja button{
+width: 100px;
+margin-left: 10px;
+margin-bottom: 10px;
+}
+.formAbrirCaja input{
+    margin-left: 10px; 
+}
+.cajaTablaVenta{
+    width: 50 vw;
+    margin-left: 20px;
+    padding-left: 20px;
+}

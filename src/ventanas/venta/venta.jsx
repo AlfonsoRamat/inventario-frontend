@@ -87,6 +87,7 @@ function Venta(props) {
                                     highlightOnHover
                                     responsive
                                     customStyles={customStyles}
+                                    noDataComponent={<div>Agregue un producto para su venta</div>}
                                 />
 
                             </div>
@@ -159,6 +160,7 @@ function Venta(props) {
                             handleAgregar(produc)
                         }}
                         responsive
+                        noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                         customStyles={customStyles}
                     />
 
