@@ -3,7 +3,7 @@ import AxiosInstance from "./AxiosInstance";
 const customStyles = {
     rows: {
       style: {
-        minHeight: '72px', // override the row height
+        minHeight: '50px', // override the row height
       }
     },
     headCells: {

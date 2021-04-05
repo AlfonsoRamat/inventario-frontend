@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/Authcontext';
 import Inventario from '../inventario/Inventario';
 import { CajaContextProvider } from '../venta/CajaContext';
 import ContenedorVenta from '../venta/ContenedorVenta';
+import Reportes from'../reportes/Reportes';
 
 import './main.css';
 
@@ -36,6 +37,9 @@ function Main(props) {
       </div>
       <div className="main">
         <Switch>
+        <Route path="/reportes" exact>
+            <Reportes />
+          </Route>
           <Route path="/inventario" exact>
             <Inventario />
           </Route>
