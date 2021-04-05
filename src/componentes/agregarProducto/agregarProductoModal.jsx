@@ -8,32 +8,50 @@ import { InventarioContext } from '../../ventanas/inventario/InventarioContext';
 
 function AgregarProductosModal({ modal, toggleModal, userSelection }) {
 
-    const { productosDispatch, proveedores } = useContext(InventarioContext);
+    const { productosDispatch, proveedores, rubros } = useContext(InventarioContext);
 
-    const initialValues = userSelection ? userSelection :  {
-        codInterno: '',
-        codigoPaquete: '',
-        ubicacion: 'LOCAL',
-        nombre: '',
-        marca: '',
-        descripcion: '',
-        alertaMin: 1,
-        alertaMax: 100000,
-        estado: 'BUENO',
-        precio: 1,
-        precioVenta: 1,
-        cantidad: 1,
-        proveedorId: '',
-    };
+    const initialValues = userSelection ?
+        ({
+            ...userSelection,
+            precio: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].costoCompra),
+            cantidad: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].cantidadAdquirida),
+            rubro: userSelection.RubroRubro,
+            proveedorId: userSelection.proveedorId
+        })
+        : {
+            codInterno: '',
+            codigoPaquete: '',
+            ubicacion: 'LOCAL',
+            nombre: '',
+            marca: '',
+            descripcion: '',
+            alertaMin: 1,
+            alertaMax: 300,
+            precio: 1,
+            rubro: '',
+            precioVenta: 1,
+            cantidad: 1,
+            proveedorId: '',
+        };
 
     const submitForm = (values, actions) => {
-        AxiosInstance().post('/productos/', { ...values })
-            .then(({data}) => {
-                console.log('Ejecutando submit form');
-                productosDispatch({ type: 'agregar', payload: data });
-                actions.resetForm();
-            })
-            .catch(error => console.log(error));
+        console.log(userSelection)
+        if (userSelection) {
+            AxiosInstance().put('/productos/', { ...values })
+                .then(({ data }) => {
+                    productosDispatch({ type: 'modificar', payload: data });
+                    actions.resetForm();
+                    userSelection = null;
+                })
+                .catch(error => console.log(error));
+        } else {
+            AxiosInstance().post('/productos/', { ...values })
+                .then(({ data }) => {
+                    productosDispatch({ type: 'agregar', payload: data });
+                    actions.resetForm();
+                })
+                .catch(error => console.log(error));
+        }
     }
 
     return (
@@ -120,7 +138,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                             <option value=''>Seleccione una opcion</option>
                                             {
                                                 proveedores.map(proveedor => {
-                                                    return <option key={proveedor.id} value={proveedor.id}>
+                                                    return <option key={proveedor.id} value={proveedor.id} >
                                                         {proveedor.nombre}
                                                     </option>
                                                 })
@@ -129,17 +147,22 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                         <ErrorMessage name="proveedorId">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
-                                        <label htmlFor="estado">Estado</label>
-                                        <Field value="BUENO" as="select" id="estado" name="estado" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150">
-                                            <option value="BUENO">BUENO</option>
-                                            <option value="DEFECTUOSO">DEFECTUOSO</option>
-                                            <option value="RESERVADO">RESERVADO</option>
+                                        <label htmlFor="rubro">Rubro</label>
+                                        <Field as="select" id="rubro" name="rubro" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" >
+                                            <option value=''>Seleccione una opcion</option>
+                                            {
+                                                rubros.map(rubro => {
+                                                    return <option key={rubro.rubro} value={rubro.rubro}>
+                                                        {rubro.rubro}
+                                                    </option>
+                                                })
+                                            }
                                         </Field>
-                                        <ErrorMessage name="estado">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                        <ErrorMessage name="rubro">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
                                         <label htmlFor="ubicacion">Ubicacion</label>
-                                        <Field value="LOCAL" as="select" id="ubicacion" name="ubicacion" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150">
+                                        <Field as="select" id="ubicacion" name="ubicacion" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150">
                                             <option value="LOCAL">LOCAL</option>
                                             <option value="PROVEEDOR">PROVEEDOR</option>
                                             <option value="DEPOSITO">DEPOSITO</option>

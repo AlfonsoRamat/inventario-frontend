@@ -1,4 +1,5 @@
 import { BsTrash } from "react-icons/bs";
+import AxiosInstance from "./AxiosInstance";
 const customStyles = {
     rows: {
       style: {
@@ -20,39 +21,48 @@ const customStyles = {
     },
   };
 
-const columnas = [
-    {
-        name: 'Codigo Interno',
-        selector: 'codigoInterno',
-        sortable: true
-    },
-    {
-        name: 'Nombre',
-        selector: 'nombre',
-        sortable: true
-    },
-    {
-        name: 'Descripcion',
-        selector: 'descripcion',
-        sortable: true
-    },
-
-    {
-        name: 'Correo Electronico',
-        selector: 'email',
-        sortable: true
-    },
-    {
-        name: 'Telefono',
-        selector: 'telefono',
-        sortable: true
-    },
-    {
-  
-      button: true,
-      cell: row => <BsTrash onClick={console.log("borrar item"+row.nombre)} />,
-    }
-]
+  function getColumnasProveedor(dispatch){
+    const columnas = [
+        {
+            name: 'Codigo Interno',
+            selector: 'codigoInterno',
+            sortable: true
+        },
+        {
+            name: 'Nombre',
+            selector: 'nombre',
+            sortable: true
+        },
+        {
+            name: 'Descripcion',
+            selector: 'descripcion',
+            sortable: true
+        },
+    
+        {
+            name: 'Correo Electronico',
+            selector: 'email',
+            sortable: true
+        },
+        {
+            name: 'Telefono',
+            selector: 'telefono',
+            sortable: true
+        },
+        {
+          name: 'Borrar',
+          button: true,
+          cell: row => <BsTrash onClick={() => {
+        if (window.confirm(`Seguro que desea eliminar ${row.nombre}`)) {
+          AxiosInstance().delete('/proveedores', { data: { id: row.id } })
+          .then(res => {
+            dispatch({type: 'borrar', payload: {id: row.id}});
+          })
+          .catch(err => console.log(err));}}} />,
+        }
+    ];
+    return columnas;
+  }
 const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',
@@ -60,4 +70,4 @@ const opcionesdepagina = {
     selectAllRowsItemText: 'Todo'
 }
 
-export { customStyles, columnas, opcionesdepagina};
+export { customStyles, getColumnasProveedor, opcionesdepagina};

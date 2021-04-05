@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import RubrosModal from '../rubrosModal/RubrosModal';
 
 function InventarioCards({ toogleTableProv , verprovedor }) {
+
+    const [rubrosModalState, setRubrosModalState] = useState(false);
+
+function toogleRubrosModalState() {
+    setRubrosModalState(!rubrosModalState);
+}
+
     return (
         <div className="card-deck">
             <div className="card" >
@@ -8,6 +16,8 @@ function InventarioCards({ toogleTableProv , verprovedor }) {
                     <h5 className="card-title">Productos</h5>
                     <p className="card-text text-white"  >.</p>
                     <button type="submit" onClick={toogleTableProv}>{verprovedor ? "Ver Producto" : "Ver Provedores"}</button>
+                    <button type="button" onClick={toogleRubrosModalState}>Rubros</button>
+                    <RubrosModal rubrosModalState={rubrosModalState} toogleRubrosModalState={toogleRubrosModalState} />
                 </div>
             </div>
             <div className="card">

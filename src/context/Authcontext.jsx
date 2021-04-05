@@ -8,14 +8,15 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     const getData = async () => {
-        try {
-            const userResult = (await AxiosInstance().get('/usuarios/getuser')).data;
-            const logedUser = { nombre: userResult.nombre, permisos: userResult.permisos };
-            setUser(logedUser);
-        } catch (error) {
+
+        AxiosInstance().get('/usuarios/getuser').then(res => {
+            
+            setUser(res.data);
+        }).catch(err => {
+            console.log('getData error', err);
             console.log('getData executed logout');
             signOut();
-        }
+        });
     }
 
     const signIn = async (nombre, password) => {
@@ -46,7 +47,6 @@ function AuthProvider({ children }) {
         AxiosInstance().delete('/usuarios/logout').then(res => {
             console.log('Succesfully logged out');
         }).catch(err => console.log(err)).finally(() => {
-            console.log('finally');
             setUser(null);
         });
     }

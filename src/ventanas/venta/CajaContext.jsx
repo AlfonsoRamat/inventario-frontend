@@ -4,7 +4,7 @@ import AxiosInstance from '../../extras/configs/AxiosInstance';
 export const CajaContext = createContext(null);
 
 
-export function CajaContextProvider() {
+export function CajaContextProvider({children}) {
 
     const [cajaAbierta, setCajaAbierta] = useState(false);
     const [turno, setTurno] = useState("mañana");
@@ -46,5 +46,6 @@ export function CajaContextProvider() {
     return (
         <CajaContext.Provider value={{ cajaAbierta,montoEfectivoInicio, montoEfectivoFinal, ventas, montoTotal,
         turno, abrirCaja, cerrarCaja, agregarVenta, realizarOperacion }}>
+        {children}
         </CajaContext.Provider>)
 }

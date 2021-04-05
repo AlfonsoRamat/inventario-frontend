@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import DataTable from 'react-data-table-component';
-import { columnas, customStyles, opcionesdepagina } from "../../../extras/configs/TablaInventario";
+import { getColumnas, customStyles, opcionesdepagina } from "../../../extras/configs/TablaInventario";
 import { InventarioContext } from '../../../ventanas/inventario/InventarioContext';
 import AgregarProductosModal from '../../agregarProducto/agregarProductoModal';
+import ExpandableComponent from './ExpandableComponent';
 
 const TablaItems = () => {
 
@@ -10,9 +11,7 @@ const TablaItems = () => {
     const [search, setSearch] = useState("");
     const [userSelection, setUserSelection] = useState(null);
 
-    const { productos } = useContext(InventarioContext);
-
-    console.log('array productos', productos);
+    const { productos, productosDispatch } = useContext(InventarioContext);
 
     function toggleModal() {
         setModal((prev) => prev ? false : true);
@@ -45,7 +44,9 @@ const TablaItems = () => {
             </div>
             <div className="table-responsive">
                 <DataTable
-                    columns={[...columnas, /*aca va el PromiseRejectionEvent, aca va el boton de borrar*/ ]} //TODO: Agregar despues del spread un boton para borrar, y otro para ver el precio
+                    columns={getColumnas(productosDispatch)}
+                    expandableRows={true}
+                    expandableRowsComponent={<ExpandableComponent />}
                     data={buscar(productos)}
                     pagination
                     paginationComponentOptions={opcionesdepagina}
@@ -53,6 +54,7 @@ const TablaItems = () => {
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
                     onRowClicked={selectedItem => {
+                        console.log('userSelection',selectedItem)
                         setUserSelection(selectedItem);
                         toggleModal();
                     }}

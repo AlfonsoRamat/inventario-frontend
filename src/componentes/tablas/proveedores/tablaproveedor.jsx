@@ -1,14 +1,14 @@
 import React, { useContext, useState } from 'react';
 import './tablaproveedor.css';
 import DataTable from 'react-data-table-component';
-import { columnas, customStyles, opcionesdepagina } from "../../../extras/configs/tablaprovedores";
+import { getColumnasProveedor, customStyles, opcionesdepagina } from "../../../extras/configs/tablaprovedores";
 import AgregarProvedorModal from "../../agregarprovedor/agregarProvedorModal";
 import { InventarioContext } from '../../../ventanas/inventario/InventarioContext';
 
 
 function Tablaproveedor() {
 
-    const { proveedores } = useContext(InventarioContext);
+    const { proveedores, proveedoresDispatch } = useContext(InventarioContext);
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState("");
 
@@ -43,7 +43,7 @@ function Tablaproveedor() {
             </div>
             <div className="table-responsive">
                 <DataTable
-                    columns={columnas}
+                    columns={getColumnasProveedor(proveedoresDispatch)}
                     data={buscar(proveedores)}
                     pagination
                     paginationComponentOptions={opcionesdepagina}

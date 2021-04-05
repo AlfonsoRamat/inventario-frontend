@@ -25,6 +25,7 @@ function App() {
       } catch (error) {
         console.log('catch del initial run', error);
       } finally {
+        console.log('setLoading false');
         setLoading(false);
       }
 
@@ -36,7 +37,6 @@ function App() {
       } catch (error) {
         console.log(error);
       }
-
     }
   }
 
@@ -48,9 +48,10 @@ function App() {
   return (
     <BrowserRouter>
       <div className="contenedor">
-        {loading ? <div className="spinner">
-          <PropagateLoader size={30} color="rgba(205, 109, 147, 0.8)" />
-        </div>
+        {loading ?
+          <div className="spinner">
+            <PropagateLoader size={30} color="rgba(205, 109, 147, 0.8)" />
+          </div>
           :
           <Switch>
             <Route exact path="/login" component={LoginScreen} />
