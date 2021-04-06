@@ -15,7 +15,7 @@ function toogleRubrosModalState() {
                 <div className="card-body">
                     <h5 className="card-title">Productos</h5>
                     <p className="card-text text-white"  >.</p>
-                    <button type="submit" onClick={toogleTableProv}>{verprovedor ? "Ver Producto" : "Ver Provedores"}</button>
+                    
                     <button type="button" onClick={toogleRubrosModalState}>Rubros</button>
                     <RubrosModal rubrosModalState={rubrosModalState} toogleRubrosModalState={toogleRubrosModalState} />
                 </div>

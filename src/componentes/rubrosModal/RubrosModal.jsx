@@ -3,10 +3,11 @@ import Modal from "react-modal";
 import { InventarioContext } from "../../ventanas/inventario/InventarioContext";
 import { FaTrash } from 'react-icons/fa';
 import AxiosInstance from '../../extras/configs/AxiosInstance';
+import "./RubrosModal.css"
 
 const style = {
     content: {
-        width: '75%',
+        width: '50%',
         height: '80%',
         top: '50%',
         left: '50%',
@@ -45,15 +46,17 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
             isOpen={rubrosModalState}
             onRequestClose={toogleRubrosModalState}
             style={style} >
+                <div className="formularioRubro" >
             <form onSubmit={submitRubro}>
                 <label htmlFor="rubro">Ingrese el nombre del rubro:</label>
                 <input type="text" value={rubro} onChange={handleTextChange} name="rubro" id="rubro" />
-                <input type="submit" value="Agregar" />
+                <input type="submit" value="Agregar"className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" />
             </form>
-            <div>
+            </div>
+            <div className="listaRubros">
                 <ul>
                     {rubros.map(element => {
-                        return <li key={element.rubro}>{element.rubro}<FaTrash onClick={() => deleteRubro(element.rubro)} /></li>
+                        return <li key={element.rubro}>{element.rubro}    <FaTrash onClick={() => deleteRubro(element.rubro)} /></li>
                     })}
                 </ul>
             </div>

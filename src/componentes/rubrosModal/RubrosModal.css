@@ -1,0 +1,31 @@
+.formularioRubro{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+.formularioRubro input{
+    padding-left: 10px;
+    margin-left: 10px;
+}
+.formularioRubro [type="submit"]{
+
+    background: rgba(212, 154, 169, 1);
+       
+}
+.formularioRubro > [type="submit"]:hover {
+    background: rgba(205, 109, 147, 0.8);
+}
+.listaRubros{
+    display: flex;
+    flex-direction: column;
+  
+    align-items: baseline;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
