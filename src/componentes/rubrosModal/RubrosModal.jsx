@@ -49,7 +49,7 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
                 <div className="formularioRubro" >
             <form onSubmit={submitRubro}>
                 <label htmlFor="rubro">Ingrese el nombre del rubro:</label>
-                <input type="text" value={rubro} onChange={handleTextChange} name="rubro" id="rubro" />
+                <input type="text" value={rubro} onChange={handleTextChange} name="rubro" id="rubro" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"/>
                 <input type="submit" value="Agregar"className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" />
             </form>
             </div>
