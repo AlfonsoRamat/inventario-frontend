@@ -72,9 +72,7 @@ function Venta(props) {
             <div className="cabecera">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                     <h4 className="text-gray-800 text-xl font-bold">Productos vendidos</h4>
-                    <pre>
-                        {JSON.stringify(productos, 0, null)}
-                    </pre>
+
                     <div className="cabeceraIzqVenta">
                         <div className="Tablas">
 

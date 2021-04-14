@@ -91,26 +91,25 @@ function getColumnas(dispatch) {
   ]
 }
   const columnasVenta = [
-
+    {
+      name: 'Codigo Interno',
+      selector: 'codInterno',
+      sortable: true
+    },
+    {
+      name: 'Codigo de barra',
+      selector: 'codigoPaquete',
+      sortable: true
+    },
     {
       name: 'Nombre',
       selector: 'nombre',
       sortable: true
     },
-    {
-      name: 'Descripcion',
-      selector: 'descripcion',
-      sortable: true
-    },
-
+ 
     {
       name: 'Precio',
       selector: 'precioVenta',
-      sortable: true
-    },
-    {
-      name: 'Cantidad',
-      selector: 'cantidad',
       sortable: true
     },
 
