@@ -15,7 +15,7 @@ export function CajaContextProvider({ children }) {
     const [UltimaCaja, SetUltimaCaja] = useState([]);
 
     function getUltimaCaja() {
-        AxiosInstance().get('/caja-abierta').then(SetUltimaCaja({data}) )
+        AxiosInstance().get('/caja-abierta').then({datos :"SetUltimaCaja({data}) "})
             .catch(err => console.log(err));
             
     }
