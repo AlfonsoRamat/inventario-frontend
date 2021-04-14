@@ -1,10 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState ,useEffect} from 'react';
 import AxiosInstance from '../../extras/configs/AxiosInstance';
 
 export const CajaContext = createContext(null);
 
 
-export function CajaContextProvider({children}) {
+export function CajaContextProvider({ children }) {
 
     const [cajaAbierta, setCajaAbierta] = useState(false);
     const [turno, setTurno] = useState("mañana");
@@ -12,21 +12,29 @@ export function CajaContextProvider({children}) {
     const [montoEfectivoInicio, setMontoEfectivoInicio] = useState(0);
     const [montoEfectivoFinal, setMontoEfectivoFinal] = useState(0);
     const [ventas, setVentas] = useState([]);
+    const [UltimaCaja, SetUltimaCaja] = useState([]);
 
-    function abrirCaja(montoInicial, turno) {
-        setMontoEfectivoInicio(montoInicial);
-        setCajaAbierta(true);
-        setTurno(turno);
-        setMontoTotal(montoInicial);
-        AxiosInstance().post("/caja", { borrarEsto: "aca van los datos" })
-            .then(res => console.log(res))
+    function getUltimaCaja() {
+        AxiosInstance().get('/caja-abierta').then({datos :"SetUltimaCaja({data}) "})
             .catch(err => console.log(err));
+            
     }
 
-    function cerrarCaja(efectivoFinal) {
+    function abrirCaja(montoEfectivoInicio) {
+        if (UltimaCaja === null) {
+            setMontoEfectivoInicio(montoEfectivoInicio);
+            setCajaAbierta(true);
+            setMontoTotal(montoEfectivoInicio);
+            AxiosInstance().post("/abrir-caja", { montoEfectivoInicio })
+                .then(res => console.log(res))
+                .catch(err => console.log(err));
+        }
+    }
+
+    function cerrarCaja(montoEfectivoFinal) {
         setCajaAbierta(false);
-        setMontoEfectivoFinal(efectivoFinal);
-        AxiosInstance().put("/caja", { borrarEsto: "aca van los datos" })
+        setMontoEfectivoFinal(montoEfectivoFinal);
+        AxiosInstance().put("/cerrar-caja", { montoEfectivoFinal })
             .then(res => console.log(res))
             .catch(err => console.log(err));
     }
@@ -42,10 +50,14 @@ export function CajaContextProvider({children}) {
     function realizarOperacion(tipo, monto, detalle) {
 
     }
-
+    useEffect(() => {
+        getUltimaCaja();
+    }, []);
     return (
-        <CajaContext.Provider value={{ cajaAbierta,montoEfectivoInicio, montoEfectivoFinal, ventas, montoTotal,
-        turno, abrirCaja, cerrarCaja, agregarVenta, realizarOperacion }}>
-        {children}
+        <CajaContext.Provider value={{
+            cajaAbierta, montoEfectivoInicio, montoEfectivoFinal, ventas, montoTotal,
+            turno, abrirCaja, cerrarCaja, agregarVenta, realizarOperacion
+        }}>
+            {children}
         </CajaContext.Provider>)
 }

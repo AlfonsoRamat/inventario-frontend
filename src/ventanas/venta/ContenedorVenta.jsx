@@ -49,7 +49,7 @@ function ContenedorVenta() {
                                                      placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"
                                                         defaultValue="000"
                                                     />
-                                                    <button type="button"  >
+                                                    <button type="button"    >
                                                         abrir
                                     </button>
                                                 </div>
