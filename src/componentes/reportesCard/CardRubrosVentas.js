@@ -55,7 +55,7 @@ export default function CardRubroVentas() {
             
                          <ExcelFile 
                          filename="productos Data" 
-                         element={<button type="button" className="btn btn-success float-right m-3">Exportar Data</button>}>
+                         element={<button type="button" className="btn btn-success float-right m-3">Descargar informacion</button>}>
                              <ExcelSheet dataSet={DataSet} name="Covid-19 Country Report"/>
                          </ExcelFile>
                     

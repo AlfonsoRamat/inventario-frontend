@@ -11,12 +11,12 @@ import { columnas, customStyles, opcionesdepagina } from "../../extras/configs/t
 function ContenedorVenta() {
 
     const { cajaAbierta, abrirCaja } = useContext(CajaContext);
-
+    const [tabIndex, setTabIndex] = useState(0);
     const [montoInicio, setMontoInicio] = useState(0);
 
     return (
         <div>
-            <Tabs>
+            <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)} >
                 <TabList>
                     <Tab>Caja</Tab>
                     <Tab >Venta</Tab>
@@ -26,13 +26,8 @@ function ContenedorVenta() {
                     <div className='cajaConteiner'>
                         <div className="cajaizquierda">
                             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
-                                <div className="rounded-t bg-white mb-0 px-6 py-6">
-                                    <div className="text-center flex justify-between">
-                                        <h5 className="text-gray-800 text-xl font-bold">Abrir caja </h5>
 
-                                    </div>
-                                </div>
-                                {cajaAbierta ?
+                                {cajaAbierta ?/* esto no anda */
                                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                                         <div className="rounded-t bg-white mb-0 px-6 py-6">
                                             <div className="text-center flex justify-between">
@@ -53,7 +48,13 @@ function ContenedorVenta() {
                                             </div>
                                         </form>
                                     </div>
-                                    : <form>
+                                    : <div>
+                                        <div className="rounded-t bg-white mb-0 px-6 py-6">
+                                            <div className="text-center flex justify-between">
+                                                <h5 className="text-gray-800 text-xl font-bold">Abrir caja </h5>
+
+                                            </div>
+                                            <form>
                                         <div className="formAbrirCaja">
                                             <div className="flex flex-wrap">
                                                 <div className="w-full lg:w-6/12 px-4">
@@ -62,13 +63,16 @@ function ContenedorVenta() {
                                                         <input type="text" value={montoInicio} onChange={(e) => setMontoInicio(e.target.value)} name="MontoEfectivoInicio" className="px-3 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                                         <button type="button" onClick={() => {
                                                             abrirCaja(montoInicio);
-                                                        }}>Abrir</button>
+                                                            setTabIndex(1);
+                                                        }}>abrir</button>
                                                     </div>
                                                 </div>
 
                                             </div>
                                         </div>
                                     </form>
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </div>
