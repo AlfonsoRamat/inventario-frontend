@@ -1,0 +1,12 @@
+.split {
+    display: flex;
+    width: 100%;
+}
+
+.columna {
+    flex-basis: 100%;
+}
+
+.subtitle {
+    text-align: center;
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Inventario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InventarioCards from "../../componentes/inventarioCards/InventarioCards";
@@ -7,31 +7,32 @@ import TablaItems from '../../componentes/tablas/items/tablaItems';
 import { InventarioProvider } from './InventarioContext';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import TablaPedidos from '../../componentes/tablas/pedidos/TablaPedidos';
 
 function Inventario(props) {
 
-    const [verProvedor, setVerProvedor] = useState(false);
-    function toogleTableProv() {
-        setVerProvedor((prev) => prev ? false : true);
-    }
     return (
         <>
             <InventarioProvider>
-                 <Tabs>
-                <TabList>
-                    <Tab>Productos</Tab>
-                    <Tab >Provedores</Tab>
-                </TabList>
+                <Tabs>
+                    <TabList>
+                        <Tab>Productos</Tab>
+                        <Tab>Provedores</Tab>
+                        <Tab>Pedidos</Tab>
+                    </TabList>
 
-                <TabPanel>
-                <div className="body">
-                    <InventarioCards toogleTableProv={toogleTableProv} verprovedor={verProvedor} />
-                    {verProvedor ? <Tablaproveedor /> : <TablaItems />}
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <Tablaproveedor />
-                </TabPanel>
+                    <TabPanel>
+                        <div className="body">
+                            <InventarioCards />
+                            <TablaItems />
+                        </div>
+                    </TabPanel>
+                    <TabPanel>
+                        <Tablaproveedor />
+                    </TabPanel>
+                    <TabPanel>
+                        <TablaPedidos />
+                    </TabPanel>
                 </Tabs>
             </InventarioProvider>
         </>
