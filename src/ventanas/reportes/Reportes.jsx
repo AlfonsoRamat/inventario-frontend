@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import CardgraficoChart from '../../componentes/reportesCcard/CardgraficoChart';
-import CardRubrosVentas from '../../componentes/reportesCcard/CardRubrosVentas';
+import CardgraficoChart from '../../componentes/reportesCard/CardGraficoChart';
+import CardRubrosVentas from '../../componentes/reportesCard/CardRubrosVentas';
 import './reportes.css';
 function Reportes(props) {
     return (
   <div>
-     <div classname="tarjetas">
+     <div className="tarjetas">
         <div className="flex flex-wrap">
         <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
           <CardgraficoChart />
