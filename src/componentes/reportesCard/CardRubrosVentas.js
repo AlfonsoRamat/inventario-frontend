@@ -29,6 +29,7 @@ export default function CardRubroVentas() {
     const DataSet = [
         {
             columns: [
+                
                 {title: "Codigo Interno", style: {font: {sz: "18", bold: true}}, width: {wpx: 125}}, // width in pixels
                 {title: "Codigo de barra", style: {font: {sz: "18", bold: true}}, width: {wch: 30}}, // width in characters
                 {title: "Nombre", style: {font: {sz: "18", bold: true}}, width: {wpx: 100}}, // width in pixels
