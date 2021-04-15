@@ -35,7 +35,12 @@ function Venta(props) {
 
     async function handleAgregar(row) {
         const cantidadVendida = prompt('Seleccione la cantidad: ');
-        if(row)
+        if(isNaN(parseInt(cantidadVendida))) {
+            alert('Numero invalido');
+            return;
+        }
+        console.log('Cant vendida', cantidadVendida);
+        console.log('row',row);
         setproductosVenta(prev => [...prev, { ...row, cantidadVendida }]);
         setSubTotal(prev => prev + row.precioVenta * cantidadVendida);
     }
@@ -60,7 +65,6 @@ function Venta(props) {
 
     function buscar(rows) {
         if (rows) {
-            console.log(rows);
             return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
                 || row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
                 || row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
