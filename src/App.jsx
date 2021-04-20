@@ -1,8 +1,8 @@
 import { BrowserRouter, Switch, Route, useHistory } from "react-router-dom";
-import { AuthContext } from "./context/Authcontext";
-import LoginScreen from "./ventanas/login/login";
-import Main from "./ventanas/main/main";
-import RutasPrivadas from "./ventanas/privadas/RutasPrivadas";
+import { AuthContext } from "./shared/configs/Authcontext";
+import LoginScreen from "./login/login";
+import Main from "./main/main";
+import RutasPrivadas from "./shared/components/privadas/RutasPrivadas";
 import { PropagateLoader } from "react-spinners";
 import './App.css';
 import { useContext, useEffect, useState } from "react";

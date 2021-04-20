@@ -1,0 +1,81 @@
+.login-contenedor {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background-image: url('../extras/images/fondopower.png');
+    background-size: cover;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    height: 55%;
+    width: 20%;
+    padding: 20px;
+    background: rgba(233, 216, 208, 0.8);
+    border: 0.1px solid grey;
+    box-shadow: 10px 10px rgba(50,50,50, 0.4);
+    border-radius: 2%;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.login-form h1{
+    font-weight: 100;
+    text-transform: uppercase;
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.formulario{
+    flex: 3;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.login-input{
+    border: 0px solid white;
+    width: 80%;
+    border-bottom: 1px solid black;
+    background: rgba(255, 255, 255, 0);
+    font-size: 0.95rem;
+}
+
+.formulario [type="submit"]{
+    padding: 10px;
+    font-size: 1rem;
+    align-self: center;
+    text-align: center;
+    width: 50%;
+    text-decoration: none;
+    color: white;
+    background: rgba(212, 154, 169, 1);
+    border-radius: 10%;
+    
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    width: auto;
+    height: auto;
+}
+
+.formulario > [type="submit"]:hover {
+    background: rgba(205, 109, 147, 0.8);
+}
+
+
+
+@media only screen and (max-width: 750px){
+    .login-form{
+        width: 80%;
+    }
+}
