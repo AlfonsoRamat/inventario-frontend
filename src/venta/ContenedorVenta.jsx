@@ -3,7 +3,7 @@ import { CajaContext } from './CajaContext'
 import Venta from './venta';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import opps from '../extras/images/oops.jpg'
+import opps from '../shared/images/oops.jpg'
 import './venta.css';
 import DataTable from 'react-data-table-component';
 import { columnas, customStyles, opcionesdepagina } from "../shared/configs/tablaVenta";
