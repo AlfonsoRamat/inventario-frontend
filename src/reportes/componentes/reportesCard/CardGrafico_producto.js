@@ -12,33 +12,25 @@ export default function CardGrafico_producto() {
         console.log(error);
     }
 }
+function llenar_array(){
+  Productos.forEach( Producto => {nombres.push(Producto.nombre)});
+  Productos.forEach( Producto => {cantidad.push(Producto.cantidad)});
+  console.log(cantidad);
+}
+let nombres=[];
+let cantidad=[];
 
 var config = {
   type: "bar",
   data: {
-    labels: [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-    ],
+    labels: nombres,
     datasets: [
       {
         label: new Date().getFullYear(),
         backgroundColor: "#4c51bf",
         borderColor: "#4c51bf",
-        data: [65, 78, 66, 44, 56, 67, 75],
+        data: cantidad,
         fill: false,
-      },
-      {
-        label: new Date().getFullYear() - 1,
-        fill: false,
-        backgroundColor: "#FF5733",
-        borderColor: "#FF5733",
-        data: [40, 68, 86, 74, 56, 60, 87],
       },
     ],
   },
@@ -47,7 +39,7 @@ var config = {
     responsive: true,
     title: {
       display: false,
-      text: "Sales Charts",
+      text: "",
       fontColor: "black",
     },
     legend: {
@@ -57,10 +49,6 @@ var config = {
       align: "end",
       position: "bottom",
     },
-    tooltips: {
-      mode: "index",
-      intersect: false,
-    },
     hover: {
       mode: "nearest",
       intersect: true,
@@ -69,7 +57,7 @@ var config = {
       xAxes: [
         {
           ticks: {
-            fontColor: "rgba(255,255,255,.7)",
+            fontColor: "rgba(0,0,0,.7)",
           },
           display: true,
           scaleLabel: {
@@ -97,7 +85,7 @@ var config = {
           scaleLabel: {
             display: false,
             labelString: "Value",
-            fontColor: "white",
+            fontColor: "black",
           },
           gridLines: {
             borderDash: [3],
@@ -116,25 +104,31 @@ var config = {
 
   React.useEffect(() => {
     GetProductos();
+
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
   }, []);
   return (
-    <>
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-800">
+    <>{
+      llenar_array()
+     
+      
+}
+      <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div className="flex flex-wrap items-center">
-            <div className="relative w-full max-w-full flex-grow flex-1">
+            <div className="">
               <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
                 Ventas 1 semestre
               </h6>
-              <h2 className="text-white text-xl font-semibold">Sales value</h2>
+        
             </div>
           </div>
         </div>
+
         <div className="p-4 flex-auto">
           {/* Chart */}
-          <div className="relative h-350-px">
+             <div className="relative h-350-px">
             <canvas id="bar-chart"></canvas>
           </div>
         </div>

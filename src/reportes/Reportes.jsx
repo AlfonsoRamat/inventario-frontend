@@ -14,24 +14,19 @@ function Reportes(props) {
     {
       label: "Caja",
       value:"caja",
-      
-     
     },
     {
       label: "Venta",
       value: "venta",
-      
-    },
+          },
     {
       label: "Producto",
       value: "producto",
-      
-    },
+          },
     {
       label: "Rubro",
       value: "rubro",
-      
-    },
+          },
   ];
 
   const onChange = (newValue) => {
@@ -46,7 +41,7 @@ function Reportes(props) {
     <div>
       <div className="tarjetas">
         <div className="flex flex-wrap">
-          <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+          <div className="">
           {
         {
           'venta': <CardgraficoChart />,
