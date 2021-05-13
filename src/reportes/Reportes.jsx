@@ -4,6 +4,7 @@ import CardgraficoChart from './componentes/reportesCard/CardGraficoChart';
 import Cardgrafico_producto from './componentes/reportesCard/CardGrafico_producto';
 import CardGrafico_rubro from './componentes/reportesCard/CardGrafico_rubro';
 //import listas
+import Card_lista_cajas from'./componentes/reportesCard/Card_lista_cajas';
 import Card_Lista_productos from'./componentes/reportesCard/Card_Lista_productos';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";
@@ -38,7 +39,7 @@ function Reportes(props) {
 }, []);
   const initialSelectedIndex = options.findIndex(({ value }) => value === "producto");
   return (
-    <div>
+    <div className="">
       <div className="tarjetas">
         <div className="flex flex-wrap">
           <div className="">
@@ -47,6 +48,7 @@ function Reportes(props) {
           'venta': <CardgraficoChart />,
           'producto':<Cardgrafico_producto/>,
           'rubro':<CardGrafico_rubro/>,
+          
           
         }[tipoModel]
       }
@@ -68,7 +70,7 @@ function Reportes(props) {
         {
           'producto': <Card_Lista_productos  />,
           'venta': <CardRubrosVentas  />,
-         
+          'caja':<Card_lista_cajas/>
         }[tipoModel]
       }
       <div>

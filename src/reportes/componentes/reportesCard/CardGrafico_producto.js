@@ -15,7 +15,7 @@ export default function CardGrafico_producto() {
 function llenar_array(){
   Productos.forEach( Producto => {nombres.push(Producto.nombre)});
   Productos.forEach( Producto => {cantidad.push(Producto.cantidad)});
-  console.log(cantidad);
+
 }
 let nombres=[];
 let cantidad=[];
