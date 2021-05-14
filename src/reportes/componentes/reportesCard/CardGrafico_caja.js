@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import Chart from "chart.js";
 
-export default function CardLineChart() {
+export default function CardGrafico_caja() {
     const [Cajas, Set_cajas] = useState([]);
     async function Get_cajas() {
         try {

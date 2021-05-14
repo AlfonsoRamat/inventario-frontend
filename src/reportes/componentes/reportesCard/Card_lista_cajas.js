@@ -6,7 +6,6 @@ import { customStyles, columnas, opcionesdepagina } from "../../../shared/config
 // components
 import DataTable from 'react-data-table-component';
 import ReactExport from 'react-data-export';
-import Data_tabla from './Data_tabla'
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
