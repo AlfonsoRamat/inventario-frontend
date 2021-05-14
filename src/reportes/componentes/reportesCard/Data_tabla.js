@@ -1,17 +1,23 @@
 import React from "react";
-import { columnasListaVenta } from "../../../shared/configs/TablaInventario";
 
-export default function Datatable({data}){
-const columns =data[0]&& Object.keys(data[0]);
-    return<table cellPadding={0} cellSpacing={0}>
-        <thead>
-            <tr>{data [0] && columnasListaVenta.map((heading)=> <th>{heading}</th>)}</tr>
-        </thead>
-        <tbody>
-            {data.map(row=> <tr>{
-                columns.map(column => <td>
-                    {row[column]}
-                </td>)}</tr>)}
-        </tbody>
-    </table>
+
+export default function Datatable({ data }) {
+    const columns = data[0] && Object.keys(data[0]);
+    return (
+        <table cellPadding={0} cellSpacing={0}>
+            <thead>
+                <tr>{data[0] && columns.map((heading) => <th>{heading}</th>)}</tr>
+            </thead>
+            <tbody>
+                {data.map(row =>
+                    <tr>{
+                        columns.map(column =>
+                            <td>
+                                {row[column]}
+                            </td>
+                        )
+                    }</tr>)}
+            </tbody>
+        </table>
+    )
 }

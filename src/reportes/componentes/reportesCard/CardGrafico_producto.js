@@ -119,7 +119,7 @@ var config = {
           <div className="flex flex-wrap items-center">
             <div className="">
               <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
-                Ventas 1 semestre
+                Tipos de productos 
               </h6>
         
             </div>

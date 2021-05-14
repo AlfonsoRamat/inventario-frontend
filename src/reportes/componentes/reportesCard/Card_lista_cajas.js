@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import '../../reportes.css';
 // components
+import { customStyles, columnas, opcionesdepagina } from "../../../shared/configs/TablaCaja";
+// components
+import DataTable from 'react-data-table-component';
 import ReactExport from 'react-data-export';
 import Data_tabla from './Data_tabla'
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -13,22 +16,33 @@ export default function Card_Lista_productos() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
     const [Cajas, Set_cajas] = useState([]);
-    const [search, setSearch] = useState("");
+    const [turno_mañana, set_turno_mañana] = useState(true);
+    const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
+    const [toDate2, Set_toDate2] = useState(new Date());
     async function Get_cajas() {
         try {
-            const result = await (await AxiosInstance().get('/caja/')).data;
+            const result = await (await AxiosInstance().get('/caja/getall')).data;
+
             Set_cajas(result);
         } catch (error) {
             console.log(error);
         }
     }
     function buscar(rows) {
-        rows.filter(row => {
-            return row.fecha.getTime() >= fromDate.getTime() &&
-                row.fecha.getTime() <= toDate.getTime();
-        });
+
+        const columns =
+
+            rows.filter(row => (
+                new Date(row.fecha).getTime() >= (fromDate.getTime() - 86400000) &&
+                new Date(row.fecha).getTime() <= (toDate.getTime()) &&(
+                 (turno_tarde && row.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1 ) ||
+                 (turno_mañana && row.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1 )
+                )
+                ));
+
+        return columns
     }
 
     useEffect(() => {
@@ -47,10 +61,8 @@ export default function Card_Lista_productos() {
                 { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
                 { title: "Monto total", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },  // width in pixels
 
-
-
             ],
-            data: Cajas.map((data) => [
+            data: buscar(Cajas).map((data) => [
                 { value: data.turno, style: { font: { sz: "14" } } },
                 { value: data.estado, style: { font: { sz: "14" } } },
                 { value: data.montoEfectivoInicio, style: { font: { sz: "14" } } },
@@ -68,20 +80,43 @@ export default function Card_Lista_productos() {
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="hip">
                         <div className='relative flex flex-row'>
-                            <div className='titulo-izq'><h1>Listado de productos</h1></div>
+                            <div className='titulo-izq'><h1>Listado de cajas</h1></div>
 
                             <div>
                                 <label>
                                     Eliga una fecha desde:
                                     <DatePicker selected={fromDate} onChange={date => Set_fromDate(date)} locale="es" className="pickers" dateFormat="dd 'de' MMMM 'de' yyyy" />
+
                                 </label>
                                 <label>
-                                .   Hasta:  
-                                    <DatePicker selected={toDate} onChange={date => Set_toDate(date)} locale="es" className="pickers" dateFormat="dd 'de' MMMM 'de' yyyy" />
+                                    .   Hasta:
+                                    
+                                    <DatePicker selected={(toDate.getTime() < fromDate.getTime()) ? fromDate : toDate} onChange={date => Set_toDate(date)} locale="es" className="pickers" dateFormat="dd 'de' MMMM 'de' yyyy" />
                                 </label>
+                                
+                              
+                            </div>
+                            <div>
+                                <label><input type="checkbox" id="cbox1" value="first_checkbox" checked ={turno_mañana}
+                                onChange={ (e)=>{
+                                    
+                                    set_turno_mañana(prev=> !turno_mañana)
+                                }
+
+                                }
+                                /> Turno mañana </label>
 
                             </div>
-
+                            <div>
+                                <label><input type="checkbox" id="cbox2" value="second_checkbox"checked ={turno_tarde}
+                                                                onChange={ (e)=>{
+                                                                    
+                                                                    set_turno_tarde(prev=> !turno_tarde )
+                                                                }
+                                
+                                                                }
+                                /> Turno tarde </label>
+                            </div>
                         </div>
                         <ExcelFile
                             filename="productos Data"
@@ -90,8 +125,17 @@ export default function Card_Lista_productos() {
                         </ExcelFile>
 
                         <div className="table-responsive">
-                            <Data_tabla data={Cajas}
-
+                            <DataTable
+                                columns={columnas}
+                                data={buscar(Cajas)}
+                                pagination
+                                paginationComponentOptions={opcionesdepagina}
+                                fixedHeader
+                                fixedHeaderScrollHeight="600px"
+                                highlightOnHover
+                                responsive
+                                noDataComponent={<div>No hay informacion disponible para mostrar</div>}
+                                customStyles={customStyles}
                             />
 
 
