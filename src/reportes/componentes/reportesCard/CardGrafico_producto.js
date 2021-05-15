@@ -12,13 +12,22 @@ export default function CardGrafico_producto() {
         console.log(error);
     }
 }
+function generarNumero(numero){
+	return (Math.random()*numero).toFixed(0);
+}
+function colorRGB(){
+	var coolor = "("+generarNumero(255)+"," + generarNumero(255) + "," + generarNumero(255) +")";
+	return "rgb" + coolor;
+}
 function llenar_array(){
   Productos.forEach( Producto => {nombres.push(Producto.nombre)});
   Productos.forEach( Producto => {cantidad.push(Producto.cantidad)});
-
+  Productos.forEach( Producto => {color.push(colorRGB())});
+  console.log(cantidad);
 }
 let nombres=[];
 let cantidad=[];
+let color=[];
 
 var config = {
   type: "bar",
@@ -26,8 +35,8 @@ var config = {
     labels: nombres,
     datasets: [
       {
-        label: new Date().getFullYear(),
-        backgroundColor: "#4c51bf",
+        
+        backgroundColor: color,
         borderColor: "#4c51bf",
         data: cantidad,
         fill: false,
@@ -130,6 +139,7 @@ var config = {
           {/* Chart */}
              <div className="relative h-350-px">
             <canvas id="bar-chart"></canvas>
+           
           </div>
         </div>
       </div>
