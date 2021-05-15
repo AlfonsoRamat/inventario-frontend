@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
-import { columnasListaVenta, columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
+import { columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
 // components
 import ReactExport from 'react-data-export';
 import DataTable from 'react-data-table-component';
-import Data_tabla from './Data_tabla'
 
-export default function Card_Lista_productos() {
+
+export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
     const [Productos, SetProductos] = useState([]);

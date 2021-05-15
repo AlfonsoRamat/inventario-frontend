@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 //import graficos
 import CardgraficoChart from './componentes/reportesCard/CardGraficoChart';
-import Cardgrafico_producto from './componentes/reportesCard/CardGrafico_producto';
-import CardGrafico_rubro from './componentes/reportesCard/CardGrafico_rubro';
-import CardGrafico_cajas from './componentes/reportesCard/CardGrafico_caja';
+import CARD_GRAFICOS_PRODUCTOS from './componentes/reportesCard/CARD_GRAFICOS_PRODUCTOS';
+import CARD_GRAFICOS_RUBRO from './componentes/reportesCard/CARD_GRAFICOS_RUBRO';
+import CARD_GRAFICO_CAJAS from './componentes/reportesCard/CARD_GRAFICO_CAJAS';
 //import listas
-import Card_lista_cajas from './componentes/reportesCard/Card_lista_cajas';
-import Card_Lista_productos from './componentes/reportesCard/Card_Lista_productos';
+import CARD_LISTA_CAJAS from './componentes/reportesCard/CARD_LISTA_CAJAS';
+import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";
 import './reportes.css';
@@ -14,7 +14,7 @@ import './reportes.css';
 
 
 
-function Reportes(props) {
+ function Reportes(props) {
   const [tipoModel, setTipoModel] = useState([]);
   const options = [
     {
@@ -39,7 +39,6 @@ function Reportes(props) {
     setTipoModel(newValue);
   };
   useEffect(() => {
-
     setTipoModel("producto")
   }, []);
   const initialSelectedIndex = options.findIndex(({ value }) => value === "producto");
@@ -60,9 +59,9 @@ function Reportes(props) {
             </div>
             {
               {
-                'producto': <Card_Lista_productos />,
+                'producto': <CARD_LISTA_PRODUCTO />,
                 'venta': <CardRubrosVentas />,
-                'caja': <Card_lista_cajas />
+                'caja': <CARD_LISTA_CAJAS />
               }[tipoModel]
             }
 
@@ -74,9 +73,9 @@ function Reportes(props) {
 
             {
               'venta': <CardgraficoChart />,
-              'producto': <Cardgrafico_producto />,
-              'rubro': <CardGrafico_rubro />,
-              'caja': <CardGrafico_cajas />,
+              'producto': <CARD_GRAFICOS_PRODUCTOS/>,
+              'rubro': <CARD_GRAFICOS_RUBRO />,
+              'caja': <CARD_GRAFICO_CAJAS />,
 
             }[tipoModel]
           }

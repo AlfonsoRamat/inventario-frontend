@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import Chart from "chart.js";
 
-export default function CardGrafico_producto() {
+export default function CARD_GRAFICO_PRODUCTOS() {
   const [Productos, SetProductos] = useState([]);
   async function GetProductos() {
     try {
@@ -111,7 +111,7 @@ var config = {
   },
 };
 
-  React.useEffect(() => {
+ useEffect(() => {
     GetProductos();
 
     var ctx = document.getElementById("bar-chart").getContext("2d");

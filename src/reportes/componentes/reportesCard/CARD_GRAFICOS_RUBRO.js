@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import Chart from "chart.js";
 
-export default function CardGrafico_rubro() {
+export default function CARD_GRAFICO_RUBRO() {
   const [Productos, SetProductos] = useState([]);
   async function GetProductos() {
     try {
@@ -59,12 +59,13 @@ var config = {
   },
 };
 
-  React.useEffect(() => {
+ useEffect(() => {
     GetProductos();
     var ctx = document.getElementById("pie-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
   }, []);
   return (
+    
     <>
       <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-gray-800">
 

@@ -11,7 +11,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
 registerLocale("es", es);
 
-export default function Card_Lista_productos() {
+export default function CARD_LISTA_CAJAS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
     const [Cajas, Set_cajas] = useState([]);
@@ -19,7 +19,7 @@ export default function Card_Lista_productos() {
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
-    const [toDate2, Set_toDate2] = useState(new Date());
+    
     async function Get_cajas() {
         try {
             const result = await (await AxiosInstance().get('/caja/getall')).data;

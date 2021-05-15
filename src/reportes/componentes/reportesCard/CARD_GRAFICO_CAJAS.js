@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import Chart from "chart.js";
 
-export default function CardGrafico_caja() {
+export default function CARD_GRAFICO_CAJAS() {
     const [Cajas, Set_cajas] = useState([]);
     async function Get_cajas() {
         try {
@@ -35,6 +35,7 @@ export default function CardGrafico_caja() {
                 (Caja.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1) { venta_turno_mañana.push(Caja.montoTotalVendido) }
         
             });
+           
     }
     let fecha_turno_mañana = [];
     let venta_turno_mañana = [];
@@ -130,7 +131,7 @@ export default function CardGrafico_caja() {
             },
         },
     };
-    React.useEffect(() => {
+    useEffect(() => {
         Get_cajas();
 
         var ctx = document.getElementById("line-chart").getContext("2d");
