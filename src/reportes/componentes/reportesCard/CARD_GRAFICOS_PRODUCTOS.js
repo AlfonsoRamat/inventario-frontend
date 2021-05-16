@@ -4,10 +4,15 @@ import Chart from "chart.js";
 
 export default function CARD_GRAFICO_PRODUCTOS() {
   const [Productos, SetProductos] = useState([]);
+  const [bandera,setbandera]=useState(true)
   async function GetProductos() {
     try {
-        const result = await (await AxiosInstance().get('/productos/operaciones')).data;
-        SetProductos(result);
+      AxiosInstance().get('/productos/operaciones').then(({ data }) => {
+        
+        SetProductos(data);
+        setbandera(false)
+      })
+        .catch(err => console.log(err));
     } catch (error) {
         console.log(error);
     }
@@ -111,17 +116,18 @@ var config = {
   },
 };
 
+
  useEffect(() => {
     GetProductos();
+    
 
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
-  }, []);
+    
+  }, [bandera]);
   return (
     <>{
-      llenar_array()
-     
-      
+      llenar_array()       
 }
       <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
