@@ -118,18 +118,6 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     },
   };
 
-<<<<<<< HEAD
-  useEffect(() => {
-    GetProductos();
-    llenar_array();
-    var ctx = document.getElementById("bar-chart").getContext("2d");
-    window.myLine = new Chart(ctx, config);
-  }, []);
-
-  return (
-    <>
-=======
-
  useEffect(() => {
     GetProductos();
     
@@ -142,7 +130,6 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     <>{
       llenar_array()       
 }
->>>>>>> 499aa8f3f7952d8f953e8984ab90bf96ba037486
       <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div className="flex flex-wrap items-center">
