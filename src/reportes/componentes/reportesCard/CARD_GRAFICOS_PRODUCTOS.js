@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import Chart from "chart.js";
 
-export default function CardGrafico_producto() {
+export default function CARD_GRAFICO_PRODUCTOS() {
   const [Productos, SetProductos] = useState([]);
   async function GetProductos() {
     try {
@@ -12,13 +12,22 @@ export default function CardGrafico_producto() {
         console.log(error);
     }
 }
+function generarNumero(numero){
+	return (Math.random()*numero).toFixed(0);
+}
+function colorRGB(){
+	var coolor = "("+generarNumero(255)+"," + generarNumero(255) + "," + generarNumero(255) +")";
+	return "rgb" + coolor;
+}
 function llenar_array(){
   Productos.forEach( Producto => {nombres.push(Producto.nombre)});
   Productos.forEach( Producto => {cantidad.push(Producto.cantidad)});
+  Productos.forEach( Producto => {color.push(colorRGB())});
   console.log(cantidad);
 }
 let nombres=[];
 let cantidad=[];
+let color=[];
 
 var config = {
   type: "bar",
@@ -26,8 +35,8 @@ var config = {
     labels: nombres,
     datasets: [
       {
-        label: new Date().getFullYear(),
-        backgroundColor: "#4c51bf",
+        
+        backgroundColor: color,
         borderColor: "#4c51bf",
         data: cantidad,
         fill: false,
@@ -102,7 +111,7 @@ var config = {
   },
 };
 
-  React.useEffect(() => {
+ useEffect(() => {
     GetProductos();
 
     var ctx = document.getElementById("bar-chart").getContext("2d");
@@ -119,7 +128,7 @@ var config = {
           <div className="flex flex-wrap items-center">
             <div className="">
               <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
-                Ventas 1 semestre
+                Tipos de productos 
               </h6>
         
             </div>
@@ -130,6 +139,7 @@ var config = {
           {/* Chart */}
              <div className="relative h-350-px">
             <canvas id="bar-chart"></canvas>
+           
           </div>
         </div>
       </div>

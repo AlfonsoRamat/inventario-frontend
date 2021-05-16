@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
-import { columnasListaVenta, columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
+import { columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
 // components
 import ReactExport from 'react-data-export';
 import DataTable from 'react-data-table-component';
