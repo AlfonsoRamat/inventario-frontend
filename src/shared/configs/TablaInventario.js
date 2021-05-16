@@ -50,7 +50,6 @@ function getColumnas(dispatch) {
     {
       name: 'Precio de lista',
       selector: (row) => {
-        console.log('Tabla Inventario',row);
         let value = row.Stocks.reduce((total, actual) => {
           return total + parseFloat(actual.precioCompra);
         }, 0);
@@ -66,9 +65,8 @@ function getColumnas(dispatch) {
     {
       name: 'Cantidad',
       selector: (row) => {
-        console.log("row",row);
+        
         let value = row.Stocks.reduce((total, actual) => {
-          console.log("actual",actual);
           return total + parseFloat(actual.cantidad);
         }, 0);
         return value;

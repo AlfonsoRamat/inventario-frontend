@@ -16,8 +16,8 @@ const PedidoColumns = [
   }, {
     name: 'Cantidad',
     selector: (row) => {
-      let value = row.reposiciones.reduce((total, actual) => {
-        return total + parseFloat(actual.cantidadAdquirida);
+      let value = row.Stocks.reduce((total, actual) => {
+        return total + parseFloat(actual.cantidad);
       }, 0);
       return value;
     },
@@ -43,8 +43,8 @@ const AlertaColumns = [
   }, {
     name: 'Cantidad',
     selector: (row) => {
-      let value = row.reposiciones.reduce((total, actual) => {
-        return total + parseFloat(actual.cantidadAdquirida);
+      let value = row.Stocks.reduce((total, actual) => {
+        return total + parseFloat(actual.cantidad);
       }, 0);
       return value;
     },

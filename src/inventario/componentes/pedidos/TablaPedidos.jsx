@@ -9,7 +9,7 @@ function TablaPedidos() {
     const { productos } = useContext(InventarioContext);
 
     const productosConAlerta = productos.filter(prod => {
-        let value = prod.reposiciones.reduce((total, actual) => {
+        let value = prod.Stocks.reduce((total, actual) => {
             return total + parseInt(actual.cantidadAdquirida);
         }, 0);
         if (value <= prod.alertaMin) return true;
