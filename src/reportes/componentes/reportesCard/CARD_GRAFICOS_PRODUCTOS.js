@@ -5,16 +5,14 @@ import Chart from "chart.js";
 export default function CARD_GRAFICO_PRODUCTOS() {
 
   const [Productos, SetProductos] = useState([]);
-  const nombres = [];
-  const cantidad = [];
-  const color = [];
 
-
-  function GetProductos() {
+  const [bandera,setbandera]=useState(true)
+  async function GetProductos() {
     try {
       AxiosInstance().get('/productos/operaciones').then(({ data }) => {
-        console.log('Card graficos Productos', data);
+        
         SetProductos(data);
+        setbandera(false)
       })
         .catch(err => console.log(err));
     } catch (error) {
@@ -120,6 +118,7 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     },
   };
 
+<<<<<<< HEAD
   useEffect(() => {
     GetProductos();
     llenar_array();
@@ -129,6 +128,21 @@ export default function CARD_GRAFICO_PRODUCTOS() {
 
   return (
     <>
+=======
+
+ useEffect(() => {
+    GetProductos();
+    
+
+    var ctx = document.getElementById("bar-chart").getContext("2d");
+    window.myLine = new Chart(ctx, config);
+    
+  }, [bandera]);
+  return (
+    <>{
+      llenar_array()       
+}
+>>>>>>> 499aa8f3f7952d8f953e8984ab90bf96ba037486
       <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
         <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
           <div className="flex flex-wrap items-center">

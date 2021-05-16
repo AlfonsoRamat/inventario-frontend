@@ -19,12 +19,13 @@ export default function CARD_LISTA_CAJAS() {
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
-    
+    const [bandera,setbandera]=useState(true)
     async function Get_cajas() {
         try {
             const result = await (await AxiosInstance().get('/caja/getall')).data;
 
             Set_cajas(result);
+            setbandera(false);
         } catch (error) {
             console.log(error);
         }
@@ -47,7 +48,7 @@ export default function CARD_LISTA_CAJAS() {
     useEffect(() => {
         Get_cajas();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [bandera]);
 
     const DataSet = [
         {

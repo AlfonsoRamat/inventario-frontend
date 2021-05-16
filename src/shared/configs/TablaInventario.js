@@ -107,12 +107,17 @@ function getColumnas(dispatch) {
       selector: 'nombre',
       sortable: true
     },
- 
+    {
+      name: 'Cantidad',
+      selector: 'cantidad',
+      sortable: true
+    },
     {
       name: 'Precio',
       selector: 'precioVenta',
       sortable: true
     },
+
 
   ]
 const columnasListaVenta = [

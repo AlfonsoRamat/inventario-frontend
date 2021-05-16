@@ -36,7 +36,7 @@ var config = {
     ],
   },
   options: {
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     responsive: true,
     title: {
       display: false,

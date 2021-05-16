@@ -4,15 +4,22 @@ import Chart from "chart.js";
 
 export default function CARD_GRAFICO_CAJAS() {
     const [Cajas, Set_cajas] = useState([]);
+    const [bandera,setbandera]=useState(true)
     async function Get_cajas() {
         try {
-            const result = await (await AxiosInstance().get('/caja/getall')).data;
+            AxiosInstance().get('/caja/getall').then(({ data }) => {
+            
 
-            Set_cajas(result);
+            Set_cajas(data);
+            setbandera(false)})
+            .catch(err => console.log(err));
         } catch (error) {
             console.log(error);
         }
     }
+    let fecha_turno_tarde = [];
+    let venta_turno_tarde = [];
+
     function llenar_turno_tarde() {
         Cajas.forEach((Caja) => {
             if
@@ -23,8 +30,7 @@ export default function CARD_GRAFICO_CAJAS() {
         });
 
     }
-    let fecha_turno_tarde = [];
-    let venta_turno_tarde = [];
+
     function llenar_turno_mañana() {
         Cajas.forEach((Caja) => {
             if((Caja.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1))
@@ -136,7 +142,7 @@ export default function CARD_GRAFICO_CAJAS() {
 
         var ctx = document.getElementById("line-chart").getContext("2d");
         window.myLine = new Chart(ctx, config);
-    }, []);
+    }, [bandera]);
     return (
         <>
             {      llenar_turno_mañana()}

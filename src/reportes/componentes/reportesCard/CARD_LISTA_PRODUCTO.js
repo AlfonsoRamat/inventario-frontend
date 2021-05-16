@@ -43,6 +43,8 @@ export default function CARD_LISTA_PRODUCTOS() {
                 { title: "Codigo Interno", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
                 { title: "Codigo de barra", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Nombre", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+                { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 300 } }, // width in pixels
+                { title: "Cantidad", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Precio", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
 
 
@@ -52,6 +54,8 @@ export default function CARD_LISTA_PRODUCTOS() {
                 { value: data.codInterno, style: { font: { sz: "14" } } },
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
+                { value: data.descripcion, style: { font: { sz: "14" } } },
+                { value: data.cantidad, style: { font: { sz: "14" } } },
                 { value: data.precioVenta, style: { font: { color: { rgb: "ffffff" } }, fill: { patternType: "solid", fgColor: { rgb: "eb1207" } } } },
             ])
         }
