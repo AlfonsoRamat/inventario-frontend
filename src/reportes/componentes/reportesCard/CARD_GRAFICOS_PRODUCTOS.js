@@ -6,6 +6,10 @@ export default function CARD_GRAFICO_PRODUCTOS() {
 
   const [Productos, SetProductos] = useState([]);
 
+  const nombres = [];
+  const cantidad = [];
+  const color =[];
+
   const [bandera,setbandera]=useState(true)
   async function GetProductos() {
     try {
