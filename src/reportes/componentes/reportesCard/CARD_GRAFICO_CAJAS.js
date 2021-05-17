@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import React, { useContext,useEffect, useState } from 'react';
+import{ReporteContext} from "../../ReportesContext";
 import Chart from "chart.js";
 
 export default function CARD_GRAFICO_CAJAS() {
-    const [Cajas, Set_cajas] = useState([]);
-    const [bandera,setbandera]=useState(true)
-    async function Get_cajas() {
-        try {
-            AxiosInstance().get('/caja/getall').then(({ data }) => {
-            
+    const{ Get_cajas,Cajas }=  useContext(ReporteContext);
+    const [bandera,SetBandera]=useState(false)
 
-            Set_cajas(data);
-            setbandera(false)})
-            .catch(err => console.log(err));
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    let fecha_turno_tarde = [];
-    let venta_turno_tarde = [];
+    async function ObtenerData() {
+        await Get_cajas();
+        await SetBandera(true);
+      }
+    const fecha_turno_tarde = [];
+    const venta_turno_tarde = [];
 
     function llenar_turno_tarde() {
         Cajas.forEach((Caja) => {
@@ -138,7 +131,7 @@ export default function CARD_GRAFICO_CAJAS() {
         },
     };
     useEffect(() => {
-        Get_cajas();
+    ObtenerData();
 
         var ctx = document.getElementById("line-chart").getContext("2d");
         window.myLine = new Chart(ctx, config);
@@ -155,7 +148,7 @@ export default function CARD_GRAFICO_CAJAS() {
                     <div className="flex flex-wrap items-center">
                         <div className="relative w-full max-w-full flex-grow flex-1">
                             <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
-                                Ventas 1 semestre
+                                Ventas
               </h6>
                             <h2 className="text-white text-xl font-semibold">Sales value</h2>
                         </div>

@@ -7,7 +7,19 @@ export const ReporteContext = createContext(null);
 export function ReporteContextProvider({ children }) {
     const [bandera, SetBandera] = useState(false);
     const [Productos, SetProductos] = useState([]);
-    
+    const [Cajas, Set_cajas] = useState([]);
+    const [Ventas,Set_ventas]=useState([]);
+    //config lista de ventas
+   async function GetVentas() {
+        try { llenar_array();
+            const result = await (await AxiosInstance().get('/')).data;
+            Set_ventas(result);
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  // configuracion para traer productos  
     async function GetProductos() {
         try { llenar_array();
             const result = await (await AxiosInstance().get('/productos/operaciones')).data;
@@ -17,7 +29,17 @@ export function ReporteContextProvider({ children }) {
             console.log(error);
         }
     }
+// configuracion para trar cajas
+async function Get_cajas() {
+    try {
+        const result = await (await AxiosInstance().get('/caja/getall')).data;
 
+        Set_cajas(result);
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
 // busqueda producto
     const [search, setSearch] = useState("");
     let columns= [];
@@ -60,7 +82,7 @@ useEffect(() => {
 
 }, []);
 return (
-    <ReporteContext.Provider value={{bandera,SetBandera,setSearch,search, buscar,GetProductos,columns,llenar_array, Productos, nombres, color, cantidad }}>
+    <ReporteContext.Provider value={{Ventas,GetVentas,Get_cajas,Cajas,bandera,SetBandera,setSearch,search, buscar,GetProductos,columns,llenar_array, Productos, nombres, color, cantidad }}>
         {children}
     </ReporteContext.Provider>)
 }

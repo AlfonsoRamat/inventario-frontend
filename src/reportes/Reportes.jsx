@@ -7,6 +7,7 @@ import CARD_GRAFICO_CAJAS from './componentes/reportesCard/CARD_GRAFICO_CAJAS';
 //import listas
 import CARD_LISTA_CAJAS from './componentes/reportesCard/Card_lista_cajas';
 import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO';
+import CARD_LISTA_VENTA from './componentes/reportesCard/CARD_LISTA_VENTA';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";
 import{ReporteContext} from "./ReportesContext";
@@ -66,8 +67,9 @@ import './reportes.css';
             {
               {
                 'producto': <CARD_LISTA_PRODUCTO />,
-                'venta': <CardRubrosVentas />,
-                'caja': <CARD_LISTA_CAJAS />
+                'rubro': <CardRubrosVentas />,
+                'caja': <CARD_LISTA_CAJAS />,
+                'venta': <CARD_LISTA_VENTA/>,
               }[tipoModel]
             }
 
