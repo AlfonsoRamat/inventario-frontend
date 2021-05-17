@@ -4,10 +4,12 @@ import Chart from "chart.js";
 
 export default function CARD_GRAFICO_RUBRO() {
   const [Productos, SetProductos] = useState([]);
+  const[bandera,SetBandera]=useState(false);
   async function GetProductos() {
     try {
         const result = await (await AxiosInstance().get('/productos/operaciones')).data;
         SetProductos(result);
+        SetBandera(true)
     } catch (error) {
         console.log(error);
     }
@@ -63,7 +65,7 @@ var config = {
     GetProductos();
     var ctx = document.getElementById("pie-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
-  }, []);
+  }, [bandera]);
   return (
     
     <>

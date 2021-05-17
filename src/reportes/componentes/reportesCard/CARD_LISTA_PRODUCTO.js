@@ -1,38 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import React, { useContext,useEffect } from 'react';
 import { columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
 // components
 import ReactExport from 'react-data-export';
 import DataTable from 'react-data-table-component';
-
+import{ReporteContext} from "../../ReportesContext";
 
 export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const [Productos, SetProductos] = useState([]);
-    const [search, setSearch] = useState("");
-    async function GetProductos() {
-        try {
-            const result = await (await AxiosInstance().get('/productos/operaciones')).data;
-            SetProductos(result);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    function buscar(rows) {
-        const columns= 
-        
-             rows.filter(row =>
-                row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
-            );
+    const{ setSearch,buscar,search, GetProductos,Productos }=  useContext(ReporteContext);
+    
 
-        return columns
-    }
+
+
 
     useEffect(() => {
-        GetProductos();
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -68,13 +51,13 @@ export default function CARD_LISTA_PRODUCTOS() {
                             {(Productos && Productos.length !== 0) ?
                                 <div className="float-right m-3">
                                     <div className="input-icono">
-                                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value) } placeholder="Buscar..." />
                                     </div>
                                 </div> : null}
                         </div>
                         <ExcelFile
                             filename="productos Data"
-                            element={<button type="button" className="btn btn-success float-left m-3">Descargar informacion</button>}>
+                            element={<button type="button" className="">Descargar informacion</button>}>
                             <ExcelSheet dataSet={DataSet} name="tabla de productos" />
                         </ExcelFile>
 

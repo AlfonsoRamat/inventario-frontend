@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import '../../reportes.css';
-// components
+//import de la datatable
 import { customStyles, columnas, opcionesdepagina } from "../../../shared/configs/TablaCaja";
-// components
 import DataTable from 'react-data-table-component';
+//import del esxtractor de exel
 import ReactExport from 'react-data-export';
+//import de fechas del selecionador de fechas
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
@@ -46,7 +47,7 @@ export default function CARD_LISTA_CAJAS() {
 
     useEffect(() => {
         Get_cajas();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
     const DataSet = [
@@ -119,7 +120,7 @@ export default function CARD_LISTA_CAJAS() {
                         </div>
                         <ExcelFile
                             filename="productos Data"
-                            element={<button type="button" className="btn btn-success float-left m-3">Descargar informacion</button>}>
+                            element={<button type="button" >Descargar informacion</button>}>
                             <ExcelSheet dataSet={DataSet} name="tabla de productos" />
                         </ExcelFile>
 

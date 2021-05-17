@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext,useEffect, useState } from 'react';
 //import graficos
 import CardgraficoChart from './componentes/reportesCard/CardGraficoChart';
 import CARD_GRAFICOS_PRODUCTOS from './componentes/reportesCard/CARD_GRAFICOS_PRODUCTOS';
@@ -9,29 +9,35 @@ import CARD_LISTA_CAJAS from './componentes/reportesCard/CARD_LISTA_CAJAS';
 import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";
+import{ReporteContext} from "./ReportesContext";
 import './reportes.css';
 
 
 
 
- function Reportes(props) {
+ function Reportes() {
+   const{ Productos, nombres, color, cantidad }=  useContext(ReporteContext)
   const [tipoModel, setTipoModel] = useState([]);
   const options = [
     {
       label: "Caja",
       value: "caja",
+      selectedBackgroundColor: "#9c2056"
     },
     {
       label: "Venta",
       value: "venta",
+      selectedBackgroundColor: "#9c2056"
     },
     {
       label: "Producto",
       value: "producto",
+      selectedBackgroundColor: "#9c2056"
     },
     {
       label: "Rubro",
       value: "rubro",
+      selectedBackgroundColor: "#9c2056"
     },
   ];
 
@@ -73,7 +79,7 @@ import './reportes.css';
 
             {
               'venta': <CardgraficoChart />,
-              'producto': <CARD_GRAFICOS_PRODUCTOS/>,
+              'producto': <CARD_GRAFICOS_PRODUCTOS  />,
               'rubro': <CARD_GRAFICOS_RUBRO />,
               'caja': <CARD_GRAFICO_CAJAS />,
 
