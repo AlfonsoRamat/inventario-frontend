@@ -1,23 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-
 import Chart from "chart.js";
 import { ReporteContext } from "../../ReportesContext";
 export default function CARD_GRAFICO_PRODUCTOS({ }) {
-  const { bandera,SetBandera, GetProductos, nombres, color, cantidad } = useContext(ReporteContext);
-  
+  const { bandera, SetBandera, GetProductos, nombres, color, cantidad } = useContext(ReporteContext);
+
   async function ObtenerData() {
     await GetProductos();
-    
+
     await SetBandera(true);
   }
+
   var config = {
     type: "bar",
     data: {
       labels: nombres,
       datasets: [
         {
+
           label: " ver productos",
           backgroundColor: color,
+
+
+          borderColor: "#4c51bf",
+
           data: cantidad,
           fill: false,
         },
@@ -91,6 +96,7 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
     },
   };
 
+
   useEffect(() => {
 
     ObtenerData();
@@ -107,8 +113,7 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
             <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
               Tipos de productos
               </h6>
-
-          </div>
+              </div>
         </div>
       </div>
 
@@ -117,9 +122,11 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
         <div className="relative h-350-px">
           <canvas id="bar-chart"></canvas>
 
+
+
         </div>
       </div>
-    </div>
+    </div >
 
   );
 }

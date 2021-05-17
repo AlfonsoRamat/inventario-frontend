@@ -3,7 +3,7 @@ import DataTable from "react-data-table-component";
 
 function ExpandableComponent({ data }) {
 
-    const reposiciones = data.reposiciones;
+    const reposiciones = data.Stocks;
 
     return (
         <DataTable
@@ -22,20 +22,15 @@ function ExpandableComponent({ data }) {
                 [
                     {
                         name: 'Costo de compra',
-                        selector: 'costoCompra',
+                        selector: 'precioCompra',
                         sortable: true
                     }, {
                         name: 'Cantidad comprada',
-                        selector: 'cantidadAdquirida',
+                        selector: 'cantidad',
                         sortable: true
                     }, {
                         name: 'Fecha de compra',
-                        selector: (row) => {
-
-                            let milliseconds = new Date(row.fecha);
-
-                            return milliseconds.toLocaleDateString();
-                        },
+                        selector: 'fechaAdquisicion',
                         sortable: true
                     }
                 ]} />

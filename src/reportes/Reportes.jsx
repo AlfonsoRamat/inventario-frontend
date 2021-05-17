@@ -5,7 +5,7 @@ import CARD_GRAFICOS_PRODUCTOS from './componentes/reportesCard/CARD_GRAFICOS_PR
 import CARD_GRAFICOS_RUBRO from './componentes/reportesCard/CARD_GRAFICOS_RUBRO';
 import CARD_GRAFICO_CAJAS from './componentes/reportesCard/CARD_GRAFICO_CAJAS';
 //import listas
-import CARD_LISTA_CAJAS from './componentes/reportesCard/CARD_LISTA_CAJAS';
+import CARD_LISTA_CAJAS from './componentes/reportesCard/Card_lista_cajas';
 import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";

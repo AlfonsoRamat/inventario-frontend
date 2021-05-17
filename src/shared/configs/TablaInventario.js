@@ -50,8 +50,8 @@ function getColumnas(dispatch) {
     {
       name: 'Precio de lista',
       selector: (row) => {
-        let value = row.reposiciones.reduce((total, actual) => {
-          return total + parseFloat(actual.costoCompra);
+        let value = row.Stocks.reduce((total, actual) => {
+          return total + parseFloat(actual.precioCompra);
         }, 0);
         return value;
       },
@@ -65,8 +65,9 @@ function getColumnas(dispatch) {
     {
       name: 'Cantidad',
       selector: (row) => {
-        let value = row.reposiciones.reduce((total, actual) => {
-          return total + parseFloat(actual.cantidadAdquirida);
+        
+        let value = row.Stocks.reduce((total, actual) => {
+          return total + parseFloat(actual.cantidad);
         }, 0);
         return value;
       },
@@ -106,12 +107,17 @@ function getColumnas(dispatch) {
       selector: 'nombre',
       sortable: true
     },
- 
+    {
+      name: 'Cantidad',
+      selector: 'cantidad',
+      sortable: true
+    },
     {
       name: 'Precio',
       selector: 'precioVenta',
       sortable: true
     },
+
 
   ]
 const columnasListaVenta = [
