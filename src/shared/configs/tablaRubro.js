@@ -1,4 +1,3 @@
-import { BsTrash } from "react-icons/bs";
 const customStyles = {
     rows: {
       style: {
@@ -20,18 +19,17 @@ const customStyles = {
     },
   };
 
-const columnas = [
-    {
-        name: 'Monto',
-        selector: 'codigoInterno',
-        sortable: true
-    },
-    {
-  
-      button: true,
-      cell: row => <BsTrash onClick={console.log("borrar item"+row.nombre)} />,
-    }
-]
+ 
+    const columnas = [
+        {
+            name: 'Tipo rubro',
+            selector: 'rubro',
+            sortable: true
+        }
+       
+        
+    ];
+
 const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',

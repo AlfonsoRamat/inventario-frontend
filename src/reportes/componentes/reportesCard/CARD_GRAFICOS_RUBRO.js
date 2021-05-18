@@ -1,37 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import React, { useContext,useEffect, useState } from 'react';
+import{ReporteContext} from "../../ReportesContext";
 import Chart from "chart.js";
 
 export default function CARD_GRAFICO_RUBRO() {
-  const [Productos, SetProductos] = useState([]);
-  const[bandera,SetBandera]=useState(false);
-  async function GetProductos() {
-    try {
-        const result = await (await AxiosInstance().get('/productos/operaciones')).data;
-        SetProductos(result);
-        SetBandera(true)
-    } catch (error) {
-        console.log(error);
-    }
-}
+  const [bandera,setBandera]=useState(true);
+
+  const { getRubros, tipoRubro,VentaRubro,Colorrubro } = useContext(ReporteContext);
+
+ 
+  async function ObtenerData() {
+    await getRubros();
+ 
+    console.log(tipoRubro);
+    await setBandera(false);
+  }
+
+
 
 var config = {
   type: 'pie',
   data: {
-    labels: [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-    ],
+    labels: tipoRubro,
     datasets: [
       {
         label: new Date().getFullYear(),
-        backgroundColor: ["#4c51bf","#4c71bf","#4c28bf","#4c31bf","#4c25bf","#4c08bf","#4c51bf",],
-             data: [10, 20, 20, 25, 5, 2, 8],
+        backgroundColor: Colorrubro,
+             data: VentaRubro,
         fill: false,
       },
 
@@ -62,7 +56,7 @@ var config = {
 };
 
  useEffect(() => {
-    GetProductos();
+    ObtenerData();
     var ctx = document.getElementById("pie-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
   }, [bandera]);
