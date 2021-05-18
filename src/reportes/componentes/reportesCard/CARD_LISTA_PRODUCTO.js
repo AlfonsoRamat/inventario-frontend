@@ -8,7 +8,7 @@ import{ReporteContext} from "../../ReportesContext";
 export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ setSearch,buscar,search, GetProductos,Productos }=  useContext(ReporteContext);
+    const{ setSearch,buscar,search, Productos }=  useContext(ReporteContext);
     
 
 
@@ -16,7 +16,7 @@ export default function CARD_LISTA_PRODUCTOS() {
 
     useEffect(() => {
         
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+
     }, []);
 
     const DataSet = [

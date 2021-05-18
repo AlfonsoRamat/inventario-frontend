@@ -15,10 +15,10 @@ export function ReporteContextProvider({ children }) {
     async function getRubros() {
 
         try {
-
+            llenar_data_rubro();
             const result = await (await AxiosInstance().get('/rubros')).data;
             Set_rubros(result);
-            llenar_data_rubro();
+            
 
         } catch (error) {
             console.log(error);
