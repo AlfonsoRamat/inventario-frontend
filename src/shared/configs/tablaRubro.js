@@ -1,4 +1,9 @@
 const customStyles = {
+  header: {
+    style: {
+      minHeight: '56px',
+      backgroundColor:'rgba(0, 0, 0, 0.3)',
+    }},
     rows: {
       style: {
         minHeight: '50px', // override the row height
@@ -8,6 +13,7 @@ const customStyles = {
       style: {
         paddingLeft: '8px', // override the cell padding for head cells
         paddingRight: '8px',
+        
       },
     },
     cells: {

@@ -1,9 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect,useContext, useState } from 'react';
 import Modal from "react-modal";
 import { InventarioContext } from '../../inventario/InventarioContext';
-import { FaTrash } from 'react-icons/fa';
+import { BsTrash } from "react-icons/bs";
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import { columnas, customStyles, opcionesdepagina } from "../../../shared/configs/tablaRubro";
 import "./RubrosModal.css"
+import DataTable from 'react-data-table-component';
 
 const style = {
     content: {
@@ -18,8 +20,9 @@ const style = {
     }
 }
 
-function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
 
+function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
+    const [bandera, SetBandera] = useState(false);
     const { rubros, rubrosDispatch } = useContext(InventarioContext);
     const [rubro, setRubro] = useState('');
 
@@ -31,6 +34,8 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
 
     function handleTextChange(e) {
         setRubro(e.target.value);
+        SetBandera(true);
+        console.log(bandera)
     }
 
     function submitRubro(e) {
@@ -40,13 +45,18 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
             setRubro('');
         }).catch(err => console.log(err));
     }
+    useEffect(() => {
+
+    }, [bandera]);
 
     return (
         <Modal
             isOpen={rubrosModalState}
             onRequestClose={toogleRubrosModalState}
             style={style} >
+                
                 <div className="formularioRubro" >
+            
             <form onSubmit={submitRubro}>
                 <label htmlFor="rubro">Ingrese el nombre del rubro:</label>
                 <input type="text" value={rubro} onChange={handleTextChange} name="rubro" id="rubro" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"/>
@@ -54,11 +64,25 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
             </form>
             </div>
             <div className="listaRubros">
-                <ul>
-                    {rubros.map(element => {
-                        return <li key={element.rubro}>{element.rubro}    <FaTrash onClick={() => deleteRubro(element.rubro)} /></li>
-                    })}
-                </ul>
+
+                <DataTable
+                                columns={[...columnas,{
+                                    name:'Accion',
+                                    button: true,
+                                    cell: row => <BsTrash onClick={() => {deleteRubro(row.rubro)
+                            
+                                    }}/>,
+                                  }]}
+                                data={rubros}
+                                pagination
+                                paginationComponentOptions={opcionesdepagina}
+                                fixedHeader
+                                fixedHeaderScrollHeight="600px"
+                                highlightOnHover
+                                responsive
+                                noDataComponent={<div>No hay informacion disponible para mostrar</div>}
+                                customStyles={customStyles}
+                            />
             </div>
 
         </Modal>
