@@ -11,6 +11,7 @@ const customStyles = {
     style: {
       paddingLeft: '8px', // override the cell padding for head cells
       paddingRight: '8px',
+      backgroundColor: '#debfb5',
     },
   },
   cells: {

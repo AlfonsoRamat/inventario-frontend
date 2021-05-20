@@ -17,7 +17,7 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
       datasets: [
         {
 
-          label: " ver productos",
+          label: "",
           backgroundColor: Colorrubro,
 
 
@@ -29,7 +29,7 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
       ],
     },
     options: {
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       responsive: true,
       title: {
         display: false,

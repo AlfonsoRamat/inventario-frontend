@@ -13,6 +13,7 @@ function ContenedorVenta() {
     const { cajaAbierta, abrirCaja } = useContext(CajaContext);
     const [tabIndex, setTabIndex] = useState(0);
     const [montoInicio, setMontoInicio] = useState(0);
+    
 
     return (
         <div>
