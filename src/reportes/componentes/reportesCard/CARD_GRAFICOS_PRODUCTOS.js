@@ -1,44 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import React, { useContext, useEffect, useState } from 'react';
 import Chart from "chart.js";
+import { ReporteContext } from "../../ReportesContext";
+export default function CARD_GRAFICO_PRODUCTOS({ }) {
+  const { bandera, SetBandera, GetProductos, nombres, color, cantidad } = useContext(ReporteContext);
 
-export default function CARD_GRAFICO_PRODUCTOS() {
+  async function ObtenerData() {
+    await GetProductos();
 
-  const [Productos, SetProductos] = useState([]);
-
-  const nombres = [];
-  const cantidad = [];
-  const color =[];
-
-  const [bandera,setbandera]=useState(true)
-  async function GetProductos() {
-    try {
-      AxiosInstance().get('/productos/operaciones').then(({ data }) => {
-        
-        SetProductos(data);
-        setbandera(false)
-      })
-        .catch(err => console.log(err));
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function generarNumero(numero) {
-    return (Math.random() * numero).toFixed(0);
-  }
-
-  function colorRGB() {
-    var coolor = "(" + generarNumero(255) + "," + generarNumero(255) + "," + generarNumero(255) + ")";
-    return "rgb" + coolor;
-  }
-
-  function llenar_array() {
-    Productos.forEach(Producto => {
-      nombres.push(Producto.nombre);
-      cantidad.push(Producto.cantidad);
-      color.push(colorRGB());
-    });
+    await SetBandera(true);
   }
 
   var config = {
@@ -47,8 +16,13 @@ export default function CARD_GRAFICO_PRODUCTOS() {
       labels: nombres,
       datasets: [
         {
+
+          label: " ver productos",
           backgroundColor: color,
+
+
           borderColor: "#4c51bf",
+
           data: cantidad,
           fill: false,
         },
@@ -122,38 +96,37 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     },
   };
 
- useEffect(() => {
-    GetProductos();
-    
+
+  useEffect(() => {
+
+    ObtenerData();
 
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
-    
   }, [bandera]);
   return (
-    <>{
-      llenar_array()       
-}
-      <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
-        <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
-          <div className="flex flex-wrap items-center">
-            <div className="">
-              <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
-                Tipos de productos
+
+    <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
+      <div className="rounded-t mb-0 px-4 py-3 bg-transparent">
+        <div className="flex flex-wrap items-center">
+          <div className="">
+            <h6 className="uppercase text-gray-200 mb-1 text-xs font-semibold">
+              Tipos de productos
               </h6>
-
-            </div>
-          </div>
-        </div>
-
-        <div className="p-4 flex-auto">
-          {/* Chart */}
-          <div className="relative h-350-px">
-            <canvas id="bar-chart"></canvas>
-
-          </div>
+              </div>
         </div>
       </div>
-    </>
+
+      <div className="p-4 flex-auto">
+        {/* Chart */}
+        <div className="relative h-350-px">
+          <canvas id="bar-chart"></canvas>
+
+
+
+        </div>
+      </div>
+    </div >
+
   );
 }

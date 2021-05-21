@@ -1,4 +1,4 @@
-import React, { useContext,useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import{ReporteContext} from "../../ReportesContext";
 import '../../reportes.css';
 //import de la datatable
@@ -12,10 +12,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
 registerLocale("es", es);
 
-export default function CARD_LISTA_CAJAS() {
+export default function CARD_LISTA_VENTA() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ Cajas }=  useContext(ReporteContext);
+    const{ Ventas }=  useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
@@ -37,30 +37,28 @@ export default function CARD_LISTA_CAJAS() {
         return columns
     }
 
-    useEffect(() => {
-      
 
-    }, []);
 
     const DataSet = [
         {
             columns: [
 
-                { title: "Turno", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
-                { title: "Estado", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
-                { title: "Monto inicial", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
-                { title: "Monto final", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
-                { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
-                { title: "Monto total", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },  // width in pixels
+                { title: "Estado Venta:", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
+                { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
+                { title: "Tipo de pago", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+                { title: "Monto", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
+                { title: "Descuento", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
+                { title: "Recargo", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },  // width in pixels
 
             ],
-            data: buscar(Cajas).map((data) => [
-                { value: data.turno, style: { font: { sz: "14" } } },
-                { value: data.estado, style: { font: { sz: "14" } } },
-                { value: data.montoEfectivoInicio, style: { font: { sz: "14" } } },
-                { value: data.montoEfectivoFinal, style: { font: { sz: "14" } } },
-                { value: data.fecha, style: { font: { sz: "14" } } },
-                { value: data.montoTotalVendido, style: { font: { color: { rgb: "ffffff" } }, fill: { patternType: "solid", fgColor: { rgb: "eb1207" } } } },
+            data: buscar(Ventas).map((data) => [
+                { value: data.EstadoVenta, style: { font: { sz: "14" } } },
+                //sacar fecha de algun lado
+                { value: data.descuento, style: { font: { sz: "14" } } },
+                { value: data.tipoPago, style: { font: { sz: "14" } } },
+                { value: data.monto, style: { font: { sz: "14" } } },
+                { value: data.descuento, style: { font: { sz: "14" } } },
+                { value: data.recargo, style: { font: { sz: "14" } } },
             ])
         }
     ]
@@ -72,7 +70,7 @@ export default function CARD_LISTA_CAJAS() {
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="hip">
                         <div className='relative flex flex-row'>
-                            <div className='titulo-izq'><h1>Listado de cajas</h1></div>
+                            <div className='titulo-izq'><h1>Listado de Ventas</h1></div>
 
                             <div>
                                 <label>
@@ -119,7 +117,7 @@ export default function CARD_LISTA_CAJAS() {
                         <div className="table-responsive">
                             <DataTable
                                 columns={columnas}
-                                data={buscar(Cajas)}
+                                data={buscar(Ventas)}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 fixedHeader

@@ -4,6 +4,7 @@ import Navbar from './componentes/Navbar/navbar';
 import { AuthContext } from '../shared/configs/Authcontext';
 import {Inventario} from '../inventario/index';
 import { CajaContextProvider } from '../venta/CajaContext';
+import { ReporteContextProvider } from '../reportes/ReportesContext';
 import ContenedorVenta from '../venta/ContenedorVenta';
 import Reportes from '../reportes/Reportes';
 
@@ -37,12 +38,14 @@ function Main(props) {
       </div>
       <div className="main">
         <Switch>
-        <Route path="/reportes" exact>
-            <Reportes />
-          </Route>
-          <Route path="/inventario" exact>
+        <Route path="/inventario" exact>
             <Inventario />
           </Route>
+        
+        <Route path="/reportes" exact>
+        <ReporteContextProvider>  <Reportes /></ReporteContextProvider>
+          </Route> 
+
           <CajaContextProvider>
           <Route path="/venta" exact>
             <ContenedorVenta />
@@ -50,6 +53,7 @@ function Main(props) {
           <Route path="/caja" exact>
             {/*TODO: Aca va el componente caja*/}
           </Route>
+         
           </CajaContextProvider>
         </Switch>
       </div>
