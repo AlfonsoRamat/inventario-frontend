@@ -8,7 +8,7 @@ import{ReporteContext} from "../../ReportesContext";
 export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ setSearch,buscar,search, Productos,cantidad }=  useContext(ReporteContext);
+    const{ llenarArrayCantidad,setSearch,buscar,search, Productos,cantidad }=  useContext(ReporteContext);
     
 
 
@@ -38,7 +38,9 @@ export default function CARD_LISTA_PRODUCTOS() {
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
-                { value: data.cantidad, style: { font: { sz: "14" } } },
+                { value: data.Stocks.reduce((total, actual) => {
+                    return total + parseFloat(actual.cantidad);
+                  }, 0), style: { font: { sz: "14" } } },
                 { value: data.precioVenta, style: { font: { color: { rgb: "ffffff" } }, fill: { patternType: "solid", fgColor: { rgb: "eb1207" } } } },
             ])
         }

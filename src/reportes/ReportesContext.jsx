@@ -121,7 +121,7 @@ export function ReporteContextProvider({ children }) {
 
     }, [bandera]);
     return (
-        <ReporteContext.Provider value={{ tipoRubro,VentaRubro,Colorrubro, rubros, getRubros,Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ llenarArrayCantidad,tipoRubro,VentaRubro,Colorrubro, rubros, getRubros,Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }
