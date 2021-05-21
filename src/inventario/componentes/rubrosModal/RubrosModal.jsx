@@ -74,9 +74,7 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
                                     }}/>,
                                   }]}
                                 data={rubros}
-                                pagination
-                                paginationComponentOptions={opcionesdepagina}
-                                fixedHeader
+                                  fixedHeader
                                 fixedHeaderScrollHeight="600px"
                                 highlightOnHover
                                 responsive

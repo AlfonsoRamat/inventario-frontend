@@ -19,7 +19,7 @@ const customStyles = {
       paddingLeft: '8px', // override the cell padding for data cells
       paddingRight: '8px',
       fontSize: '15px',
-    },
+          },
   },
 };
 
@@ -28,24 +28,31 @@ function getColumnas(dispatch) {
     {
       name: 'Codigo Interno',
       selector: 'codInterno',
+      maxWidth: '90px',
       sortable: true
     },
     {
       name: 'Codigo de barra',
       selector: 'codigoPaquete',
+      minWidth:'150px',
       sortable: true
     },
     {
       name: 'Nombre',
       selector: 'nombre',
       maxWidth: '1000px',
-      width: "10%",
+      minWidth:'200px',
       sortable: true
     },
     {
       name: 'Descripcion',
       selector: 'descripcion',
-      sortable: true
+      wrap: true,
+      sortable: true,
+      maxWidth: '1000px',
+      minWidth:'250px',
+      format: row => `${row.descripcion.slice(0, 200)}...`,
+     
     },
 
     {
@@ -56,12 +63,14 @@ function getColumnas(dispatch) {
         }, 0);
         return value;
       },
+
       sortable: true
     },
     {
       name: 'Precio de Venta',
       selector: 'precioVenta',
-      sortable: true
+      sortable: true,
+
     },
     {
       name: 'Cantidad',
@@ -72,7 +81,8 @@ function getColumnas(dispatch) {
         }, 0);
         return value;
       },
-      sortable: true
+      sortable: true,
+
     },
     {
       name: 'Rubro',
@@ -82,6 +92,7 @@ function getColumnas(dispatch) {
     {
       name: 'Borrar',
       button: true,
+
       cell: row => <BsTrash onClick={() => {
         if (window.confirm(`Seguro que desea eliminar ${row.nombre} ${row.marca}`)) {
           AxiosInstance().delete('/productos', { data: { id: row.id } })
