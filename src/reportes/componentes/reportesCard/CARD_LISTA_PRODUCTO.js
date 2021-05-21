@@ -8,7 +8,7 @@ import{ReporteContext} from "../../ReportesContext";
 export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ setSearch,buscar,search, Productos }=  useContext(ReporteContext);
+    const{ setSearch,buscar,search, Productos,cantidad }=  useContext(ReporteContext);
     
 
 

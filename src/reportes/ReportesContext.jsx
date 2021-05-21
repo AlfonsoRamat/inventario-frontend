@@ -86,13 +86,21 @@ export function ReporteContextProvider({ children }) {
     let nombres = [];
     let cantidad = [];
     let color = [];
+    function llenarArrayCantidad(row){
+        
+            let value = row.Stocks.reduce((total, actual) => {
+              return total + parseFloat(actual.cantidad);
+            }, 0);
+            return value;
+    }
     function llenar_array() {
 
         Productos.forEach(Producto => {
             nombres.push(Producto.nombre)
-            cantidad.push(Producto.cantidad);
+            cantidad.push(llenarArrayCantidad(Producto));
             color.push(colorRGB());
         });
+        
     }
 
     const tipoRubro = [];
