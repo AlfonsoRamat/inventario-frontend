@@ -84,11 +84,8 @@ function Venta(props) {
                                 <DataTable
                                     columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidadVendida', sortable: true }]}
                                     data={productosVenta}
-                                    pagination
-                                    paginationComponentOptions={opcionesdepagina}
-                                    paginationPerPage={5}
                                     fixedHeader
-                                    fixedHeaderScrollHeight="600px"
+                                    fixedHeaderScrollHeight="300px"
                                     highlightOnHover
                                     responsive
                                     customStyles={customStyles}
