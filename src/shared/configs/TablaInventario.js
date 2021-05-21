@@ -34,14 +34,16 @@ function getColumnas(dispatch) {
     {
       name: 'Codigo de barra',
       selector: 'codigoPaquete',
-      minWidth:'150px',
+      minWidth:'80px',
+      maxWidth: '90px',
       sortable: true
     },
     {
       name: 'Nombre',
       selector: 'nombre',
-      maxWidth: '1000px',
-      minWidth:'200px',
+      minWidth:'300px',
+      wrap: true,
+      format: row => `${row.nombre.slice(0, 300)}...`,
       sortable: true
     },
     {
@@ -49,14 +51,14 @@ function getColumnas(dispatch) {
       selector: 'descripcion',
       wrap: true,
       sortable: true,
-      maxWidth: '1000px',
-      minWidth:'250px',
+      wrap: true,
       format: row => `${row.descripcion.slice(0, 200)}...`,
      
     },
 
     {
       name: 'Precio de lista',
+      maxWidth: '80px',
       selector: (row) => {
         let value = row.Stocks.reduce((total, actual) => {
           return total + parseFloat(actual.precioCompra);
@@ -69,11 +71,13 @@ function getColumnas(dispatch) {
     {
       name: 'Precio de Venta',
       selector: 'precioVenta',
+      maxWidth: '100px',
       sortable: true,
 
     },
     {
       name: 'Cantidad',
+      maxWidth: '80px',
       selector: (row) => {
         
         let value = row.Stocks.reduce((total, actual) => {
@@ -87,6 +91,7 @@ function getColumnas(dispatch) {
     {
       name: 'Rubro',
       selector: 'RubroRubro',
+      maxWidth: '80px',
       sortable: true
     },
     {
