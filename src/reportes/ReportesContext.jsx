@@ -50,7 +50,7 @@ export function ReporteContextProvider({ children }) {
     // configuracion para trar cajas
     async function Get_cajas() {
         try {
-            const result = await (await AxiosInstance().get('/caja/getall')).data;
+            const result = await (await AxiosInstance().get('/caja/')).data;
 
             Set_cajas(result);
 
