@@ -135,6 +135,7 @@ export default function CARD_GRAFICO_CAJAS() {
 
         var ctx = document.getElementById("line-chart").getContext("2d");
         window.myLine = new Chart(ctx, config);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bandera]);
     return (
         <>

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Chart from "chart.js";
 import { ReporteContext } from "../../ReportesContext";
-export default function CARD_GRAFICO_PRODUCTOS({ }) {
+export default function CARD_GRAFICO_PRODUCTOS() {
   const { bandera, SetBandera, GetProductos, nombres, color, cantidad } = useContext(ReporteContext);
 
   async function ObtenerData() {
@@ -103,6 +103,7 @@ export default function CARD_GRAFICO_PRODUCTOS({ }) {
 
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bandera]);
   return (
 
