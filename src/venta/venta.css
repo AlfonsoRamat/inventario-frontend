@@ -28,9 +28,7 @@
     flex-direction: column;
     
 }
-.cabeceraDerVenta button{
-    width: 100px;
-}
+
 
 .listaVenta{
     display: flex;
@@ -47,9 +45,7 @@
 .opcionesDeCompra{
     margin-top: 10px;
 }
-.renglonDeCompra button{
-    width: 200px;
-}
+
 
 .ver-cliente {
     margin: 5px;

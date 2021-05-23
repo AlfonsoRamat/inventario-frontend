@@ -14,6 +14,7 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     type: "bar",
     data: {
       labels: nombres,
+      
       datasets: [
         {
 
@@ -22,7 +23,7 @@ export default function CARD_GRAFICO_PRODUCTOS() {
 
 
           borderColor: "#4c51bf",
-
+          
           data: cantidad,
           fill: false,
         },

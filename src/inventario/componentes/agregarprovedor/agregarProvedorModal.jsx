@@ -61,7 +61,7 @@ function AgregarProvedorModal({ modal, toogleModal }) {
                                             <ErrorMessage name="telefono">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                         </div>
                                         <div className="rightinputs">
-                                            <label htmlFor="telefono">Descripcion</label>
+                                            <label htmlFor="dercripcion">Descripcion</label>
                                             <Field as="textarea" id="descripcion" name="descripcion" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                             <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                             <label htmlFor="email">Email</label>

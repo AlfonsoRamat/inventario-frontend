@@ -4,6 +4,8 @@ import './venta.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from 'react-data-table-component';
 import { Form, Formik, Field, ErrorMessage } from "formik";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import AxiosInstance from '../shared/configs/AxiosInstance';
 import { columnasListaVenta, columnasVenta, customStyles, opcionesdepagina } from "../shared/configs/TablaInventario";
 import ComboBox from 'react-responsive-combo-box'
@@ -15,9 +17,25 @@ function Venta(props) {
     const [search, setsearch] = useState("");
     const [subTotal, setSubTotal] = useState(0);
     const [cantidad, setCantidad] = useState(0);
-    const [cliente, setCliente] = useState(0);
+    const [cliente, setCliente] = useState([]);
     const [mostrarCliente, setMostrarCliente] = useState(false);
 
+    const initialValues = {
+       
+        nombre: '',
+        email: '',
+        telefono: '',
+        descripcion: ''
+    }
+    const handleAgregarClientes = (values) => {
+        AxiosInstance().post('/cliente', { ...values })
+            .then(res => {
+                
+                getClientes();
+                handleAgregarcliente();
+            })
+            .catch(error => console.log(error));
+    }
     const opcionesDePago = [
         "Efectivo",
         "Tarjeta",
@@ -25,22 +43,16 @@ function Venta(props) {
         "Cuenta Corriente",
         "Reserva"
     ]
-    const clientes = [
-        "Efectivo",
-        "Tarjeta",
-        "Debito",
-        "Cuenta Corriente",
-        "Reserva"
-    ]
+
 
     async function handleAgregar(row) {
         const cantidadVendida = prompt('Seleccione la cantidad: ');
-        if(isNaN(parseInt(cantidadVendida))) {
+        if (isNaN(parseInt(cantidadVendida))) {
             alert('Numero invalido');
             return;
         }
         console.log('Cant vendida', cantidadVendida);
-        console.log('row',row);
+        console.log('row', row);
         setproductosVenta(prev => [...prev, { ...row, cantidadVendida }]);
         setSubTotal(prev => prev + row.precioVenta * cantidadVendida);
     }
@@ -56,9 +68,19 @@ function Venta(props) {
             console.log(error);
         }
     }
+    async function getClientes() {
+        try {
+            const result = await (await AxiosInstance().get('/cliente')).data;
+            setCliente(result);
+            console.log(cliente)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         getProductos();
+        getClientes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -104,9 +126,15 @@ function Venta(props) {
                             <label >Tipo de pago </label>
                             <ComboBox options={opcionesDePago} enableAutocomplete />
                         </div>
-                        <div className="renglonDeCompra">
+                        <div className="">
                             <label >Clientes </label>
-                            <ComboBox options={clientes} enableAutocomplete />
+                            <Autocomplete
+                                id="combo-box-cliente"
+                                options={cliente}
+                                getOptionLabel={(option) => option.nombre}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Cliente" variant="outlined" />}
+                            />
                             <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregarcliente} type="button">Nuevo cliente</button>
 
                         </div>
@@ -116,25 +144,31 @@ function Venta(props) {
             </div>
             {
                 mostrarCliente ? (
+                    <Formik initialValues={initialValues} validationSchema={null} onSubmit={handleAgregarClientes}>
+                    <Form className="ver-cliente">
                     <div className="ver-cliente">
                         <div className="cliente-input">
-                            <label htmlFor="nombre">Nombre</label>
-                            <input type="text" name="nombre" id="nombre" />
+                        <label htmlFor="nombre">Nombre</label>
+                                            <Field type="text" id="nombre" name="nombre" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                            <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage> </div>
+                        <div className="cliente-input">
+                        <label htmlFor="telefono">Telefono</label>
+                                            <Field type="text" id="telefono" name="telefono" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                            <ErrorMessage name="telefono">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                         </div>
                         <div className="cliente-input">
-                            <label htmlFor="email">E-mail</label>
-                            <input type="text" name="email" id="email" />
+                        <label htmlFor="email">Email</label>
+                                            <Field type="text" id="email" name="email" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                            <ErrorMessage name="email">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                         </div>
                         <div className="cliente-input">
-                            <label htmlFor="telefono">Telefono</label>
-                            <input type="text" name="telefono" id="telefono" />
+                        <label htmlFor="dercripcion">Descripcion</label>
+                                            <Field as="textarea" id="descripcion" name="descripcion" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                            <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                         </div>
-                        <div className="cliente-input">
-                            <label htmlFor="descripcion">Descripcion</label>
-                            <input type="text" name="descripcion" id="descripcion" />
-                        </div>
-                        <button className="submitButton" type="submit">Crear Cliente</button>
-                    </div>
+                        <button className="submitButton" type="submit" >Crear Cliente</button>
+                    </div></Form>
+                    </Formik>
                 ) : null
             }
             <div className="piedeventa">
