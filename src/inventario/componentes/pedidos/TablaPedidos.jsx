@@ -14,7 +14,7 @@ function TablaPedidos() {
         let value = prod.Stocks.reduce((total, actual) => {
             return total + parseInt(actual.cantidad);
         }, 0);
-        if (value <= prod.alertaMin) return true;
+        if (value === 0 || value <= prod.alertaMin) return true;
         else return false;
     });
 
@@ -37,7 +37,6 @@ function TablaPedidos() {
                         })
                     }
                 </select>
-                {filtro}
             </div>
             <div className="split">
                 <div className="columna">

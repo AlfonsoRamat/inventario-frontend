@@ -13,7 +13,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
     const initialValues = userSelection ?
         ({
             ...userSelection,
-            precio: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].costoCompra),
+            precio: parseFloat(userSelection.Stocks[userSelection.Stocks.length - 1].costoCompra),
             cantidad: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].cantidadAdquirida),
             rubro: userSelection.RubroRubro,
             proveedorId: userSelection.proveedorId
@@ -26,10 +26,8 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
             marca: '',
             descripcion: '',
             alertaMin: 1,
-            precio: 1,
             rubro: '',
             precioVenta: 1,
-            cantidad: 1,
             proveedorId: '',
         };
 
@@ -97,19 +95,9 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                 </div>
                                 <div className="right-inputs">
                                     <div className="formatimput">
-                                        <label htmlFor="precio">Precio de compra</label>
-                                        <Field type="text" id="precio" name="precio" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="precio">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                    </div>
-                                    <div className="formatimput">
                                         <label htmlFor="precioVenta">Precio de venta</label>
                                         <Field type="text" id="precioVenta" name="precioVenta" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                    </div>
-                                    <div className="formatimput">
-                                        <label htmlFor="cantidad">Cantidad</label>
-                                        <Field type="text" id="cantidad" name="cantidad" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
                                         <label htmlFor="alertaMin">Alerta minima</label>
