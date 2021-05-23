@@ -10,3 +10,11 @@
 .subtitle {
     text-align: center;
 }
+
+#provider{
+    margin: 0 5px;
+}
+
+#productosEnCero {
+    margin-left: 5px;
+}
