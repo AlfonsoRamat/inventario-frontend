@@ -2,6 +2,10 @@ import React, { useContext, useState } from 'react';
 import { InventarioContext } from '../../inventario/InventarioContext';
 import DataTable from 'react-data-table-component';
 import { PedidoColumns, AlertaColumns } from './Pedido.configs';
+import { Form, Formik, Field, ErrorMessage } from "formik";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import './TablaPedidos.css';
 
 function TablaPedidos() {
@@ -29,14 +33,17 @@ function TablaPedidos() {
     return (
         <>
             <div>
-                <select name="provider" onChange={filtrar} id="provider">
-                    <option>Seleccione un proveedor</option>
-                    {
-                        proveedores.map((prov) => {
-                            return <option key={prov.id} value={prov.id}>{prov.nombre}</option>
-                        })
-                    }
-                </select>
+            <Autocomplete
+                                id="provider"
+                                onChange ={(e) => {
+                                    filtrar(e);
+                                  }}
+                                options={proveedores}
+                                getOptionLabel={(option) => option.nombre}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
+                            />
+
             </div>
             <div className="split">
                 <div className="columna">
