@@ -22,30 +22,35 @@ function TablaPedidos() {
         else return false;
     });
 
-    function filtrar(e) {
-        const listaFiltrada = productos.filter(prod => {
-            return prod.proveedorId === e.target.value;
+    async function  filtrar(value) {
+
+        
+         const listaFiltrada = productos.filter((prod) => {
+            return prod.proveedorId === value.id;
+
         });
 
         setFiltro(listaFiltrada);
     }
+    
 
     return (
         <>
             <div>
             <Autocomplete
                                 id="provider"
-                                onChange ={(e) => {
-                                    filtrar(e);
-                                  }}
+                                getOptionSelected={(option, value) => {
+                                filtrar(value)
+                                                                      }}
                                 options={proveedores}
                                 getOptionLabel={(option) => option.nombre}
                                 style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
+                                renderInput={(params) => <TextField {...params}   label="Proveedores" variant="outlined" />}
                             />
 
             </div>
             <div className="split">
+
                 <div className="columna">
                     <h2 className="subtitle">Productos en Alerta</h2>
                     <DataTable
