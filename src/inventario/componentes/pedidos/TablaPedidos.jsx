@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { InventarioContext } from '../../inventario/InventarioContext';
 import DataTable from 'react-data-table-component';
 import { PedidoColumns, AlertaColumns, customStyles, opcionesdepagina, conditionalRowStyles } from './Pedido.configs';
-import { Form, Formik, Field, ErrorMessage } from "formik";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import './TablaPedidos.css';
