@@ -23,27 +23,29 @@ function TablaPedidos() {
         else return false;
     });
 
-    async function  filtrar(value) {
-
-        
-         const listaFiltrada = productos.filter((prod) => {
-            return prod.proveedorId === value.id;
-
-        });
-
-        setFiltro(listaFiltrada);
+     function  filtrar(rows) {
+        console.log("esto son los productos",rows," esto  es  la id " ,variable.id)
+        if(rows&&variable.id){return rows.filter(row =>
+            row.ProveedorId.indexOf(variable.id) > -1 )}else return productos;
+            
     }
     
-
+      const [variable , setvariable]= useState([]);
     return (
         <>
             <div>
+
             <Autocomplete
                                 id="provider"
-                                getOptionSelected={(option, value) => {
-                                filtrar(value)
+                                onChange={(option, value) => {
+                                if (value)
+                                {setvariable(value)}
                                                                       }}
                                 options={proveedores}
+                                onInputChange={(event,value ) => {
+                                    setvariable(value)
+                                  }}
+                                
                                 getOptionLabel={(option) => option.nombre}
                                 style={{ width: 300 }}
                                 renderInput={(params) => <TextField {...params}   label="Proveedores" variant="outlined" />}
@@ -66,7 +68,7 @@ function TablaPedidos() {
                     <h2 className="subtitle">Realizar pedido</h2>
                     <DataTable
                         columns={PedidoColumns}
-                        data={filtro}
+                        data={filtrar(productos)}
                         pagination
                         responsive
                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
