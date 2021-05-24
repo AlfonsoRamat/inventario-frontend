@@ -55,7 +55,9 @@ export function InventarioProvider({ children }) {
     const [rubros, rubrosDispatch] = useReducer(rubroReducer, []);
 
     function getProveedores() {
+
         AxiosInstance().get('/proveedores').then(({ data }) => {
+            
             proveedoresDispatch({ type: 'cargar', payload: data });
         }).catch(error => {
             console.log('getProveedores error', error);
@@ -64,8 +66,9 @@ export function InventarioProvider({ children }) {
     }
 
     function getProductos() {
-        AxiosInstance().get('/productos').then(({ data }) => {
+        AxiosInstance().get('/productos/operaciones').then(({ data }) => {
             productosDispatch({ type: 'cargar', payload: data })
+            console.log("cargar Productos",data)
         }).catch((error) => {
             console.log('getProductos error', error);
             return [];

@@ -16,7 +16,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
             precio: parseFloat(userSelection.Stocks[userSelection.Stocks.length - 1].costoCompra),
             cantidad: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].cantidadAdquirida),
             rubro: userSelection.RubroRubro,
-            proveedorId: userSelection.proveedorId
+            ProveedorId: userSelection.ProveedorId
         })
         : {
             codInterno: '',
@@ -28,7 +28,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
             alertaMin: 1,
             rubro: '',
             precioVenta: 1,
-            proveedorId: '',
+            ProveedorId: '',
         };
 
     const submitForm = (values, actions) => {
@@ -115,8 +115,8 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                 </div>
                                 <div className="tercercol">
                                     <div className="formatimput">
-                                        <label htmlFor="proveedorId">Proveedor</label>
-                                        <Field as="select" id="proveedorId" name="proveedorId" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" >
+                                        <label htmlFor="ProveedorId">Proveedor</label>
+                                        <Field as="select" id="ProveedorId" name="ProveedorId" className="px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" >
                                             <option value=''>Seleccione una opcion</option>
                                             {
                                                 proveedores.map(proveedor => {
@@ -126,7 +126,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                                 })
                                             }
                                         </Field>
-                                        <ErrorMessage name="proveedorId">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                        <ErrorMessage name="ProveedorId">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
                                         <label htmlFor="rubro">Rubro</label>

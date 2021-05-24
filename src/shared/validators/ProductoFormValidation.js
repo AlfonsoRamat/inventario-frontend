@@ -9,7 +9,7 @@ const ProductoFormValidator = Yup.object({
     descripcion: Yup.string().max(200, 'Demasiado largo'),
     alertaMin: Yup.number().min(0, 'Debe ser superior a 0').required('Campo requerido').typeError('Solo se aceptan numeros'),
     precioVenta: Yup.number('Solo se aceptan numeros').min(0, 'El precio minimo es de 0').required('Campo requerido').typeError('Solo se aceptan numeros'),
-    proveedorId: Yup.string().required('Campo requerido')
+    ProveedorId: Yup.string().required('Campo requerido')
 });
 
 export default ProductoFormValidator;

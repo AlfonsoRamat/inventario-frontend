@@ -28,9 +28,11 @@ const TablaItems = () => {
     }
 
     return (
+
         <div className="Tablas">
             <AgregarProductosModal modal={modal} userSelection={userSelection} toggleModal={toggleModal} />
             <div className='titulo-tabla'>
+               
                 <div className='titulo-izq'><h1>Inventario</h1></div>
                 {(productos && productos.length !== 0) ?
                     <div className='titulo-der'>
