@@ -49,16 +49,7 @@ function TablaPedidos() {
                                 renderInput={(params) => <TextField {...params}   label="Proveedores" variant="outlined" />}
                             />
 
-                <Autocomplete
-                    id="provider"
-                    onChange={(e) => {
-                        filtrar(e);
-                    }}
-                    options={proveedores}
-                    getOptionLabel={(option) => option.nombre}
-                    style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
-                />
+
                 <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
                 <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { setFiltrarVacios(!filtrarVacios) }} id="productosEnCero" />
             </div>
