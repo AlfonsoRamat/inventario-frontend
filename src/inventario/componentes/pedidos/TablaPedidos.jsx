@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { InventarioContext } from '../../inventario/InventarioContext';
 import DataTable from 'react-data-table-component';
 import { PedidoColumns, AlertaColumns, customStyles, opcionesdepagina, conditionalRowStyles } from './Pedido.configs';
 import TextField from '@material-ui/core/TextField';
+import AgregarStockModal from '../stocks/agregarStockModal';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import './TablaPedidos.css';
 
@@ -11,6 +12,13 @@ function TablaPedidos() {
     const { productos, proveedores } = useContext(InventarioContext);
 
     const [filtro, setFiltro] = useState();
+    const [modal, setmodal] = useState(false);
+    const [userSelection, setUserSelection] = useState(null);
+
+    function toggleModal() {
+        setmodal(!modal);
+    };
+
     const [filtrarVacios, setFiltrarVacios] = useState(false);
     function filtrarstock() {
         setFiltrarVacios(!filtrarVacios);
@@ -34,12 +42,15 @@ function TablaPedidos() {
         } else return productos;
 
     }
+    useEffect(() => {
+        if (userSelection) toggleModal();
+    }, [userSelection])
 
     const [variable, setvariable] = useState([]);
     return (
         <>
+            <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} />
             <div>
-
                 <Autocomplete
                     id="provider"
                     onChange={(option, value) => {
@@ -68,6 +79,9 @@ function TablaPedidos() {
                         columns={AlertaColumns}
                         data={filtro}
                         pagination
+                        onRowClicked={selectedItem => {
+                            setUserSelection(selectedItem);
+                        }}
                         paginationComponentOptions={opcionesdepagina}
                         customStyles={customStyles}
                         noDataComponent={<div>No hay productos con cantidades criticas</div>} />
@@ -80,6 +94,9 @@ function TablaPedidos() {
                         pagination
                         paginationComponentOptions={opcionesdepagina}
                         customStyles={customStyles}
+                        onRowClicked={selectedItem => {
+                            setUserSelection(selectedItem);
+                        }}
                         responsive
                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
                 </div>

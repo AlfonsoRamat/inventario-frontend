@@ -19,7 +19,7 @@ const customStyles = {
       paddingLeft: '8px', // override the cell padding for data cells
       paddingRight: '8px',
       fontSize: '15px',
-          },
+    },
   },
 };
 
@@ -34,14 +34,14 @@ function getColumnas(dispatch) {
     {
       name: 'Codigo de barra',
       selector: 'codigoPaquete',
-      minWidth:'80px',
+      minWidth: '80px',
       maxWidth: '90px',
       sortable: true
     },
     {
       name: 'Nombre',
       selector: 'nombre',
-      minWidth:'300px',
+      minWidth: '300px',
       wrap: true,
       format: row => `${row.nombre.slice(0, 300)}...`,
       sortable: true
@@ -51,9 +51,8 @@ function getColumnas(dispatch) {
       selector: 'descripcion',
       wrap: true,
       sortable: true,
-      wrap: true,
       format: row => `${row.descripcion.slice(0, 200)}...`,
-     
+
     },
 
     {
@@ -79,7 +78,7 @@ function getColumnas(dispatch) {
       name: 'Cantidad',
       maxWidth: '80px',
       selector: (row) => {
-        
+
         let value = row.Stocks.reduce((total, actual) => {
           return total + parseFloat(actual.cantidad);
         }, 0);
@@ -101,48 +100,50 @@ function getColumnas(dispatch) {
       cell: row => <BsTrash onClick={() => {
         if (window.confirm(`Seguro que desea eliminar ${row.nombre} ${row.marca}`)) {
           AxiosInstance().delete('/productos', { data: { id: row.id } })
-          .then(res => {
-            dispatch({type: 'borrar', payload: {id: row.id}});
-          })
-          .catch(err => console.log(err));}}} />,
+            .then(res => {
+              dispatch({ type: 'borrar', payload: { id: row.id } });
+            })
+            .catch(err => console.log(err));
+        }
+      }} />,
     }
   ]
 }
-  const columnasVenta = [
-    {
-      name: 'Codigo Interno',
-      selector: 'codInterno',
-      sortable: true
+const columnasVenta = [
+  {
+    name: 'Codigo Interno',
+    selector: 'codInterno',
+    sortable: true
+  },
+  {
+    name: 'Codigo de barra',
+    selector: 'codigoPaquete',
+    sortable: true
+  },
+  {
+    name: 'Nombre',
+    selector: 'nombre',
+    sortable: true
+  },
+  {
+    name: 'Cantidad',
+    selector: (row) => {
+
+      let value = row.Stocks.reduce((total, actual) => {
+        return total + parseFloat(actual.cantidad);
+      }, 0);
+      return value;
     },
-    {
-      name: 'Codigo de barra',
-      selector: 'codigoPaquete',
-      sortable: true
-    },
-    {
-      name: 'Nombre',
-      selector: 'nombre',
-      sortable: true
-    },
-    {
-      name: 'Cantidad',
-      selector: (row) => {
-        
-        let value = row.Stocks.reduce((total, actual) => {
-          return total + parseFloat(actual.cantidad);
-        }, 0);
-        return value;
-      },
-      sortable: true
-    },
-    {
-      name: 'Precio',
-      selector: 'precioVenta',
-      sortable: true
-    },
+    sortable: true
+  },
+  {
+    name: 'Precio',
+    selector: 'precioVenta',
+    sortable: true
+  },
 
 
-  ]
+]
 const columnasListaVenta = [
 
   {

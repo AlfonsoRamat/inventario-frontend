@@ -30,6 +30,7 @@ function Tablaproveedor() {
         if (userSelection) {
             toogleModal();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userSelection])
 
     return (
