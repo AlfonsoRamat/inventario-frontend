@@ -6,11 +6,11 @@ import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import { InventarioContext } from '../../inventario/InventarioContext';
 
 
-function AgregarProvedorModal({ modal, toogleModal }) {
+function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelection }) {
 
     const { proveedoresDispatch } = useContext(InventarioContext);
 
-    const initialValues = {
+    const initialValues = userSelection ? { ...userSelection } : {
         codigoInterno: '',
         nombre: '',
         email: '',
@@ -19,9 +19,19 @@ function AgregarProvedorModal({ modal, toogleModal }) {
     }
 
     const handleAgregar = (values, actions) => {
+        if (userSelection) {
+            AxiosInstance().put('/proveedores', { ...values })
+                .then(res => {
+                    proveedoresDispatch({ type: 'modificar', payload: res.data });
+                    actions.resetForm();
+                    setUserSelection(null);
+                    toogleModal();
+                }).catch(err => console.log(err));
+            return
+        }
         AxiosInstance().post('/proveedores', { ...values })
             .then(res => {
-                proveedoresDispatch({type:'agregar', payload: res.data});
+                proveedoresDispatch({ type: 'agregar', payload: res.data });
                 actions.resetForm();
             })
             .catch(error => console.log(error));
@@ -70,8 +80,15 @@ function AgregarProvedorModal({ modal, toogleModal }) {
                                         </div>
                                     </div>
                                     <div className="modal-botones">
-                                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="submit">Agregar</button>
-                                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" type="reset" value="finalizar" onClick={toogleModal}>Finalizar</button>
+                                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                            type="submit">{userSelection ? "Modificar" : "Agregar"}</button>
+                                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                                            type="reset"
+                                            value="finalizar"
+                                            onClick={() => {
+                                                setUserSelection(null)
+                                                toogleModal()
+                                            }}>Finalizar</button>
                                     </div>
                                 </div>
                             </div>

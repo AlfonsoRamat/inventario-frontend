@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './tablaProveedor.css';
 import DataTable from 'react-data-table-component';
 import { getColumnasProveedor, customStyles, opcionesdepagina } from "../../../shared/configs/tablaprovedores";
-import {AgregarProvedorModal} from "../";
+import { AgregarProvedorModal } from "../";
 import { InventarioContext } from '../../inventario/InventarioContext';
 
 
@@ -11,6 +11,7 @@ function Tablaproveedor() {
     const { proveedores, proveedoresDispatch } = useContext(InventarioContext);
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState("");
+    const [userSelection, setUserSelection] = useState(null)
 
 
 
@@ -24,6 +25,12 @@ function Tablaproveedor() {
     function toogleModal() {
         setModal(!modal);
     }
+
+    useEffect(() => {
+        if (userSelection) {
+            toogleModal();
+        }
+    }, [userSelection])
 
     return (
         <div className="tablaprovedor">
@@ -39,7 +46,7 @@ function Tablaproveedor() {
             </div>
             <div className="bottonagregar">
                 <button type="button" className="btn-proveedor" onClick={toogleModal} >Agregar Proveedor</button>
-                <AgregarProvedorModal modal={modal} toogleModal={toogleModal} />
+                <AgregarProvedorModal modal={modal} userSelection={userSelection} setUserSelection={setUserSelection} toogleModal={toogleModal} />
             </div>
             <div className="table-responsive">
                 <DataTable
@@ -50,7 +57,9 @@ function Tablaproveedor() {
                     fixedHeader
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
-                    onRowClicked={selectedProvider => {}}
+                    onRowClicked={selectedProvider => {
+                        setUserSelection(selectedProvider);
+                    }}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                     customStyles={customStyles}
