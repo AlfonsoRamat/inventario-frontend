@@ -6,12 +6,15 @@ import TextField from '@material-ui/core/TextField';
 import AgregarStockModal from '../stocks/agregarStockModal';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import './TablaPedidos.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import ReactExport from 'react-data-export';
 
 function TablaPedidos() {
 
     const { productos, proveedores } = useContext(InventarioContext);
 
-    const [filtro, setFiltro] = useState();
+    const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
     const [userSelection, setUserSelection] = useState(null);
 
@@ -20,9 +23,9 @@ function TablaPedidos() {
     };
 
     const [filtrarVacios, setFiltrarVacios] = useState(false);
-    function filtrarstock() {
+    async function filtrarstock() {
         setFiltrarVacios(!filtrarVacios);
-        const listas = filtrar(productos).filter(prod => {
+        const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
@@ -31,9 +34,50 @@ function TablaPedidos() {
             else return false;
         });
         setFiltro(listas);
-        console.log("agregar ", filtro)
-    }
 
+    }
+    const ExcelFile = ReactExport.ExcelFile;
+    const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+    const DataSet = [
+        {
+            columns: [
+
+                { title: "Codigo Interno", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
+                { title: "Codigo de barra", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
+                { title: "Nombre", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+                { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 300 } }, // width in pixels
+                { title: "Cantidad", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+
+
+
+
+            ],
+            data: productos.map((data) => [
+                { value: data.codInterno, style: { font: { sz: "14" } } },
+                { value: data.codigoPaquete, style: { font: { sz: "14" } } },
+                { value: data.nombre, style: { font: { sz: "14" } } },
+                { value: data.descripcion, style: { font: { sz: "14" } } },
+                {
+                    value: data.Stocks.reduce((total, actual) => {
+                        return total + parseFloat(actual.cantidad);
+                    }, 0), style: { font: { sz: "14" } }
+                },
+
+            ])
+        }
+    ];
+
+    const [search, setSearch] = useState("");
+    function buscar(rows) {
+        if (rows) {
+            return rows.filter(row =>
+                row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
+            );
+        } else return [];
+    }
+    const [variable, setvariable] = useState([]);
     function filtrar(rows) {
 
         if (rows && variable.id) {
@@ -44,62 +88,114 @@ function TablaPedidos() {
     }
     useEffect(() => {
         if (userSelection) toggleModal();
+        filtrarstock();
     }, [userSelection])
 
-    const [variable, setvariable] = useState([]);
+
     return (
         <>
             <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} />
             <div>
-                <Autocomplete
-                    id="provider"
-                    onChange={(option, value) => {
-                        if (value) { setvariable(value) }
-                    }}
-                    options={proveedores}
-                    onInputChange={(event, value) => {
-                        setvariable(value)
-                    }}
+                <>
 
-                    getOptionLabel={(option) => option.nombre}
-                    style={{ width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
-                />
+                    <Tabs>
+                        <TabList>
+                            <Tab>Stock</Tab>
+                            <Tab>Alertas</Tab>
+                        </TabList>
+
+                        <TabPanel>
+                            <div className="body">
+                                <div>
+
+                                    <Autocomplete
+                                        id="provider"
+                                        onChange={(option, value) => {
+                                            if (value) { setvariable(value) }
+                                        }}
+                                        options={proveedores}
+                                        onInputChange={(event, value) => {
+                                            setvariable(value)
+                                        }}
+
+                                        getOptionLabel={(option) => option.nombre}
+                                        style={{ width: 300 }}
+                                        renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
+                                    />
+
+                                    <div className="input-icono">
+                                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                    </div>
+
+                                </div>
+                                <div className="">
+
+                                    <h2 className="subtitle">Modifica Stock</h2>
+                                    <DataTable
+                                        columns={PedidoColumns}
+                                        data={filtrar(buscar(productos))}
+                                        pagination
+                                        paginationComponentOptions={opcionesdepagina}
+                                        customStyles={customStyles}
+                                        responsive
+                                        onRowClicked={selectedItem => {
+                                            setUserSelection(selectedItem);
+                                        }}
+                                        noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
+
+                                </div>
+                            </div>
+                        </TabPanel>
+                        <TabPanel><div className="split">
+
+                            <div className="columna"> <Autocomplete
+                                id="provider"
+                                onChange={(option, value) => {
+                                    if (value) { setvariable(value) }
+                                }}
+                                options={proveedores}
+                                onInputChange={(event, value) => {
+                                    setvariable(value)
+                                }}
+
+                                getOptionLabel={(option) => option.nombre}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
+                            />
+
+                                <div className="input-icono">
+                                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                </div>
+                            </div>
+                            <div className="columna">
+                                <ExcelFile
+                                    filename="productos Data"
+                                    element={<button type="button" className="">Descargar informacion</button>}>
+                                    <ExcelSheet dataSet={DataSet} name="tabla de productos" />
+                                </ExcelFile></div>
+
+                        </div>
+
+                            <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
+                            <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { filtrarstock() }} id="productosEnCero" />
+                            <h2 className="subtitle">Productos en Alerta</h2>
+                            <DataTable
+                                conditionalRowStyles={conditionalRowStyles}
+                                columns={AlertaColumns}
+                                data={filtrar(filtro)}
+                                onRowClicked={selectedItem => {
+                                    setUserSelection(selectedItem);
+                                }}
+                                pagination
+                                paginationComponentOptions={opcionesdepagina}
+                                customStyles={customStyles}
+                                noDataComponent={<div>No hay productos con cantidades criticas</div>} />
+                        </TabPanel>
+
+                    </Tabs>
 
 
-                <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
-                <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { filtrarstock() }} id="productosEnCero" />
-            </div>
-            <div className="split">
-
-                <div className="columna">
-                    <h2 className="subtitle">Productos en Alerta</h2>
-                    <DataTable
-                        conditionalRowStyles={conditionalRowStyles}
-                        columns={AlertaColumns}
-                        data={filtro}
-                        pagination
-                        onRowClicked={selectedItem => {
-                            setUserSelection(selectedItem);
-                        }}
-                        paginationComponentOptions={opcionesdepagina}
-                        customStyles={customStyles}
-                        noDataComponent={<div>No hay productos con cantidades criticas</div>} />
-                </div>
-                <div className="columna">
-                    <h2 className="subtitle">Realizar pedido</h2>
-                    <DataTable
-                        columns={PedidoColumns}
-                        data={filtrar(productos)}
-                        pagination
-                        paginationComponentOptions={opcionesdepagina}
-                        customStyles={customStyles}
-                        onRowClicked={selectedItem => {
-                            setUserSelection(selectedItem);
-                        }}
-                        responsive
-                        noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
-                </div>
+                </>
             </div>
         </>
     )
