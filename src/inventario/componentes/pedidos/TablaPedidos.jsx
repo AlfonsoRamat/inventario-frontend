@@ -5,7 +5,6 @@ import { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina,conditiona
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
 import './TablaPedidos.css';
 
 function TablaPedidos() {
