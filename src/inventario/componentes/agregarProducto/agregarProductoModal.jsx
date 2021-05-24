@@ -13,8 +13,6 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
     const initialValues = userSelection ?
         ({
             ...userSelection,
-            precio: parseFloat(userSelection.Stocks[userSelection.Stocks.length - 1].costoCompra),
-            cantidad: parseFloat(userSelection.reposiciones[userSelection.reposiciones.length - 1].cantidadAdquirida),
             rubro: userSelection.RubroRubro,
             ProveedorId: userSelection.ProveedorId
         })

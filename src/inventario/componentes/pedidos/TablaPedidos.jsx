@@ -19,7 +19,7 @@ function TablaPedidos() {
         let value = prod.Stocks.reduce((total, actual) => {
             return total + parseInt(actual.cantidad);
         }, 0);
-        if ((value === 0 && !filtrarVacios) || value <= prod.alertaMin) return true;
+        if ((value === 0 && filtrarVacios) || value <= prod.alertaMin) return true;
         else return false;
     });
 

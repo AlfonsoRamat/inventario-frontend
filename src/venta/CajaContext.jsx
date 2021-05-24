@@ -10,7 +10,6 @@ export function CajaContextProvider({ children }) {
 
     function getUltimaCaja() {
         AxiosInstance().get('/caja/caja-abierta').then(({ data }) => {
-            console.log('getUltima caja',data);
             setCajaAbierta({ data });
         })
             .catch(err => console.log(err));
