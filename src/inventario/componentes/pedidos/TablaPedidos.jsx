@@ -13,12 +13,13 @@ function TablaPedidos() {
     const { productos, proveedores } = useContext(InventarioContext);
 
     const [filtro, setFiltro] = useState(productos);
+    const [filtrarVacios, setFiltrarVacios] = useState(false);
 
     const productosConAlerta = filtro.filter(prod => {
         let value = prod.Stocks.reduce((total, actual) => {
             return total + parseInt(actual.cantidad);
         }, 0);
-        if (value === 0 || value <= prod.alertaMin) return true;
+        if ((value === 0 && !filtrarVacios) || value <= prod.alertaMin) return true;
         else return false;
     });
 
@@ -48,6 +49,18 @@ function TablaPedidos() {
                                 renderInput={(params) => <TextField {...params}   label="Proveedores" variant="outlined" />}
                             />
 
+                <Autocomplete
+                    id="provider"
+                    onChange={(e) => {
+                        filtrar(e);
+                    }}
+                    options={proveedores}
+                    getOptionLabel={(option) => option.nombre}
+                    style={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
+                />
+                <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
+                <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { setFiltrarVacios(!filtrarVacios) }} id="productosEnCero" />
             </div>
             <div className="split">
 
