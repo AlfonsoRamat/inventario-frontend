@@ -19,6 +19,41 @@ const customStyles = {
     },
   },
 };
+
+const conditionalRowStyles = [
+  {
+    when: row => {
+      let value = row.Stocks.reduce((total, actual) => {
+          return total + parseInt(actual.cantidad);
+      }, 0);
+      if (value === 0  || value <= row.alertaMin) return true;
+      else return false;},
+    style: {
+      backgroundColor: 'red',
+      color: 'white',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
+  },
+  {
+    when: row => {
+      let value = row.Stocks.reduce((total, actual) => {
+          return total + parseInt(actual.cantidad);
+      }, 0);
+      if ( value <= row.alertaMin && value != 0) return true;
+      else return false;},
+    style: {
+      backgroundColor: 'yellow',
+      color: 'red',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
+  },
+  // You can also pass a callback to style for additional customization
+  
+];
 const opcionesdepagina = {
   rowsPerPageText: 'Filas por pagina',
   rangeSeparatorText: 'de',
@@ -80,4 +115,4 @@ const AlertaColumns = [
   },
 ];
 
-export { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina };
+export { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina,conditionalRowStyles };
