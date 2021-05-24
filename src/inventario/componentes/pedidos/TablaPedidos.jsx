@@ -17,21 +17,26 @@ function TablaPedidos() {
     const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
     const [userSelection, setUserSelection] = useState(null);
+    const [usarDatosSinAlertas,setUsarDatosSinAlertas] = useState(true);
+    const [listaSelected,setlistaSelected] = useState([]);
 
     function toggleModal() {
         setmodal(!modal);
     };
 
     const [filtrarVacios, setFiltrarVacios] = useState(false);
-    async function filtrarstock() {
-        setFiltrarVacios(!filtrarVacios);
+    function incluirVacio (){
+        
+    }
+     function filtrarstock() {
+
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
 
-            if (value <= prod.alertaMin) { if (value === 0 && filtrarVacios) return false; else return true; }
-            else return false;
+            if (value <= prod.alertaMin) { if (value === 0 && !filtrarVacios) return false; else return true; }
+            else  {if(!usarDatosSinAlertas) return true; else return false;}
         });
         setFiltro(listas);
 
@@ -52,7 +57,7 @@ function TablaPedidos() {
 
 
             ],
-            data: productos.map((data) => [
+            data: listaSelected.map((data) => [
                 { value: data.codInterno, style: { font: { sz: "14" } } },
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
@@ -83,9 +88,13 @@ function TablaPedidos() {
         if (rows && variable.id) {
             return rows.filter(row =>
                 row.ProveedorId.indexOf(variable.id) > -1)
-        } else return productos;
+        } else return rows;
 
     }
+    function handleChange(row)  {
+       setlistaSelected(row.selectedRows)
+        console.log('Selected Rows: ', listaSelected);
+      };
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
@@ -138,9 +147,11 @@ function TablaPedidos() {
                                         paginationComponentOptions={opcionesdepagina}
                                         customStyles={customStyles}
                                         responsive
+                                        
                                         onRowClicked={selectedItem => {
                                             setUserSelection(selectedItem);
                                         }}
+
                                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
 
                                 </div>
@@ -166,29 +177,40 @@ function TablaPedidos() {
                                 <div className="input-icono">
                                     <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
                                 </div>
+
                             </div>
                             <div className="columna">
-                                <ExcelFile
-                                    filename="productos Data"
-                                    element={<button type="button" className="">Descargar informacion</button>}>
-                                    <ExcelSheet dataSet={DataSet} name="tabla de productos" />
-                                </ExcelFile></div>
+                            <label htmlFor="productosEnCero">Incluir productos sin stock</label>
+                            <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { filtrarstock(); setFiltrarVacios(!filtrarVacios);}} id="productosEnCero" />
+                            <label htmlFor="productosEnCero">Incluir productos sin alertas</label>
+                            <input type="checkbox" checked={usarDatosSinAlertas} name="productosEnCero" onChange={() => { filtrarstock();setUsarDatosSinAlertas(!usarDatosSinAlertas); }} id="productosEnCero" />
+                          
+                            </div>
+                            <div className="columna">
 
+                             <ExcelFile
+                                    filename={"pedidos productos "+ new Date()}
+                                    element={<button type="button" className="">Descargar borrador de pedido</button>}>
+                                    <ExcelSheet dataSet={DataSet} name="tabla de productos" />
+                                </ExcelFile>
+
+                                </div>
                         </div>
 
-                            <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
-                            <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { filtrarstock() }} id="productosEnCero" />
-                            <h2 className="subtitle">Productos en Alerta</h2>
+                        <h2 className="subtitle">Productos en Alerta</h2>
                             <DataTable
                                 conditionalRowStyles={conditionalRowStyles}
                                 columns={AlertaColumns}
-                                data={filtrar(filtro)}
+                                data={filtrar(buscar(filtro))}
                                 onRowClicked={selectedItem => {
                                     setUserSelection(selectedItem);
                                 }}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 customStyles={customStyles}
+                                selectableRows 
+
+                                onSelectedRowsChange={row => handleChange(row)}
                                 noDataComponent={<div>No hay productos con cantidades criticas</div>} />
                         </TabPanel>
 
