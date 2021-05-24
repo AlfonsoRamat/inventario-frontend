@@ -20,7 +20,7 @@ function TablaPedidos() {
                 return total + parseInt(actual.cantidad);
             }, 0);
 
-            if (value <= prod.alertaMin) { if (value === 0 && !filtrarVacios) return true; else return false; }
+            if (value <= prod.alertaMin) { if (value === 0 && filtrarVacios) return false; else return true; }
             else return false;
         });
         setFiltro(listas);
