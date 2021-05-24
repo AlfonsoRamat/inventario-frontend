@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { InventarioContext } from '../../inventario/InventarioContext';
 import DataTable from 'react-data-table-component';
-import { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina,conditionalRowStyles } from './Pedido.configs';
+import { PedidoColumns, AlertaColumns, customStyles, opcionesdepagina, conditionalRowStyles } from './Pedido.configs';
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -11,49 +11,50 @@ function TablaPedidos() {
 
     const { productos, proveedores } = useContext(InventarioContext);
 
-    const [filtro, setFiltro] = useState(productos);
+    const [filtro, setFiltro] = useState();
     const [filtrarVacios, setFiltrarVacios] = useState(false);
-    function filtrarstock(){
+    function filtrarstock() {
         setFiltrarVacios(!filtrarVacios);
         const listas = filtrar(productos).filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
-            
-            if ( value <= prod.alertaMin){if(value === 0 && !filtrarVacios) return true; else return false; } 
+
+            if (value <= prod.alertaMin) { if (value === 0 && !filtrarVacios) return true; else return false; }
             else return false;
         });
-    setFiltro( listas);
-        console.log("agregar ",filtro)
+        setFiltro(listas);
+        console.log("agregar ", filtro)
     }
 
-     function  filtrar(rows) {
+    function filtrar(rows) {
 
-        if(rows&&variable.id){return rows.filter(row =>
-            row.ProveedorId.indexOf(variable.id) > -1 )}else return productos;
-            
+        if (rows && variable.id) {
+            return rows.filter(row =>
+                row.ProveedorId.indexOf(variable.id) > -1)
+        } else return productos;
+
     }
-    
-      const [variable , setvariable]= useState([]);
+
+    const [variable, setvariable] = useState([]);
     return (
         <>
             <div>
 
-            <Autocomplete
-                                id="provider"
-                                onChange={(option, value) => {
-                                if (value)
-                                {setvariable(value)}
-                                                                      }}
-                                options={proveedores}
-                                onInputChange={(event,value ) => {
-                                    setvariable(value)
-                                  }}
-                                
-                                getOptionLabel={(option) => option.nombre}
-                                style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params}   label="Proveedores" variant="outlined" />}
-                            />
+                <Autocomplete
+                    id="provider"
+                    onChange={(option, value) => {
+                        if (value) { setvariable(value) }
+                    }}
+                    options={proveedores}
+                    onInputChange={(event, value) => {
+                        setvariable(value)
+                    }}
+
+                    getOptionLabel={(option) => option.nombre}
+                    style={{ width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="Proveedores" variant="outlined" />}
+                />
 
 
                 <label htmlFor="productosEnCero">Incluir productos sin stock?</label>
@@ -64,7 +65,7 @@ function TablaPedidos() {
                 <div className="columna">
                     <h2 className="subtitle">Productos en Alerta</h2>
                     <DataTable
-                    conditionalRowStyles={conditionalRowStyles}
+                        conditionalRowStyles={conditionalRowStyles}
                         columns={AlertaColumns}
                         data={filtro}
                         pagination
