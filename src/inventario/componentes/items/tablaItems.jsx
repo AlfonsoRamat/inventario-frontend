@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
 import { getColumnas, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
 import { InventarioContext } from '../../inventario/InventarioContext';
@@ -26,6 +26,13 @@ const TablaItems = () => {
             );
         } else return [];
     }
+
+    useEffect(() => {
+        if(userSelection){
+            toggleModal();
+        }
+    }, [userSelection])
+
 
     return (
 
@@ -56,9 +63,7 @@ const TablaItems = () => {
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
                     onRowClicked={selectedItem => {
-                        console.log('userSelection', selectedItem)
                         setUserSelection(selectedItem);
-                        toggleModal();
                     }}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}
