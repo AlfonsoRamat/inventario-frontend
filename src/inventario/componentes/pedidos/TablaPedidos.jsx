@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { InventarioContext } from '../../inventario/InventarioContext';
 import DataTable from 'react-data-table-component';
-import { PedidoColumns, AlertaColumns } from './Pedido.configs';
+import { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina } from './Pedido.configs';
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -24,7 +24,7 @@ function TablaPedidos() {
     });
 
      function  filtrar(rows) {
-        console.log("esto son los productos",rows," esto  es  la id " ,variable.id)
+
         if(rows&&variable.id){return rows.filter(row =>
             row.ProveedorId.indexOf(variable.id) > -1 )}else return productos;
             
@@ -61,7 +61,10 @@ function TablaPedidos() {
                     <h2 className="subtitle">Productos en Alerta</h2>
                     <DataTable
                         columns={AlertaColumns}
-                        data={productosConAlerta}
+                        data={filtrar(productosConAlerta)}
+                        pagination
+                        paginationComponentOptions={opcionesdepagina}
+                        customStyles={customStyles}
                         noDataComponent={<div>No hay productos con cantidades criticas</div>} />
                 </div>
                 <div className="columna">
@@ -70,6 +73,8 @@ function TablaPedidos() {
                         columns={PedidoColumns}
                         data={filtrar(productos)}
                         pagination
+                        paginationComponentOptions={opcionesdepagina}
+                        customStyles={customStyles}
                         responsive
                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
                 </div>

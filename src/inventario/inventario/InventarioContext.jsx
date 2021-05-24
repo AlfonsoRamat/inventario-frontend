@@ -68,7 +68,7 @@ export function InventarioProvider({ children }) {
     function getProductos() {
         AxiosInstance().get('/productos/operaciones').then(({ data }) => {
             productosDispatch({ type: 'cargar', payload: data })
-            console.log("cargar Productos",data)
+           
         }).catch((error) => {
             console.log('getProductos error', error);
             return [];
