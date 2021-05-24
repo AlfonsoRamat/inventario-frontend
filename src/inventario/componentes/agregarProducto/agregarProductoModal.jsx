@@ -6,7 +6,7 @@ import AxiosInstance from "../../../shared/configs/AxiosInstance";
 import ProductoFormValidator from "../../../shared/validators/ProductoFormValidation";
 import { InventarioContext } from '../../inventario/InventarioContext';
 
-function AgregarProductosModal({ modal, toggleModal, userSelection }) {
+function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelection }) {
 
     const { productosDispatch, proveedores, rubros } = useContext(InventarioContext);
 
@@ -35,7 +35,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                 .then(({ data }) => {
                     productosDispatch({ type: 'modificar', payload: data });
                     actions.resetForm();
-                    userSelection = null;
+                    setUserSelection(null);
                     toggleModal();
                 })
                 .catch(error => console.log(error));
@@ -48,6 +48,8 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                 .catch(error => console.log(error));
         }
     }
+
+
 
     return (
         <Modal isOpen={modal} onRequestClose={toggleModal} style={
@@ -104,7 +106,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection }) {
                                         <ErrorMessage name="alertaMin">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                 </div>
-                                
+
                                 <div className="cuartaCol">
                                     <div className="formatimput">
                                         <label htmlFor="marca">Marca</label>

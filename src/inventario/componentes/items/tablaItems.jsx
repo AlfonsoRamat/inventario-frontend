@@ -37,7 +37,7 @@ const TablaItems = () => {
     return (
 
         <div className="Tablas">
-            <AgregarProductosModal modal={modal} userSelection={userSelection} toggleModal={toggleModal} />
+            <AgregarProductosModal modal={modal} userSelection={userSelection}  setUserSelection={setUserSelection} toggleModal={toggleModal} />
             <div className='titulo-tabla'>
                
                 <div className='titulo-izq'><h1>Inventario</h1></div>
