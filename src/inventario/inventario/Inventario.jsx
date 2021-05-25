@@ -1,7 +1,7 @@
 import React from 'react';
 import './Inventario.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { InventarioCards, Tablaproveedor, TablaItems, TablaPedidos } from '../componentes';
+import {  Tablaproveedor, TablaItems, TablaPedidos } from '../componentes';
 import { InventarioProvider } from './InventarioContext';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TablasRubros from '../componentes/rubros/TablasRubros';
@@ -17,15 +17,14 @@ function Inventario(props) {
                     <TabList>
                         <Tab>Productos</Tab>
                         <Tab>Provedores</Tab>
-                        <Tab>Pedidos</Tab>
+                        <Tab>Stock</Tab>
                         <Tab>Rubros</Tab>
                         <Tab>Reservas</Tab>
                     </TabList>
 
                     <TabPanel>
                         <div className="body">
-                            <InventarioCards />
-                            <TablaItems />
+                             <TablaItems />
                         </div>
                     </TabPanel>
                     <TabPanel>

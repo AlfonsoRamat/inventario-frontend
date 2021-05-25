@@ -1,24 +1,18 @@
 .formularioRubro{
     display: flex;
-    flex-direction: column;
-    align-items: baseline;
-    justify-content: center;
-    align-content: center;
+    flex-direction: row;
     align-items: center;
     text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 .formularioRubro input{
     padding-left: 10px;
     margin-left: 10px;
+    margin-bottom: 10px;
+    padding-bottom: "10 px";
 }
-.formularioRubro [type="submit"]{
 
-    background: rgba(212, 154, 169, 1);
-       
-}
-.formularioRubro > [type="submit"]:hover {
-    background: rgba(205, 109, 147, 0.8);
-}
 .listaRubros{
     margin-top: 20px;
     padding-top: 5px;
