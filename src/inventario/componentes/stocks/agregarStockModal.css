@@ -1,6 +1,17 @@
-.formularioModal{
+.formularioStock{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+.formularioStock button{
+    margin-top: 20px;
+}
+.formularioBotones{
+    display: flex;
+    flex-direction: row;
     justify-content: center;
     align-content: center;
     align-items: center;
