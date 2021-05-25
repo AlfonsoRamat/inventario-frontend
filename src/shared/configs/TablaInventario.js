@@ -59,9 +59,11 @@ function getColumnas(dispatch) {
       name: 'Precio de compra',
       maxWidth: '80px',
       selector: (row) => {
-        let value = row.Stocks[row.Stocks.length - 1].precioCompra
-
-        return value;
+        if (row.Stocks.length > 0) {
+          let value = row.Stocks[row.Stocks.length - 1].precioCompra
+          return value;
+        }
+        return 0;
       },
 
       sortable: true
@@ -77,8 +79,7 @@ function getColumnas(dispatch) {
       name: 'Cantidad',
       maxWidth: '80px',
       selector: (row) => {
-        console.log('tabla inventario',row);
-        if (row.Stocks.length >= 1) {
+        if (row.Stocks.length > 0) {
           let value = row.Stocks.reduce((total, actual) => {
             return total + parseFloat(actual.cantidad);
           }, 0);

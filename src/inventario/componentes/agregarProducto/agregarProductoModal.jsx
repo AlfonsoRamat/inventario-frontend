@@ -13,8 +13,8 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
     const initialValues = userSelection ?
         ({
             ...userSelection,
-            precio: '',
-            cantidad: '',
+            precio: 0,
+            cantidad: 0,
             rubro: userSelection.RubroRubro,
             ProveedorId: userSelection.ProveedorId
         })

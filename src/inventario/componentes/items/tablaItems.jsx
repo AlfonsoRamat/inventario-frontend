@@ -55,7 +55,7 @@ const TablaItems = () => {
                 <DataTable
                     columns={getColumnas(productosDispatch)}
                     expandableRows={true}
-                    expandableRowsComponent={<ExpandableComponent />}
+                    expandableRowsComponent={<ExpandableComponent dispatch={productosDispatch}/>}
                     data={buscar(productos)}
                     pagination
                     paginationComponentOptions={opcionesdepagina}
