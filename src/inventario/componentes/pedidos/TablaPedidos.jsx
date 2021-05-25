@@ -30,7 +30,7 @@ function TablaPedidos() {
     }
      function filtrarstock(e) {
 console.log(e)
-if (e=="productosEnCero"){setFiltrarVacios(!filtrarVacios);}
+if (e==="productosEnCero"){setFiltrarVacios(!filtrarVacios);}
 setUsarDatosSinAlertas(!usarDatosSinAlertas);
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
@@ -100,6 +100,7 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
+        // eslint-disable-next-line
     }, [userSelection])
 
 

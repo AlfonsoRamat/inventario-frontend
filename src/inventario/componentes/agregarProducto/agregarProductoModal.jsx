@@ -13,6 +13,8 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
     const initialValues = userSelection ?
         ({
             ...userSelection,
+            precio: '',
+            cantidad: '',
             rubro: userSelection.RubroRubro,
             ProveedorId: userSelection.ProveedorId
         })
@@ -24,8 +26,10 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
             marca: '',
             descripcion: '',
             alertaMin: 1,
+            precio: 1,
             rubro: '',
             precioVenta: 1,
+            cantidad: 1,
             ProveedorId: '',
         };
 
@@ -96,9 +100,19 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                 </div>
                                 <div className="right-inputs">
                                     <div className="formatimput">
+                                        <label htmlFor="precio">Precio de compra</label>
+                                        <Field type="text" id="precio" disabled={userSelection !== null} name="precio" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                        <ErrorMessage name="precio">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                    </div>
+                                    <div className="formatimput">
                                         <label htmlFor="precioVenta">Precio de venta</label>
                                         <Field type="text" id="precioVenta" name="precioVenta" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                    </div>
+                                    <div className="formatimput">
+                                        <label htmlFor="cantidad">Cantidad</label>
+                                        <Field type="text" disabled={userSelection !== null} id="cantidad" name="cantidad" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                        <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
                                         <label htmlFor="alertaMin">Alerta minima</label>

@@ -15,7 +15,7 @@ const customStyles = {
     style: {
       paddingLeft: '8px', // override the cell padding for data cells
       paddingRight: '8px',
-      fontSize: '15px' ,
+      fontSize: '15px',
     },
   },
 };
@@ -24,10 +24,11 @@ const conditionalRowStyles = [
   {
     when: row => {
       let value = row.Stocks.reduce((total, actual) => {
-          return total + parseInt(actual.cantidad);
+        return total + parseInt(actual.cantidad);
       }, 0);
-      if (value === 0  || value <= row.alertaMin) return true;
-      else return false;},
+      if (value === 0 || value <= row.alertaMin) return true;
+      else return false;
+    },
     style: {
       backgroundColor: 'red',
       color: 'white',
@@ -39,10 +40,11 @@ const conditionalRowStyles = [
   {
     when: row => {
       let value = row.Stocks.reduce((total, actual) => {
-          return total + parseInt(actual.cantidad);
+        return total + parseInt(actual.cantidad);
       }, 0);
-      if ( value <= row.alertaMin && value != 0) return true;
-      else return false;},
+      if (value <= row.alertaMin && value !== 0) return true;
+      else return false;
+    },
     style: {
       backgroundColor: 'yellow',
       color: 'red',
@@ -52,7 +54,7 @@ const conditionalRowStyles = [
     },
   },
   // You can also pass a callback to style for additional customization
-  
+
 ];
 const opcionesdepagina = {
   rowsPerPageText: 'Filas por pagina',
@@ -82,6 +84,7 @@ const PedidoColumns = [
       let value = row.Stocks.reduce((total, actual) => {
         return total + parseFloat(actual.cantidad);
       }, 0);
+      if (isNaN(value)) return 0;
       return value;
     },
     sortable: true
@@ -106,13 +109,16 @@ const AlertaColumns = [
   }, {
     name: 'Cantidad',
     selector: (row) => {
-      let value = row.Stocks.reduce((total, actual) => {
-        return total + parseFloat(actual.cantidad);
-      }, 0);
-      return value;
+      if (row.Stocks.length < 0) {
+        let value = row.Stocks.reduce((total, actual) => {
+          return total + parseFloat(actual.cantidad);
+        }, 0);
+        return value
+      }
+      return 0;
     },
     sortable: true
   },
 ];
 
-export { PedidoColumns, AlertaColumns,customStyles,  opcionesdepagina,conditionalRowStyles };
+export { PedidoColumns, AlertaColumns, customStyles, opcionesdepagina, conditionalRowStyles };
