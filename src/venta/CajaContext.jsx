@@ -4,13 +4,22 @@ import AxiosInstance from '../shared/configs/AxiosInstance';
 export const CajaContext = createContext(null);
 
 
+const EstadoVenta = {
+    APROBADA: "finalizada",
+    CANCELADA: "cancelada",
+    ABIERTA: "abierta",
+    RETIRAR_EFECTIVO: "retirarEfectivo",
+    AGREGAR_EFECTIVO: "agregarEfectivo"
+}
+
 export function CajaContextProvider({ children }) {
 
     const [cajaAbierta, setCajaAbierta] = useState(null);
 
-    function getUltimaCaja() {
+    function buscarCajaAbierta() {
         AxiosInstance().get('/caja/caja-abierta').then(({ data }) => {
-            setCajaAbierta({ data });
+            console.log('Caja abierta', data);
+            setCajaAbierta(data);
         })
             .catch(err => console.log(err));
 
@@ -19,26 +28,31 @@ export function CajaContextProvider({ children }) {
     function abrirCaja(montoEfectivoInicio) {
         if (!cajaAbierta) {
             AxiosInstance().post("/caja/abrir-caja", { montoEfectivoInicio })
-                .then(res => { setCajaAbierta(true) })
+                .then(({ data }) => {
+                    console.log(data);
+                    setCajaAbierta(data);
+                })
                 .catch(err => console.log(err));
         }
     }
 
     function cerrarCaja(montoEfectivoFinal) {
-        setCajaAbierta(false);
-        AxiosInstance().put("/caja/cerrar-caja", { montoEfectivoFinal })
-            .then(res => console.log(res))
+        const id = cajaAbierta.id;
+        AxiosInstance().put("/caja/cerrar-caja", { id, montoEfectivoFinal })
+            .then(res => setCajaAbierta(null))
             .catch(err => console.log(err));
     }
 
-    function agregarVenta(venta) {
-        AxiosInstance().post("/caja/venta", { datos: "pasar id de la caja y venta realizada" })
-            .then(res => console.log(res))
+    function agregarVenta(id) {
+        AxiosInstance().post("/caja/agregarVenta", { id })
+            .then(({data}) => {
+                console.log('Nueva venta creada', data);
+                setCajaAbierta(data)})
             .catch(err => console.log(err));
     }
 
     useEffect(() => {
-        getUltimaCaja();
+        buscarCajaAbierta();
     }, []);
     return (
         <CajaContext.Provider value={{ cajaAbierta, abrirCaja, cerrarCaja, agregarVenta }}>
