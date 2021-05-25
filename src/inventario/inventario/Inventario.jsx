@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { InventarioCards, Tablaproveedor, TablaItems, TablaPedidos } from '../componentes';
 import { InventarioProvider } from './InventarioContext';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import TablasRubros from '../componentes/rubros/TablasRubros';
 import 'react-tabs/style/react-tabs.css';
 
 
@@ -17,6 +18,8 @@ function Inventario(props) {
                         <Tab>Productos</Tab>
                         <Tab>Provedores</Tab>
                         <Tab>Pedidos</Tab>
+                        <Tab>Rubros</Tab>
+                        <Tab>Reservas</Tab>
                     </TabList>
 
                     <TabPanel>
@@ -30,6 +33,9 @@ function Inventario(props) {
                     </TabPanel>
                     <TabPanel>
                         <TablaPedidos />
+                    </TabPanel>
+                    <TabPanel>
+                        <TablasRubros />
                     </TabPanel>
                 </Tabs>
             </InventarioProvider>
