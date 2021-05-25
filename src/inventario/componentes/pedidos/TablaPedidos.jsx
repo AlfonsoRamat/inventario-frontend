@@ -28,14 +28,16 @@ function TablaPedidos() {
     function incluirVacio (){
         
     }
-     function filtrarstock() {
-
+     function filtrarstock(e) {
+console.log(e)
+if (e=="productosEnCero"){setFiltrarVacios(!filtrarVacios);}
+setUsarDatosSinAlertas(!usarDatosSinAlertas);
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
 
-            if (value <= prod.alertaMin) { if (value === 0 && !filtrarVacios) return false; else return true; }
+            if (value <= prod.alertaMin) { if (value === 0 && filtrarVacios) return false; else return true; }
             else  {if(!usarDatosSinAlertas) return true; else return false;}
         });
         setFiltro(listas);
@@ -180,11 +182,11 @@ function TablaPedidos() {
 
                             </div>
                             <div className="columna">
-                            <label htmlFor="productosEnCero">Incluir productos sin stock</label>
-                            <input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={() => { filtrarstock(); setFiltrarVacios(!filtrarVacios);}} id="productosEnCero" />
-                            <label htmlFor="productosEnCero">Incluir productos sin alertas</label>
-                            <input type="checkbox" checked={usarDatosSinAlertas} name="productosEnCero" onChange={() => { filtrarstock();setUsarDatosSinAlertas(!usarDatosSinAlertas); }} id="productosEnCero" />
-                          
+                           {// <label htmlFor="productosEnCero">Incluir productos sin stock</label>
+                            //<input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={(e) => { filtrarstock(e.target.name); }} id="productosEnCero" />
+                            }
+                            <input type="checkbox" checked={usarDatosSinAlertas} name="todosproductos" onChange={(e) => { filtrarstock(e.target.name); }} id="todosproductos" />
+                            <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
                             </div>
                             <div className="columna">
 
