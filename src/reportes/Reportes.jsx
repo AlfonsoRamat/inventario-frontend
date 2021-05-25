@@ -1,4 +1,4 @@
-import React, { useContext,useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //import graficos
 import CardgraficoChart from './componentes/reportesCard/CardGraficoChart';
 import CARD_GRAFICOS_PRODUCTOS from './componentes/reportesCard/CARD_GRAFICOS_PRODUCTOS';
@@ -10,14 +10,14 @@ import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO'
 import CARD_LISTA_VENTA from './componentes/reportesCard/CARD_LISTA_VENTA';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
 import SwitchSelector from "react-switch-selector";
-import{ReporteContext} from "./ReportesContext";
+
 import './reportes.css';
 
 
 
 
  function Reportes() {
-   const{ Productos, nombres, color, cantidad }=  useContext(ReporteContext)
+
   const [tipoModel, setTipoModel] = useState([]);
   const options = [
     {

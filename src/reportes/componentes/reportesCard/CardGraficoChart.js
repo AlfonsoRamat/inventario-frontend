@@ -136,6 +136,7 @@ export default function CARD_GRAFICO_Ventas() {
         var ctx = document.getElementById("line-chart").getContext("2d");
         window.myLine = new Chart(ctx, config);
     }, [bandera]);
+    
     return (
         <>
             {      llenar_turno_mañana()}
