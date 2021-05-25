@@ -134,7 +134,7 @@ function TablasRubros() {
                     ]}
                         data={buscar(rubros)}
                         fixedHeader
-                        fixedHeaderScrollHeight="350px"
+                        fixedHeaderScrollHeight="300px"
                         highlightOnHover
                         responsive
                         noDataComponent={<div>No hay informacion disponible para mostrar</div>}
