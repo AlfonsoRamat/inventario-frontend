@@ -69,9 +69,10 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
                                 columns={[...columnas,{
                                     name:'Accion',
                                     button: true,
-                                    cell: row => <BsTrash onClick={() => {deleteRubro(row.rubro)
-                            
-                                    }}/>,
+                                    cell: row => <BsTrash onClick={() => {
+                                        if (window.confirm(`Seguro que desea eliminar ${row.rubro} `))
+                                        {deleteRubro(row.rubro)}
+                                                                }}/>,
                                   }]}
                                 data={rubros}
                                   fixedHeader

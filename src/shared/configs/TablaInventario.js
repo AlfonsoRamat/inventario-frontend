@@ -56,11 +56,11 @@ function getColumnas(dispatch) {
     },
 
     {
-      name: 'Precio de lista',
+      name: 'Precio de compra',
       maxWidth: '80px',
       selector: (row) => {
         let value = row.Stocks.reduce((total, actual) => {
-          return total + parseFloat(actual.precioCompra);
+          return  parseFloat(actual.precioCompra);
         }, 0);
         return value;
       },

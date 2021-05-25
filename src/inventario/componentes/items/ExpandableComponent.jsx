@@ -1,5 +1,6 @@
 import React from 'react'
 import DataTable from "react-data-table-component";
+import { BsTrash } from "react-icons/bs";
 
 function ExpandableComponent({ data }) {
 
@@ -13,10 +14,22 @@ function ExpandableComponent({ data }) {
             customStyles={{
                 table: {
                     style: {
-                        width: "60%",
-                        alignItems: 'center'
+                        width: "90%",
+                        
                     }
-                }
+                }, rows: {
+                    style: {
+                      minHeight: '45px',
+                      backgroundColor: '#FFF8DC'
+                    }
+                  },
+                  headCells: {
+                    style: {
+                      paddingLeft: '8px', // override the cell padding for head cells
+                      paddingRight: '8px',
+                      backgroundColor: '#E9967A',
+                    },
+                  },
             }}
             columns={
                 [
@@ -32,8 +45,20 @@ function ExpandableComponent({ data }) {
                         name: 'Fecha de compra',
                         selector: 'fechaAdquisicion',
                         sortable: true
-                    }
-                ]} />
+                    },
+                    {
+                        name: 'Borrar',
+                        button: true,
+                  
+                        cell: row => <BsTrash onClick={() => {
+                          if (window.confirm(`Seguro que desea eliminar esta reposicion `)) {
+                            //TODO: BORRAR TUPLA DE STOCK
+                          }
+                        }} />,
+                      }
+                ]} 
+            responsive
+                />
     )
 }
 
