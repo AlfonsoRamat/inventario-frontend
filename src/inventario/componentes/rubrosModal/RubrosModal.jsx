@@ -22,6 +22,7 @@ const style = {
 
 
 function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
+    const { productos, proveedores } = useContext(InventarioContext);
     const [bandera, SetBandera] = useState(false);
     const { rubros, rubrosDispatch } = useContext(InventarioContext);
     const [rubro, setRubro] = useState('');
@@ -36,6 +37,35 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
         setRubro(e.target.value);
         SetBandera(true);
         console.log(bandera)
+    }
+    const [porcentaje,setPorcentaje]=useState([])
+    function sumarPorcentaje(rubro,toogleRubrosModalState){
+         {
+             let existe = []
+             productos.forEach (row => {
+                if(row.RubroRubro==rubro.rubro){
+                    existe.push (true)}
+                }
+                )
+                if(existe.length>0){
+                    const porcentajecantidad = prompt('Seleccione la cantidad: ');
+                    productos.forEach (row => {
+                        if(row.RubroRubro==rubro.rubro){
+                            
+                            if (window.confirm (`Seguro que desea aumentar un ${porcentajecantidad} % a todos los productos ${row.nombre}`)){
+                                //TODO: funcionalidad de multiplicar todos los productos por valor+valor*porcentajecantidad/100
+                                console.log("deberia sumar ",porcentajecantidad);
+        
+                            } else console.log("no se sumo ",porcentajecantidad)
+                            
+                        }
+                    }
+                    
+                    ) 
+                 }
+              
+
+        }
     }
 
     function submitRubro(e) {
@@ -79,6 +109,9 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
                                 fixedHeaderScrollHeight="350px"
                                 highlightOnHover
                                 responsive
+                                onRowClicked={selectedItem => {
+                                    sumarPorcentaje(selectedItem,toogleRubrosModalState);
+                                }}
                                 noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                                 customStyles={customStyles}
                             />
