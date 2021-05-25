@@ -50,7 +50,7 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
                 if(existe.length>0){
                     const porcentajecantidad = prompt('Seleccione la cantidad: ');
                     productos.forEach (row => {
-                        if(row.RubroRubro==rubro.rubro){
+                        if(row.RubroRubro==rubro.rubro&&porcentajecantidad>0){
                             
                             if (window.confirm (`Seguro que desea aumentar un ${porcentajecantidad} % a todos los productos ${row.nombre}`)){
                                 //TODO: funcionalidad de multiplicar todos los productos por valor+valor*porcentajecantidad/100
