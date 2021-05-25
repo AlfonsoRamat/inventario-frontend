@@ -25,9 +25,7 @@ function TablaPedidos() {
     };
 
     const [filtrarVacios, setFiltrarVacios] = useState(false);
-    function incluirVacio (){
-        
-    }
+
      function filtrarstock(e) {
 console.log(e)
 if (e==="productosEnCero"){setFiltrarVacios(!filtrarVacios);}

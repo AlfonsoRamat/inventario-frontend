@@ -22,7 +22,7 @@ const style = {
 function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
 
     const [bandera, SetBandera] = useState(false);
-    const { rubros, rubrosDispatch } = useContext(InventarioContext);
+    const {  rubrosDispatch } = useContext(InventarioContext);
     const [rubro, setRubro] = useState('');
 
 
