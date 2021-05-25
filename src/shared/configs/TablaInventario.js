@@ -59,9 +59,8 @@ function getColumnas(dispatch) {
       name: 'Precio de compra',
       maxWidth: '80px',
       selector: (row) => {
-        let value = row.Stocks.reduce((total, actual) => {
-          return  parseFloat(actual.precioCompra);
-        }, 0);
+        let value = row.Stocks[row.Stocks.length-1].precioCompra
+
         return value;
       },
 
