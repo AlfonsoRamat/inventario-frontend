@@ -98,7 +98,7 @@ function ContenedorVenta() {
                         
 
                             { tabValue>0?
-                               <Venta /> :<ContenedorCaja setTabIndex={setTabValue} />
+                               <Venta /> :<ContenedorCaja setTabIndex={addTab} />
                                 
                                                        }
                         

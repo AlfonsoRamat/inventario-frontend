@@ -9,10 +9,10 @@ function CuadroCaja({ setTabIndex }) {
     function handleClick() {
         if (!cajaAbierta) {
             abrirCaja(monto);
-            setTabIndex(1);
+            setTabIndex(0);
             return;
-        }
-        cerrarCaja(monto);
+        }else
+        {cerrarCaja(monto); }
     }
 
 
