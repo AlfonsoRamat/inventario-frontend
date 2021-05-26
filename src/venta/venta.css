@@ -1,51 +1,14 @@
-.bodyVenta{
+.bodyVenta {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.cabecera{
-    width: 100vw;
+
+.listaVenta {
     display: flex;
     flex-direction: row;
- 
+    align-items: center;
 }
-.cabeceraIzqVenta{
-    width: 70vw;
-    display: flex;
-    flex-direction: column;
-
-   
-}
-.primeralinea {
-    display: flex;
-    flex-direction: row;
-    margin: 3px;
-}
-
-  .cabeceraDerVenta{
-   margin-left: 100px;
-    display: flex;
-    flex-direction: column;
-    
-}
-
-
-.listaVenta{
-    display: flex;
-    flex-direction: row;
-    align-items: center;  
-}
-.piedeventa
-{
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: initial;
-}
-.opcionesDeCompra{
-    margin-top: 10px;
-}
-
 
 .ver-cliente {
     margin: 5px;
@@ -59,7 +22,7 @@
 
 .cliente-input {
     width: 30%;
-    height: 50%;    
+    height: 50%;
     display: flex;
     flex-direction: row;
     align-items: baseline;
@@ -74,6 +37,7 @@
     width: 150px;
     margin-left: 10px;
 }
+
 .submitButton {
     position: relative;
     top: 50%;
@@ -83,8 +47,8 @@
     width: 30%;
     transform: translatey(-50%);
 }
-.cont{
 
+.cont {
     display: flex;
     flex-direction: row;
     align-items: baseline;
@@ -93,19 +57,14 @@
     align-items: center;
     text-align: center;
 }
-.cajaConteiner{
+
+.cajaConteiner {
     display: flex;
     flex-direction: row;
 }
-.formAbrirCaja button{
-width: 100px;
-margin-left: 10px;
-margin-bottom: 10px;
-}
-.formAbrirCaja input{
-    margin-left: 10px; 
-}
-.cajaTablaVenta{
+
+
+.cajaTablaVenta {
     width: 50 vw;
     margin-left: 20px;
     padding-left: 20px;

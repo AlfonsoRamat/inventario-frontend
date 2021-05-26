@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { CajaContext } from '../CajaContext';
+import './CuadroCaja.css'
 
 function CuadroCaja({ setTabIndex }) {
     const [monto, setMonto] = useState(0);
@@ -9,7 +10,7 @@ function CuadroCaja({ setTabIndex }) {
         if (!cajaAbierta) {
             abrirCaja(monto);
             setTabIndex(1);
-            return ;
+            return;
         }
         cerrarCaja(monto);
     }

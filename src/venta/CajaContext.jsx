@@ -18,7 +18,6 @@ export function CajaContextProvider({ children }) {
 
     function buscarCajaAbierta() {
         AxiosInstance().get('/caja/caja-abierta').then(({ data }) => {
-            console.log('Caja abierta', data);
             setCajaAbierta(data);
         })
             .catch(err => console.log(err));
@@ -29,7 +28,6 @@ export function CajaContextProvider({ children }) {
         if (!cajaAbierta) {
             AxiosInstance().post("/caja/abrir-caja", { montoEfectivoInicio })
                 .then(({ data }) => {
-                    console.log(data);
                     setCajaAbierta(data);
                 })
                 .catch(err => console.log(err));
@@ -45,9 +43,10 @@ export function CajaContextProvider({ children }) {
 
     function agregarVenta(id) {
         AxiosInstance().post("/caja/agregarVenta", { id })
-            .then(({data}) => {
+            .then(({ data }) => {
                 console.log('Nueva venta creada', data);
-                setCajaAbierta(data)})
+                setCajaAbierta(data)
+            })
             .catch(err => console.log(err));
     }
 

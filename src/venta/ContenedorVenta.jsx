@@ -14,52 +14,58 @@ function ContenedorVenta() {
 
     const { cajaAbierta, agregarVenta } = useContext(CajaContext);
     const [tabIndex, setTabIndex] = useState(1);
-    let tabs = [];
-    let tabPanels = [];
+    // let tabs = [];
+    // let tabPanels = [];
 
-    function tabsArray() {
-        tabs = [];
-        tabs.push(<Tab key={1}>Caja</Tab>)
-        cajaAbierta.Ventas.forEach((venta) => {
-            tabs.push(
-                <Tab key={venta.id}>Venta</Tab>
-            )
-        });
-        tabs.push(<Tab onClick={() => agregarVenta(cajaAbierta.id)}>+</Tab>)
-    }
+    // function tabsArray() {
+    //     tabs = [];
+    //     tabs.push(<Tab key={1}>Caja</Tab>)
+    //     cajaAbierta.Ventas.forEach((venta) => {
+    //         tabs.push(
+    //             <Tab key={venta.id}>Venta</Tab>
+    //         )
+    //     });
+    //     tabs.push(<Tab onClick={() => agregarVenta(cajaAbierta.id)}>+</Tab>)
+    // }
 
-    function tabPanelsArray() {
-        tabPanels = [];
-        tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
-        cajaAbierta.Ventas.forEach((venta) => {
-            tabPanels.push(
-                <TabPanel key={venta.id} >
-                    <Venta venta={venta} />
-                </TabPanel>
-            )
-        });
-    }
+    // function tabPanelsArray() {
+    //     tabPanels = [];
+    //     tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
+    //     cajaAbierta.Ventas.forEach((venta) => {
+    //         tabPanels.push(
+    //             <TabPanel key={venta.id} >
+    //                 <Venta venta={venta} />
+    //             </TabPanel>
+    //         )
+    //     });
+    // }
 
-    useEffect(() => {
-        if (cajaAbierta) {
-            tabsArray();
-            tabPanelsArray();
-            console.log("cajaAbierta true", tabs, tabPanels);
-        } else {
-            tabs = [];
-            tabs.push(<Tab key={1}>Caja</Tab>)
-            tabPanels = [];
-            tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
-            console.log("cajaAbierta false", tabs, tabPanels);
-        }
-    }, [cajaAbierta])
+    // useEffect(() => {
+    //     if (cajaAbierta) {
+    //         tabsArray();
+    //         tabPanelsArray();
+    //         console.log("cajaAbierta true", tabs, tabPanels);
+    //     } else {
+    //         tabs = [];
+    //         tabs.push(<Tab key={1}>Caja</Tab>)
+    //         tabPanels = [];
+    //         tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
+    //         console.log("cajaAbierta false", tabs, tabPanels);
+    //     }
+    // }, [cajaAbierta])
 
 
     return (
         <div>
             <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)} >
-                <TabList>{tabs}</TabList>
-                {tabPanels}
+                <TabList>
+                    {/* {tabs} */}
+                    <Tab>Caja</Tab>
+                    <Tab>Venta</Tab>
+                </TabList>
+                {/* {tabPanels} */}
+                <TabPanel><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>
+                <TabPanel><Venta /></TabPanel>
             </Tabs>
         </div>
     )

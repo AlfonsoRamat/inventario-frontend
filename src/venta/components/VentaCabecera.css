@@ -1,0 +1,21 @@
+.cabecera {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+}
+
+.cabeceraIzqVenta {
+    width: 70vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabeceraDerVenta {
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.opcionesDeCompra {
+    margin-top: 10px;
+}

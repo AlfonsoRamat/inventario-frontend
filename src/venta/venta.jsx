@@ -3,47 +3,32 @@ import React, { useEffect, useState } from 'react';
 import './venta.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from 'react-data-table-component';
-import { Form, Formik, Field, ErrorMessage } from "formik";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+
+
+
 import AxiosInstance from '../shared/configs/AxiosInstance';
-import { columnasListaVenta, columnasVenta, customStyles, opcionesdepagina } from "../shared/configs/TablaInventario";
-import ComboBox from 'react-responsive-combo-box'
+import { columnasVenta, customStyles, opcionesdepagina } from "../shared/configs/TablaInventario";
+import VentaCabecera from './components/VentaCabecera';
+import ClienteForm from './components/ClienteForm';
 
 function Venta(props) {
 
     const [productos, setProductos] = useState([]);
-    const [productosVenta, setproductosVenta] = useState([]);
     const [search, setsearch] = useState("");
-    const [subTotal, setSubTotal] = useState(0);
-    const [cantidad, setCantidad] = useState(0);
+    const [productosVenta, setproductosVenta] = useState([]);
     const [cliente, setCliente] = useState([]);
     const [mostrarCliente, setMostrarCliente] = useState(false);
 
-    const initialValues = {
+    
 
-        nombre: '',
-        email: '',
-        telefono: '',
-        descripcion: ''
-    }
     const handleAgregarClientes = (values) => {
         AxiosInstance().post('/cliente', { ...values })
             .then(res => {
-
                 getClientes();
-                handleAgregarcliente();
+                toggleCliente();
             })
             .catch(error => console.log(error));
     }
-    const opcionesDePago = [
-        "Efectivo",
-        "Tarjeta",
-        "Debito",
-        "Cuenta Corriente",
-        "Reserva"
-    ]
-
 
     async function handleAgregar(row) {
         const cantidadVendida = prompt('Seleccione la cantidad: ');
@@ -51,14 +36,11 @@ function Venta(props) {
             alert('Numero invalido');
             return;
         }
-        console.log('Cant vendida', cantidadVendida);
-        console.log('row', row);
         setproductosVenta(prev => [...prev, { ...row, cantidadVendida }]);
-        setSubTotal(prev => prev + row.precioVenta * cantidadVendida);
     }
-    async function handleAgregarcliente() {
-        setMostrarCliente((prev) => prev ? false : true);
-        console.log(mostrarCliente)
+
+    async function toggleCliente() {
+        setMostrarCliente(!mostrarCliente);
     }
     async function getProductos() {
         try {
@@ -94,113 +76,11 @@ function Venta(props) {
 
     return (
         <div className="bodyVenta">
-            <div className="cabecera">
-                <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
-                    <h4 className="text-gray-800 text-xl font-bold">Productos vendidos</h4>
-
-                    <div className="cabeceraIzqVenta">
-                        <div className="Tablas">
-
-                            <div className="table-responsive">
-                                <DataTable
-                                    columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidadVendida', sortable: true }]}
-                                    data={productosVenta}
-                                    fixedHeader
-                                    fixedHeaderScrollHeight="300px"
-                                    highlightOnHover
-                                    responsive
-                                    customStyles={customStyles}
-                                    noDataComponent={<div>Agregue un producto para su venta</div>}
-                                />
-
-                            </div>
-                        </div></div>
-                </div>
-
-                <div className="cabeceraDerVenta">
-                    <label name="">Total<h1 name="total">${subTotal}</h1></label>
-                    <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregar} type="button">Cobrar</button>
-                    <div className="opcionesDeCompra">
-                        <div className="renglonDeCompra">
-                            <label >Tipo de pago </label>
-                            <ComboBox options={opcionesDePago} enableAutocomplete />
-                        </div>
-                        <div className="">
-                            <label >Clientes </label>
-                            <Autocomplete
-                                id="combo-box-cliente"
-                                options={cliente}
-                                getOptionLabel={(option) => option.nombre}
-                                style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Cliente" variant="outlined" />}
-                            />
-                            <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" onClick={handleAgregarcliente} type="button">Nuevo cliente</button>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <VentaCabecera cliente={cliente} productosVenta={productosVenta} handleAgregarcliente={handleAgregarClientes} />
             {
-                mostrarCliente ? (
-                    <Formik initialValues={initialValues} validationSchema={null} onSubmit={handleAgregarClientes}>
-                        <Form className="ver-cliente">
-                            <div className="ver-cliente">
-                                <div className="cliente-input">
-                                    <label htmlFor="nombre">Nombre</label>
-                                    <Field type="text" id="nombre" name="nombre" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                    <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage> </div>
-                                <div className="cliente-input">
-                                    <label htmlFor="telefono">Telefono</label>
-                                    <Field type="text" id="telefono" name="telefono" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                    <ErrorMessage name="telefono">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                </div>
-                                <div className="cliente-input">
-                                    <label htmlFor="email">Email</label>
-                                    <Field type="text" id="email" name="email" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                    <ErrorMessage name="email">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                </div>
-                                <div className="cliente-input">
-                                    <label htmlFor="dercripcion">Descripcion</label>
-                                    <Field as="textarea" id="descripcion" name="descripcion" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                    <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                </div>
-                                <button className="submitButton" type="submit" >Crear Cliente</button>
-                            </div></Form>
-                    </Formik>
-                ) : null
+                mostrarCliente ? <ClienteForm /> : null
             }
-            <div className="piedeventa">
-                <h4 className="text-gray-800 text-xl font-bold">Agregar Productos</h4>
-
-                <div className='titulo-tabla'>
-                    <dir className="primeralinea">
-                        <div className="input-icono">
-                            <input type="text" value={search} onChange={(e) => setsearch(e.target.value)} placeholder="Buscar..." />
-                        </div>
-                    </dir>
-
-                </div>
-                <div className="table-responsive">
-                    <DataTable
-                        columns={columnasVenta}
-                        data={buscar(productos)}
-                        pagination
-                        paginationComponentOptions={opcionesdepagina}
-                        paginationPerPage={5}
-                        fixedHeader
-                        fixedHeaderScrollHeight="600px"
-                        highlightOnHover
-                        onRowClicked={produc => {
-                            handleAgregar(produc)
-                        }}
-                        responsive
-                        noDataComponent={<div>No hay informacion disponible para mostrar</div>}
-                        customStyles={customStyles}
-                    />
-
-                </div>
-            </div>
+            
         </div>
 
 
