@@ -35,7 +35,7 @@ function ContenedorVenta() {
                 id: id,
                 label: "venta"
             }
-        ]);}
+        ]);setTabValue(id)}
     };
 
 
