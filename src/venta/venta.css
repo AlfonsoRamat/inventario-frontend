@@ -9,7 +9,21 @@
     flex-direction: row;
     align-items: center;
 }
-
+.primeralinea{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    width: 30%;
+   
+}
+.primeralinea label{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 5px;
+    
+   
+}
 .ver-cliente {
     margin: 5px;
     padding: 10px 15px;
@@ -66,6 +80,6 @@
 
 .cajaTablaVenta {
     width: 50 vw;
-    margin-left: 20px;
-    padding-left: 20px;
+    margin-left: 10px;
+    padding-left: 10px;
 }
