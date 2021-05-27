@@ -13,7 +13,7 @@ const EstadoVenta = {
 }
 
 export function CajaContextProvider({ children }) {
-
+    const [productos, setProductos] = useState([]);
     const [cajaAbierta, setCajaAbierta] = useState(null);
 
     function buscarCajaAbierta() {
@@ -49,12 +49,21 @@ export function CajaContextProvider({ children }) {
             })
             .catch(err => console.log(err));
     }
+    async function getProductos() {
+        try {
+            const result = await (await AxiosInstance().get('/productos/operaciones')).data;
+            setProductos(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(() => {
         buscarCajaAbierta();
+        getProductos();
     }, []);
     return (
-        <CajaContext.Provider value={{ cajaAbierta, abrirCaja, cerrarCaja, agregarVenta }}>
+        <CajaContext.Provider value={{ setProductos,productos,cajaAbierta, abrirCaja, cerrarCaja, agregarVenta }}>
             {children}
         </CajaContext.Provider>)
 }

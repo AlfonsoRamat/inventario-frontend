@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useState,useContext } from 'react'
 import { BsFilePlus, BsFileMinus } from "react-icons/bs";
 import Venta from './venta';
 import { Tabs, Tab, Box } from "@material-ui/core";
@@ -6,11 +6,11 @@ import 'react-tabs/style/react-tabs.css';
 import opps from '../shared/images/oops.jpg'
 import './venta.css';
 import ContenedorCaja from './components/ContenedorCaja';
-
+import { CajaContext } from './CajaContext';
 
 function ContenedorVenta() {
 
-
+    const { cajaAbierta } = useContext(CajaContext);
     const [tabValue, setTabValue] = useState(0);
     const handleTabChange = (event, value) => {
         setTabValue(value);
@@ -40,12 +40,22 @@ function ContenedorVenta() {
 
 
     function closeTab() {
-        if (tabValue > 1) {
+        if (tabValue > 0) {
             let temp = tabList.filter(tab => tab.id!==tabValue);
             setTabList(temp);
-            setTabValue(1);
-            console.log("cerrar tap ", tabValue);
+            setTabValue(0);
+            
         }
+
+
+    };
+    const closeAllTab= () => {
+       
+              
+                    let temp = tabList.splice(0, 1);;
+                    setTabList(temp);
+                    setTabValue(0);
+                    
 
 
     };
@@ -70,14 +80,14 @@ function ContenedorVenta() {
                 
             </Tabs>
 
-
-          <div className="primeralinea">  <label onClick={addTab} >
+            <div className="primeralinea"> 
+{   cajaAbierta?    <label onClick={addTab} >
                 <BsFilePlus onClick={addTab} />
                 Abrir
 
-</label>
+</label>:<div></div>}
 
-           { tabValue>1? <div><label onClick={closeTab} >
+           { tabValue>0? <div><label onClick={closeTab} >
                 <BsFileMinus onClick={closeTab} />Cerrar
 
 </label></div>:<div></div>
@@ -98,7 +108,7 @@ function ContenedorVenta() {
                         
 
                             { tabValue>0?
-                               <Venta /> :<ContenedorCaja setTabIndex={addTab} />
+                               <Venta /> :<ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} />
                                 
                                                        }
                         

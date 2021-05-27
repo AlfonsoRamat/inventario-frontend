@@ -11,7 +11,7 @@ import './TablasRubros.css'
 function TablasRubros() {
 
     const [search, setSearch] = useState("");
-    const { productos } = useContext(InventarioContext);
+    const { productos,productosDispatch, proveedores } = useContext(InventarioContext);
     const { rubros, rubrosDispatch } = useContext(InventarioContext);
     const [rubrosModalState, setRubrosModalState] = useState(false);
 
@@ -35,12 +35,34 @@ function TablasRubros() {
 {            if (window.confirm(`Seguro que desea aumentar un ${porcentajecantidad} % a todos los productos ${rubro.rubro}`)) {
                 productos.forEach(row => {
                     if (row.RubroRubro === rubro.rubro && porcentajecantidad > 0) {
+                        
+ //TODO: funcionalidad de multiplicar todos los productos por valor+valor*porcentajecantidad/100
+                        const calculo= row.precioVenta+(row.precioVenta*porcentajecantidad/100);
+                        const values = {
+                            codInterno: row.codInterno,
+                            codigoPaquete: row.codigoPaquete,
+                            ubicacion: row.ubicacion,
+                            nombre: row.nombre,
+                            marca: row.marca,
+                            descripcion: row.descripcion,
+                            alertaMin: row.alertaMin,
+                            precio: row.precio,
+                            rubro: row.rubro,
+                            precioVenta: calculo,
+                            cantidad: 1,
+                            ProveedorId: '',
+                        };
 
+                        
+                        AxiosInstance().put('/productos/', { ...values })
+                        .then(({ data }) => {
+                            productosDispatch({ type: 'modificar', payload: data });
+                                                  
+                       })
+                       .catch(error => console.log(error));
+                       
 
-                        //TODO: funcionalidad de multiplicar todos los productos por valor+valor*porcentajecantidad/100
-                        console.log("deberia sumar ", porcentajecantidad);
-
-
+                        console.log("deberia sumar ", porcentajecantidad," total ",calculo,"objeto",values);
 
                     }
                 }
@@ -56,7 +78,33 @@ function TablasRubros() {
 
 
                         //TODO: funcionalidad de multiplicar todos los productos por valor-valor*porcentajecantidad/100
-                        console.log("deberia restar ", porcentajecantidad);
+                        const calculo= row.precioVenta-(row.precioVenta*porcentajecantidad/100);
+                        const values = {
+                            codInterno: row.codInterno,
+                            codigoPaquete: row.codigoPaquete,
+                            ubicacion: row.ubicacion,
+                            nombre: row.nombre,
+                            marca: row.marca,
+                            descripcion: row.descripcion,
+                            alertaMin: row.alertaMin,
+                            precio: row.precio,
+                            rubro: row.rubro,
+                            precioVenta: calculo,
+                            cantidad: 1,
+                            ProveedorId: '',
+                        };
+
+                        
+                        AxiosInstance().put('/productos/', { ...values })
+                        .then(({ data }) => {
+                            productosDispatch({ type: 'modificar', payload: data });
+                                                  
+                       })
+                       .catch(error => console.log(error));
+                       
+
+                        console.log("deberia restar ", porcentajecantidad," total ",calculo,"objeto",values);
+                  
 
 
 

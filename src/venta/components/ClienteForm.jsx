@@ -1,4 +1,5 @@
 import React from 'react'
+import "./ClienteForm.css"
 import { Form, Formik, Field, ErrorMessage } from "formik";
 const initialValues = {
 
@@ -10,7 +11,9 @@ const initialValues = {
 
 function ClienteForm({handleAgregarClientes}) {
     return (
-        <Formik initialValues={initialValues}  onSubmit={handleAgregarClientes}>
+        
+        <div className="clienteConteiner">
+<Formik initialValues={initialValues}  onSubmit={handleAgregarClientes}>
             <Form className="ver-cliente">
                 <div className="ver-cliente">
                     <div className="cliente-input">
@@ -35,6 +38,8 @@ function ClienteForm({handleAgregarClientes}) {
                     <button className="submitButton" type="submit" >Crear Cliente</button>
                 </div></Form>
         </Formik>
+        </div>
+        
     )
 }
 
