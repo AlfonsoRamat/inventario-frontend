@@ -152,11 +152,15 @@ const columnasListaVenta = [
   {
     name: 'Nombre',
     selector: 'nombre',
+    minWidth: '100px',
+    wrap: true,
     sortable: true
   },
   {
     name: 'Descripcion',
     selector: 'descripcion',
+    minWidth: '300px',
+    wrap: true,
     sortable: true
   },
 

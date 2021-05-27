@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component'
 import ComboBox from 'react-responsive-combo-box'
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { columnasListaVenta, customStyles } from '../../shared/configs/TablaInventario'
+import { BsTrash } from "react-icons/bs";
 import TextField from '@material-ui/core/TextField';
 import './VentaCabecera.css';
 
@@ -18,6 +19,10 @@ function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
         "Cuenta Corriente",
         "Reserva"
     ]
+    function borrar(id){
+        //TODO: borrar item
+
+    }
 
     useEffect(() => {
         const resultado = productosVenta.reduce((total, actual) => {
@@ -36,7 +41,18 @@ function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
 
                         <div className="table-responsive">
                             <DataTable
-                                columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidad', sortable: true }]}
+                                columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidad', sortable: true },
+                                {
+                                    name: 'Accion',
+                                    button: true,
+                                    cell: row =>
+                                        <BsTrash onClick={() => {
+                                            if (window.confirm(`Seguro que desea eliminar ${row.rubro} `)) { borrar(row.id) }
+                                        }} />
+            
+            
+                                }]}
+                                
                                 data={productosVenta}
                                 fixedHeader
                                 fixedHeaderScrollHeight="300px"
