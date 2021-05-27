@@ -6,7 +6,7 @@ import { columnasListaVenta, customStyles } from '../../shared/configs/TablaInve
 import TextField from '@material-ui/core/TextField';
 import './VentaCabecera.css';
 
-function VentaCabecera({ cliente, productosVenta, handleAgregarcliente }) {
+function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
 
     const [subTotal, setSubTotal] = useState(0);
 
@@ -69,7 +69,7 @@ function VentaCabecera({ cliente, productosVenta, handleAgregarcliente }) {
                             renderInput={(params) => <TextField {...params} label="Cliente" variant="outlined" />}
                         />
                         <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" 
-                        onClick={handleAgregarcliente} type="button">Nuevo cliente</button>
+                        onClick={toggleCliente} type="button">Nuevo cliente</button>
 
                     </div>
                 </div>

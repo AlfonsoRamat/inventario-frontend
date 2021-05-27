@@ -117,7 +117,7 @@ function Venta(props) {
 
     return (
         <div className="bodyVenta">
-            <VentaCabecera cliente={cliente} productosVenta={productosVenta} handleAgregarcliente={handleAgregarClientes} />
+            <VentaCabecera cliente={cliente} productosVenta={productosVenta} toggleCliente={toggleCliente} />
             {
                 mostrarCliente ? <ClienteForm /> : null
             }
