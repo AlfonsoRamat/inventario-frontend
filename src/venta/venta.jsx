@@ -7,19 +7,19 @@ import DataTable from 'react-data-table-component';
 
 
 import AxiosInstance from '../shared/configs/AxiosInstance';
-import { columnasVenta, customStyles, opcionesdepagina } from "../shared/configs/TablaInventario";
+
 import VentaCabecera from './components/VentaCabecera';
 import ClienteForm from './components/ClienteForm';
+import PieDeVenta from './components/PieDeVenta';
 
 function Venta(props) {
 
     const [productos, setProductos] = useState([]);
-    const [search, setsearch] = useState("");
     const [productosVenta, setproductosVenta] = useState([]);
     const [cliente, setCliente] = useState([]);
     const [mostrarCliente, setMostrarCliente] = useState(false);
 
-    
+
 
     const handleAgregarClientes = (values) => {
         AxiosInstance().post('/cliente', { ...values })
@@ -30,13 +30,60 @@ function Venta(props) {
             .catch(error => console.log(error));
     }
 
-    async function handleAgregar(row) {
+    function reducirStockEnProductos(cantidad, productoId) {
+        const productosReducidos = productos.map(producto => {
+            if (producto.id === productoId) {
+                let sustraccion = cantidad;
+                producto.Stocks.forEach(entrada => {
+                    if (entrada.cantidad > sustraccion) {
+                        entrada.cantidad -= sustraccion;
+                        sustraccion = 0;
+                    } else {
+                        sustraccion -= entrada.cantidad;
+                        entrada.cantidad = 0;
+                    }
+                });
+            }
+            return producto;
+        })
+        setProductos(productosReducidos);
+    }
+
+    async function agregarEnVentas(producto) {
         const cantidadVendida = prompt('Seleccione la cantidad: ');
         if (isNaN(parseInt(cantidadVendida))) {
             alert('Numero invalido');
             return;
         }
-        setproductosVenta(prev => [...prev, { ...row, cantidadVendida }]);
+        const cantidadTotal = producto.Stocks.reduce((total, actual) => {
+            return total + actual.cantidad;
+        }, 0);
+
+        if (cantidadTotal < cantidadVendida) {
+            alert('No hay suficientes productos en stock')
+            return;
+        }
+    
+        if (productosVenta.some(item => item.productoId === producto.id)) {
+            const nuevoArray = productosVenta.map(elemento => {
+                if (elemento.productoId === producto.id) {
+                    elemento.cantidad =  ( parseInt(elemento.cantidad) + parseInt(cantidadVendida));
+                }
+                return elemento;
+            })
+            setproductosVenta(nuevoArray);
+        } else {
+            let itemVenta = {
+                nombre: producto.nombre,
+                descripcion: producto.descripcion,
+                productoId: producto.id,
+                precioVenta: producto.precioVenta,
+                cantidad: cantidadVendida
+            }
+
+            setproductosVenta(prev => [...prev, itemVenta]);
+        }
+        reducirStockEnProductos(cantidadVendida, producto.id);
     }
 
     async function toggleCliente() {
@@ -66,13 +113,7 @@ function Venta(props) {
     }, []);
 
 
-    function buscar(rows) {
-        if (rows) {
-            return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
-                || row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
-                || row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
-        } else return [];
-    }
+
 
     return (
         <div className="bodyVenta">
@@ -80,7 +121,7 @@ function Venta(props) {
             {
                 mostrarCliente ? <ClienteForm /> : null
             }
-            
+            <PieDeVenta productos={productos} agregarEnVentas={agregarEnVentas} />
         </div>
 
 

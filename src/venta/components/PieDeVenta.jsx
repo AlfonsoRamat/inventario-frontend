@@ -1,6 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+import DataTable from 'react-data-table-component';
 import './PieDeVenta.css';
-function PieDeVenta() {
+import { columnasVenta, customStyles, opcionesdepagina } from "../../shared/configs/TablaInventario";
+
+function PieDeVenta({productos, agregarEnVentas}) {
+
+    const [search, setsearch] = useState("");
+
+    function buscar(rows) {
+        if (rows) {
+            return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
+                || row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
+                || row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
+        } else return [];
+    }
     return (
         <div className="piedeventa">
             <h4 className="text-gray-800 text-xl font-bold">Agregar Productos</h4>
@@ -23,8 +36,8 @@ function PieDeVenta() {
                     fixedHeader
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
-                    onRowClicked={produc => {
-                        handleAgregar(produc)
+                    onRowClicked={producto => {
+                        agregarEnVentas(producto)
                     }}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}

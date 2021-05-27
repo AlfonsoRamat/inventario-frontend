@@ -21,7 +21,7 @@ function VentaCabecera({ cliente, productosVenta, handleAgregarcliente }) {
 
     useEffect(() => {
         const resultado = productosVenta.reduce((total, actual) => {
-            return total + actual.precioVenta;
+            return total + (actual.precioVenta * actual.cantidad);
         }, 0);
         setSubTotal(resultado);
     }, [productosVenta])
@@ -36,7 +36,7 @@ function VentaCabecera({ cliente, productosVenta, handleAgregarcliente }) {
 
                         <div className="table-responsive">
                             <DataTable
-                                columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidadVendida', sortable: true }]}
+                                columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidad', sortable: true }]}
                                 data={productosVenta}
                                 fixedHeader
                                 fixedHeaderScrollHeight="300px"
