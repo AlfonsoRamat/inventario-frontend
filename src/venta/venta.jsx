@@ -119,7 +119,7 @@ function Venta(props) {
         <div className="bodyVenta">
             <VentaCabecera cliente={cliente} productosVenta={productosVenta} toggleCliente={toggleCliente} />
             {
-                mostrarCliente ? <ClienteForm /> : null
+                mostrarCliente ? <ClienteForm handleAgregarClientes={handleAgregarClientes} /> : null
             }
             <PieDeVenta productos={productos} agregarEnVentas={agregarEnVentas} />
         </div>
