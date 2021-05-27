@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import './venta.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from 'react-data-table-component';
@@ -11,10 +11,10 @@ import AxiosInstance from '../shared/configs/AxiosInstance';
 import VentaCabecera from './components/VentaCabecera';
 import ClienteForm from './components/ClienteForm';
 import PieDeVenta from './components/PieDeVenta';
-
+import{CajaContext} from "../venta/CajaContext";
 function Venta(props) {
 
-    const [productos, setProductos] = useState([]);
+    const{ setProductos,productos }=  useContext(CajaContext);
     const [productosVenta, setproductosVenta] = useState([]);
     const [cliente, setCliente] = useState([]);
     const [mostrarCliente, setMostrarCliente] = useState(false);
@@ -47,6 +47,7 @@ function Venta(props) {
             return producto;
         })
         setProductos(productosReducidos);
+        console.log("producto reducidos",productos)
     }
 
     async function agregarEnVentas(producto) {
@@ -89,14 +90,7 @@ function Venta(props) {
     async function toggleCliente() {
         setMostrarCliente(!mostrarCliente);
     }
-    async function getProductos() {
-        try {
-            const result = await (await AxiosInstance().get('/productos/operaciones')).data;
-            setProductos(result);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
     async function getClientes() {
         try {
             const result = await (await AxiosInstance().get('/cliente')).data;
@@ -107,7 +101,7 @@ function Venta(props) {
     }
 
     useEffect(() => {
-        getProductos();
+       
         getClientes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
