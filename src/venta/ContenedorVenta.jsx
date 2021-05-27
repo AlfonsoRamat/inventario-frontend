@@ -1,74 +1,116 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { CajaContext } from './CajaContext'
+import React, {  useState } from 'react'
+import { BsFilePlus, BsFileMinus } from "react-icons/bs";
 import Venta from './venta';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tabs, Tab, Box } from "@material-ui/core";
 import 'react-tabs/style/react-tabs.css';
 import opps from '../shared/images/oops.jpg'
 import './venta.css';
-
-
-
 import ContenedorCaja from './components/ContenedorCaja';
+
 
 function ContenedorVenta() {
 
-    const { cajaAbierta, agregarVenta } = useContext(CajaContext);
-    const [tabIndex, setTabIndex] = useState(1);
-    // let tabs = [];
-    // let tabPanels = [];
 
-    // function tabsArray() {
-    //     tabs = [];
-    //     tabs.push(<Tab key={1}>Caja</Tab>)
-    //     cajaAbierta.Ventas.forEach((venta) => {
-    //         tabs.push(
-    //             <Tab key={venta.id}>Venta</Tab>
-    //         )
-    //     });
-    //     tabs.push(<Tab onClick={() => agregarVenta(cajaAbierta.id)}>+</Tab>)
-    // }
+    const [tabValue, setTabValue] = useState(0);
+    const handleTabChange = (event, value) => {
+        setTabValue(value);
+    };
 
-    // function tabPanelsArray() {
-    //     tabPanels = [];
-    //     tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
-    //     cajaAbierta.Ventas.forEach((venta) => {
-    //         tabPanels.push(
-    //             <TabPanel key={venta.id} >
-    //                 <Venta venta={venta} />
-    //             </TabPanel>
-    //         )
-    //     });
-    // }
+    const [tabList, setTabList] = useState([
+        {
 
-    // useEffect(() => {
-    //     if (cajaAbierta) {
-    //         tabsArray();
-    //         tabPanelsArray();
-    //         console.log("cajaAbierta true", tabs, tabPanels);
-    //     } else {
-    //         tabs = [];
-    //         tabs.push(<Tab key={1}>Caja</Tab>)
-    //         tabPanels = [];
-    //         tabPanels.push(<TabPanel key={1}><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>);
-    //         console.log("cajaAbierta false", tabs, tabPanels);
-    //     }
-    // }, [cajaAbierta])
+            key: 0,
+            id: 0,
+            label: "Caja"
+        }
+    ]);
+
+    const addTab = () => {
+        let id = tabList[tabList.length - 1].id + 1;
+        if(tabList.length<7)
+        {setTabList([
+            ...tabList,
+            {
+                key: id,
+                id: id,
+                label: "venta"
+            }
+        ]);setTabValue(id)}
+    };
+
+
+    function closeTab() {
+        if (tabValue > 1) {
+            let temp = tabList.filter(tab => tab.id!==tabValue);
+            setTabList(temp);
+            setTabValue(1);
+            console.log("cerrar tap ", tabValue);
+        }
+
+
+    };
 
 
     return (
         <div>
-            <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)} >
-                <TabList>
-                    {/* {tabs} */}
-                    <Tab>Caja</Tab>
-                    <Tab>Venta</Tab>
-                </TabList>
-                {/* {tabPanels} */}
-                <TabPanel><ContenedorCaja setTabIndex={setTabIndex} /></TabPanel>
-                <TabPanel><Venta /></TabPanel>
+
+            <Tabs
+                value={tabValue}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="on"
+            >
+                {tabList.map(tab => (
+                    <Tab
+                        value={tab.id}
+                        key={tab.key.toString()}
+                        label={tab.label + tab.id}
+                    />
+                ))}
+                
             </Tabs>
-        </div>
-    )
+
+
+          <div className="primeralinea">  <label onClick={addTab} >
+                <BsFilePlus onClick={addTab} />
+                Abrir
+
+</label>
+
+           { tabValue>1? <div><label onClick={closeTab} >
+                <BsFileMinus onClick={closeTab} />Cerrar
+
+</label></div>:<div></div>
 }
+</div>
+
+
+
+            <Box p={1}>
+                {tabList.map(tab => (
+                    <Box
+                        m={1}
+                        role="tabpanel"
+                        value={tab.id}
+                        key={tab.key.toString()}
+                        hidden={tab.id !== tabValue}
+                    >
+                        
+
+                            { tabValue>0?
+                               <Venta /> :<ContenedorCaja setTabIndex={addTab} />
+                                
+                                                       }
+                        
+
+                    </Box>
+                ))}
+            </Box>
+        </div>
+
+
+    );
+}
+
 
 export default ContenedorVenta;
