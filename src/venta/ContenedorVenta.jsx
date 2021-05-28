@@ -1,9 +1,9 @@
-import React, {  useState,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { BsFilePlus, BsFileMinus } from "react-icons/bs";
 import Venta from './venta';
 import { Tabs, Tab, Box } from "@material-ui/core";
 import 'react-tabs/style/react-tabs.css';
-import opps from '../shared/images/oops.jpg'
+import TablaReserva from './components/reservas/TablaReserva'
 import './venta.css';
 import ContenedorCaja from './components/ContenedorCaja';
 import { CajaContext } from './CajaContext';
@@ -22,40 +22,45 @@ function ContenedorVenta() {
             key: 0,
             id: 0,
             label: "Caja"
+        }, {
+            key: 1,
+            id: 1,
+            label: "Reserva"
         }
     ]);
 
     const addTab = () => {
         let id = tabList[tabList.length - 1].id + 1;
-        if(tabList.length<7)
-        {setTabList([
-            ...tabList,
-            {
-                key: id,
-                id: id,
-                label: "venta"
-            }
-        ]);setTabValue(id)}
+        if (tabList.length < 7) {
+            setTabList([
+                ...tabList,
+                {
+                    key: id,
+                    id: id,
+                    label: "venta"
+                }
+            ]); setTabValue(id)
+        }
     };
 
 
     function closeTab() {
         if (tabValue > 0) {
-            let temp = tabList.filter(tab => tab.id!==tabValue);
+            let temp = tabList.filter(tab => tab.id !== tabValue);
             setTabList(temp);
             setTabValue(0);
-            
+
         }
 
 
     };
-    const closeAllTab= () => {
-       
-              
-                    let temp = tabList.splice(0, 1);;
-                    setTabList(temp);
-                    setTabValue(0);
-                    
+    const closeAllTab = () => {
+
+
+        let temp = tabList.splice(0, 1);;
+        setTabList(temp);
+        setTabValue(0);
+
 
 
     };
@@ -74,25 +79,25 @@ function ContenedorVenta() {
                     <Tab
                         value={tab.id}
                         key={tab.key.toString()}
-                        label={tab.label + tab.id}
+                        label={tab.label }
                     />
                 ))}
-                
+
             </Tabs>
 
-            <div className="primeralinea"> 
-{   cajaAbierta?    <label onClick={addTab} >
-                <BsFilePlus onClick={addTab} />
+            <div className="primeralinea">
+                {cajaAbierta ? <label onClick={addTab} >
+                    <BsFilePlus onClick={addTab} />
                 Abrir
 
-</label>:<div></div>}
+</label> : <div></div>}
 
-           { tabValue>0? <div><label onClick={closeTab} >
-                <BsFileMinus onClick={closeTab} />Cerrar
+                {tabValue > 1 ? <div><label onClick={closeTab} >
+                    <BsFileMinus onClick={closeTab} />Cerrar
 
-</label></div>:<div></div>
-}
-</div>
+</label></div> : <div></div>
+                }
+            </div>
 
 
 
@@ -105,13 +110,18 @@ function ContenedorVenta() {
                         key={tab.key.toString()}
                         hidden={tab.id !== tabValue}
                     >
-                        
 
-                            { tabValue>0?
-                               <Venta /> :<ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} />
-                                
-                                                       }
-                        
+
+                        { (tabValue == 0 ) ?
+                            <ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} /> : <div></div>
+                        }
+                        { (tabValue == 1 ) ?
+                            <TablaReserva cajaAbierta={cajaAbierta} /> : <div></div>
+                        }
+
+                        { (tabValue > 1) ?
+                            <Venta /> : <div></div>
+                        }
 
                     </Box>
                 ))}

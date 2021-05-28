@@ -1,8 +1,10 @@
 import React from 'react';
-function TablaPedidos() {
+import Oops from "../../../shared/images/oops.jpg"
+function TablaPedidos({cajaAbierta}) {
     return (<div>
 {
-"falta todo esto"
+    cajaAbierta?
+"falta todo esto":<img src={Oops} />
     }
     </div>)
 }
