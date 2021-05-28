@@ -60,7 +60,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
             {
                 content: {
                     width: '75%',
-                    height: '80%',
+                    height: '70%',
                     top: '50%',
                     left: '50%',
                     right: 'auto',
@@ -77,11 +77,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                             <h4 className="text-gray-800 text-xl font-bold">Agregar Productos</h4>
                             <div className="inputs">
                                 <div className="left-inputs">
-                                    <div className="formatimput">
-                                        <label htmlFor="codInterno" >Codigo interno</label>
-                                        <Field type="text" id="codInterno" name="codInterno" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="codInterno">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                    </div>
+
                                     <div className="formatimput">
                                         <label htmlFor="codigoPaquete">Codigo de barras</label>
                                         <Field type="text" id="codigoPaquete" name="codigoPaquete" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
@@ -93,12 +89,22 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                         <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                     <div className="formatimput">
+                                        <label htmlFor="marca">Marca</label>
+                                        <Field type="text" id="marca" name="marca" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                        <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                    </div>
+                                    <div className="formatimput">
                                         <label htmlFor="descripcion">Descripcion</label>
                                         <Field as="textarea" id="descripcion" name="descripcion" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="descripcion">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
                                 </div>
                                 <div className="right-inputs">
+                                <div className="formatimput">
+                                        <label htmlFor="cantidad">Cantidad</label>
+                                        <Field type="text" disabled={userSelection !== null} id="cantidad" name="cantidad" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                        <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+                                    </div>
                                     <div className="formatimput">
                                         <label htmlFor="precio">Precio de compra</label>
                                         <Field type="text" id="precio" disabled={userSelection !== null} name="precio" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
@@ -109,11 +115,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                         <Field type="text" id="precioVenta" name="precioVenta" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                         <ErrorMessage name="precioVenta">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                     </div>
-                                    <div className="formatimput">
-                                        <label htmlFor="cantidad">Cantidad</label>
-                                        <Field type="text" disabled={userSelection !== null} id="cantidad" name="cantidad" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="cantidad">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                    </div>
+
                                     <div className="formatimput">
                                         <label htmlFor="alertaMin">Alerta minima</label>
                                         <Field type="text" id="alertaMin" name="alertaMin" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
@@ -121,13 +123,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                     </div>
                                 </div>
 
-                                <div className="cuartaCol">
-                                    <div className="formatimput">
-                                        <label htmlFor="marca">Marca</label>
-                                        <Field type="text" id="marca" name="marca" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                        <ErrorMessage name="marca">{msg => <div className="error">{msg}</div>}</ErrorMessage>
-                                    </div>
-                                </div>
+
                                 <div className="tercercol">
                                     <div className="formatimput">
                                         <label htmlFor="ProveedorId">Proveedor</label>
