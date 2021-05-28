@@ -43,7 +43,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
                 {
                     content: {
                         width: '30%',
-                        height: '70%',
+                        height: '55%',
                         top: '50%',
                         left: '50%',
                         right: 'auto',
@@ -60,9 +60,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
                                 <div className="inputsprovedor">
                                     <div className="imputDatos">
                                         <div className="leftinputs">
-                                            <label htmlFor="codigoInterno">Codigo interno</label>
-                                            <Field type="text" id="codigoInterno" name="codigoInterno" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                                            <ErrorMessage name="codigoInterno">{msg => <div className="error">{msg}</div>}</ErrorMessage>
+
                                             <label htmlFor="nombre">Nombre</label>
                                             <Field type="text" id="nombre" name="nombre" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                             <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>

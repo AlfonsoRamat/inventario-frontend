@@ -24,11 +24,7 @@ const customStyles = {
 
   function getColumnasProveedor(dispatch){
     const columnas = [
-        {
-            name: 'Codigo Interno',
-            selector: 'codigoInterno',
-            sortable: true
-        },
+
         {
             name: 'Nombre',
             selector: 'nombre',
