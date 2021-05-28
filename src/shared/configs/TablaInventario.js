@@ -25,12 +25,7 @@ const customStyles = {
 
 function getColumnas(dispatch) {
   return [
-    {
-      name: 'Codigo Interno',
-      selector: 'codInterno',
-      maxWidth: '90px',
-      sortable: true
-    },
+
     {
       name: 'Codigo de barra',
       selector: 'codigoPaquete',
@@ -113,11 +108,7 @@ function getColumnas(dispatch) {
   ]
 }
 const columnasVenta = [
-  {
-    name: 'Codigo Interno',
-    selector: 'codInterno',
-    sortable: true
-  },
+
   {
     name: 'Codigo de barra',
     selector: 'codigoPaquete',

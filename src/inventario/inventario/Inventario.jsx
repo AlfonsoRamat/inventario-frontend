@@ -5,7 +5,6 @@ import { Tablaproveedor, TablaItems, TablaPedidos } from '../componentes';
 import { InventarioProvider } from './InventarioContext';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TablasRubros from '../componentes/rubros/TablasRubros';
-import TablaReserva from '../componentes/reservas/TablaReserva';
 import 'react-tabs/style/react-tabs.css';
 
 
@@ -17,10 +16,11 @@ function Inventario(props) {
                 <Tabs>
                     <TabList>
                         <Tab>Productos</Tab>
-                        <Tab>Provedores</Tab>
                         <Tab>Stock</Tab>
+                        <Tab>Provedores</Tab>
+                        
                         <Tab>Rubros</Tab>
-                        <Tab>Reservas</Tab>
+                        
                     </TabList>
 
                     <TabPanel>
@@ -29,17 +29,15 @@ function Inventario(props) {
 
                     </TabPanel>
                     <TabPanel>
-                        <Tablaproveedor />
+                        <TablaPedidos />
                     </TabPanel>
                     <TabPanel>
-                        <TablaPedidos />
+                        <Tablaproveedor />
                     </TabPanel>
                     <TabPanel>
                         <TablasRubros />
                     </TabPanel>
-                    <TabPanel>
-                        <TablaReserva />
-                    </TabPanel>
+
                 </Tabs>
             </InventarioProvider>
         </>
