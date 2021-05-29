@@ -7,6 +7,7 @@ import { CajaContextProvider } from '../venta/CajaContext';
 import { ReporteContextProvider } from '../reportes/ReportesContext';
 import ContenedorVenta from '../venta/ContenedorVenta';
 import Reportes from '../reportes/Reportes';
+import Notificacion from '../notificacion/Notificacion';
 
 import './main.css';
 
@@ -50,8 +51,8 @@ function Main(props) {
           <Route path="/venta" exact>
             <ContenedorVenta />
           </Route>
-          <Route path="/caja" exact>
-            {/*TODO: Aca va el componente caja*/}
+          <Route path="/notifications" exact>
+            <Notificacion/>
           </Route>
          
           </CajaContextProvider>
