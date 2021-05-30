@@ -13,13 +13,12 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
     const initialValues = userSelection ?
         ({
             ...userSelection,
-            precio: 0,
-            cantidad: 0,
+            precio: 1,
+            cantidad: 1,
             rubro: userSelection.RubroRubro,
             ProveedorId: userSelection.ProveedorId
         })
         : {
-            codInterno: '',
             codigoPaquete: '',
             ubicacion: 'LOCAL',
             nombre: '',
@@ -35,6 +34,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
 
     const submitForm = (values, actions) => {
         if (userSelection) {
+            console.log('values', values);
             AxiosInstance().put('/productos/', { ...values })
                 .then(({ data }) => {
                     productosDispatch({ type: 'modificar', payload: data });

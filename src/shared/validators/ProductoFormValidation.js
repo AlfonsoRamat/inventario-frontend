@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 
 const ProductoFormValidator = Yup.object({
-    codInterno: Yup.string().max(25, 'Debe contener hasta 25 caracteres'),
     codPaquete: Yup.string().max(20, 'Codigo demasiado corto'),
     ubicacion: Yup.string().matches(/(PROVEEDOR|DEPOSITO|LOCAL)/, 'Valor incorrecto').required('Campo requerido'),
     nombre: Yup.string().max(50, 'Demasiados caracteres').required('Campo requerido'),

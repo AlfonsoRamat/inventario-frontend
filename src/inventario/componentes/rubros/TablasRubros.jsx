@@ -11,7 +11,7 @@ import './TablasRubros.css'
 function TablasRubros() {
 
     const [search, setSearch] = useState("");
-    const { productos,productosDispatch, proveedores } = useContext(InventarioContext);
+    const { productos, productosDispatch, proveedores } = useContext(InventarioContext);
     const { rubros, rubrosDispatch } = useContext(InventarioContext);
     const [rubrosModalState, setRubrosModalState] = useState(false);
 
@@ -25,114 +25,26 @@ function TablasRubros() {
         }).catch(err => console.log(err));
     }
 
-
-    function sumarPorcentaje(rubro, accion) {
-
-
-        if (accion) {
-            const porcentajecantidad = prompt('Escriba el porcentaje de aumento: ');
-            if (porcentajecantidad>0)
-{            if (window.confirm(`Seguro que desea aumentar un ${porcentajecantidad} % a todos los productos ${rubro.rubro}`)) {
-                productos.forEach(row => {
-                    if (row.RubroRubro === rubro.rubro && porcentajecantidad > 0) {
-                        
- //TODO: funcionalidad de multiplicar todos los productos por valor+valor*porcentajecantidad/100
-                        const calculo= row.precioVenta+(row.precioVenta*porcentajecantidad/100);
-                        const values = {
-                            codInterno: row.codInterno,
-                            codigoPaquete: row.codigoPaquete,
-                            ubicacion: row.ubicacion,
-                            nombre: row.nombre,
-                            marca: row.marca,
-                            descripcion: row.descripcion,
-                            alertaMin: row.alertaMin,
-                            precio: row.precio,
-                            rubro: row.rubro,
-                            precioVenta: calculo,
-                            cantidad: 1,
-                            ProveedorId: '',
-                        };
-
-                        
-                        AxiosInstance().put('/productos/', { ...values })
-                        .then(({ data }) => {
-                            productosDispatch({ type: 'modificar', payload: data });
-                                                  
-                       })
-                       .catch(error => console.log(error));
-                       
-
-                        console.log("deberia sumar ", porcentajecantidad," total ",calculo,"objeto",values);
-
-                    }
-                }
-
-                )
-            }} else console.log("no se sumo ", porcentajecantidad)
-        } else {
-            const porcentajecantidad = prompt('Escriba el porcentaje de descuento ');
-            if (porcentajecantidad>0)
-            {            if (window.confirm(`Seguro que desea descontar un ${porcentajecantidad} % a todos los productos ${rubro.rubro}`)) {
-                productos.forEach(row => {
-                    if (row.RubroRubro === rubro.rubro && porcentajecantidad > 0) {
-
-
-                        //TODO: funcionalidad de multiplicar todos los productos por valor-valor*porcentajecantidad/100
-                        const calculo= row.precioVenta-(row.precioVenta*porcentajecantidad/100);
-                        const values = {
-                            codInterno: row.codInterno,
-                            codigoPaquete: row.codigoPaquete,
-                            ubicacion: row.ubicacion,
-                            nombre: row.nombre,
-                            marca: row.marca,
-                            descripcion: row.descripcion,
-                            alertaMin: row.alertaMin,
-                            precio: row.precio,
-                            rubro: row.rubro,
-                            precioVenta: calculo,
-                            cantidad: 1,
-                            ProveedorId: '',
-                        };
-
-                        
-                        AxiosInstance().put('/productos/', { ...values })
-                        .then(({ data }) => {
-                            productosDispatch({ type: 'modificar', payload: data });
-                                                  
-                       })
-                       .catch(error => console.log(error));
-                       
-
-                        console.log("deberia restar ", porcentajecantidad," total ",calculo,"objeto",values);
-                  
-
-
-
-                    }
-                }
-
-                )
-            }} else console.log("no se resto ", porcentajecantidad)
+    function modificarPorPorcentaje(rubro, accion) {
+        const porcentajecantidad = prompt('Ingrese el porcentaje: ');
+        if (porcentajecantidad > 0) {
+            if (window.confirm(`Seguro que desea modificar un ${porcentajecantidad} % a todos los productos del rubro ${rubro.rubro}`)) {
+                AxiosInstance().put('/productos/rubro', {rubro, porcentajecantidad, })
+            }
         }
-
-
-
     }
+
     function buscar(rows) {
         if (rows) {
             return rows.filter(row =>
                 row.rubro.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
-
             );
         } else return [];
     }
 
-
-
     return (
         <>
             <div className='titulo-tabla'>
-
                 <div className='titulo-izq'><h1>Rubros</h1></div>
                 {(productos && productos.length !== 0) ?
                     <div className='titulo-der'>
@@ -142,44 +54,35 @@ function TablasRubros() {
                     </div> : null}
             </div>
             <div className="bottonagregar">
-                <button type="button" className="btn-proveedor" onClick={toogleRubrosModalState} >Agregar Rubro</button>
+                <button type="button" className="btn-proveedor" onClick={toogleRubrosModalState}>Agregar Rubro</button>
                 <RubrosModal rubrosModalState={rubrosModalState} toogleRubrosModalState={toogleRubrosModalState} />
             </div>
-
-
             <div className="listaRubros">
-
                 <DataTable
                     columns={[...columnas, {
-                        name: '',
+                        name: 'Borrar',
                         button: true,
                         cell: row =>
                             <BsTrash onClick={() => {
                                 if (window.confirm(`Seguro que desea eliminar ${row.rubro} `)) { deleteRubro(row.rubro) }
                             }} />
-
-
                     },
                     {
-                        name: '',
+                        name: 'Aumentar precio',
                         button: true,
                         cell: row =>
 
                             <BsPlusCircle onClick={() => {
-                                sumarPorcentaje(row, true, toogleRubrosModalState);
+                                modificarPorPorcentaje(row, true, toogleRubrosModalState);
                             }} />
-
-
                     },
                     {
-                        name: '',
+                        name: 'Disminuir precio',
                         button: true,
                         cell: row => <div className="rubrosIconos"  >
-
-
                             <BsDashCircle
                                 onClick={() => {
-                                    sumarPorcentaje(row, false, toogleRubrosModalState);
+                                    modificarPorPorcentaje(row.rubro, toogleRubrosModalState);
                                 }} />
                         </div>,
                     }
