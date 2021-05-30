@@ -4,6 +4,7 @@ import './agregarProvedorModal.css';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import { InventarioContext } from '../../inventario/InventarioContext';
+import ProveedorFormValidator from '../../../shared/validators/ProveedorFormValidation';
 
 
 function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelection }) {
@@ -52,7 +53,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
                         transform: 'translate(-50%, -50%)'
                     }
                 }} >
-                <Formik initialValues={initialValues} validationSchema={null} onSubmit={handleAgregar}>
+                <Formik initialValues={initialValues} validationSchema={ProveedorFormValidator} onSubmit={handleAgregar}>
                     <Form className="formulario-povedor">
                         <div className="rounded-t bg-white mb-0 px-6 py-6">
                             <div className="text-center flex justify-between">
