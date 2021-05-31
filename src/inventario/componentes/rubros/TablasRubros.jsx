@@ -11,8 +11,7 @@ import './TablasRubros.css'
 function TablasRubros() {
 
     const [search, setSearch] = useState("");
-    const { productos, productosDispatch, proveedores } = useContext(InventarioContext);
-    const { rubros, rubrosDispatch } = useContext(InventarioContext);
+    const { rubros, rubrosDispatch, setReload } = useContext(InventarioContext);
     const [rubrosModalState, setRubrosModalState] = useState(false);
 
     function toogleRubrosModalState() {
@@ -25,12 +24,20 @@ function TablasRubros() {
         }).catch(err => console.log(err));
     }
 
-    function modificarPorPorcentaje(rubro, accion) {
-        const porcentajecantidad = prompt('Ingrese el porcentaje: ');
-        if (porcentajecantidad > 0) {
-            if (window.confirm(`Seguro que desea modificar un ${porcentajecantidad} % a todos los productos del rubro ${rubro.rubro}`)) {
-                AxiosInstance().put('/productos/rubro', {rubro, porcentajecantidad, })
+    function modificarPorPorcentaje(row, aumentar) {
+        const porcentajeCantidad = parseFloat(prompt('Ingrese el porcentaje sin el simbolo %: '));
+        const rubro = row.rubro;
+        if (porcentajeCantidad > 0) {
+            if (window.confirm(`Seguro que desea modificar un ${porcentajeCantidad} % a todos los productos del rubro ${rubro}`)) {
+                AxiosInstance().put('/productos/rubro', { rubro, porcentajeCantidad, aumentar })
+                    .then(() => {
+                        setReload(prev => !prev);
+                    })
+                    .catch(err => console.log("Algo salio mal", err));
             }
+        }
+        else {
+            alert('Debe ingresar un procentaje valido');
         }
     }
 
@@ -46,7 +53,7 @@ function TablasRubros() {
         <>
             <div className='titulo-tabla'>
                 <div className='titulo-izq'><h1>Rubros</h1></div>
-                {(productos && productos.length !== 0) ?
+                {(rubros && rubros.length !== 0) ?
                     <div className='titulo-der'>
                         <div className="input-icono">
                             <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
@@ -73,7 +80,7 @@ function TablasRubros() {
                         cell: row =>
 
                             <BsPlusCircle onClick={() => {
-                                modificarPorPorcentaje(row, true, toogleRubrosModalState);
+                                modificarPorPorcentaje(row, true);
                             }} />
                     },
                     {
@@ -82,7 +89,7 @@ function TablasRubros() {
                         cell: row => <div className="rubrosIconos"  >
                             <BsDashCircle
                                 onClick={() => {
-                                    modificarPorPorcentaje(row.rubro, toogleRubrosModalState);
+                                    modificarPorPorcentaje(row,false);
                                 }} />
                         </div>,
                     }

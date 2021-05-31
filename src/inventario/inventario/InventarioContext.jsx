@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import AxiosInstance from '../../shared/configs/AxiosInstance';
 
 export const InventarioContext = createContext({
@@ -40,7 +40,7 @@ function rubroReducer(arreglo, action) {
             return arreglo.filter((objeto) => {
                 return objeto.rubro !== action.payload;
             });
-            case 'cargar':
+        case 'cargar':
             arreglo = action.payload;
             return arreglo;
         default:
@@ -53,11 +53,12 @@ export function InventarioProvider({ children }) {
     const [proveedores, proveedoresDispatch] = useReducer(reducer, []);
     const [productos, productosDispatch] = useReducer(reducer, []);
     const [rubros, rubrosDispatch] = useReducer(rubroReducer, []);
+    const [reload, setReload] = useState(false);
 
     function getProveedores() {
 
         AxiosInstance().get('/proveedores').then(({ data }) => {
-            
+
             proveedoresDispatch({ type: 'cargar', payload: data });
         }).catch(error => {
             console.log('getProveedores error', error);
@@ -68,7 +69,7 @@ export function InventarioProvider({ children }) {
     function getProductos() {
         AxiosInstance().get('/productos/operaciones').then(({ data }) => {
             productosDispatch({ type: 'cargar', payload: data })
-           
+
         }).catch((error) => {
             console.log('getProductos error', error);
             return [];
@@ -87,11 +88,12 @@ export function InventarioProvider({ children }) {
         getProductos();
         getProveedores();
         getRubros();
+        console.log(productos);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [reload]);
 
     return (
-        <InventarioContext.Provider value={{ productos, proveedores, rubros, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
+        <InventarioContext.Provider value={{ productos, proveedores, rubros, setReload, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
             {children}
         </InventarioContext.Provider>
     )
