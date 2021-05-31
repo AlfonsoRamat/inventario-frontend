@@ -109,13 +109,11 @@ const AlertaColumns = [
   }, {
     name: 'Cantidad',
     selector: (row) => {
-      if (row.Stocks.length < 0) {
-        let value = row.Stocks.reduce((total, actual) => {
-          return total + parseFloat(actual.cantidad);
-        }, 0);
-        return value
-      }
-      return 0;
+      let value = row.Stocks.reduce((total, actual) => {
+        return total + parseFloat(actual.cantidad);
+      }, 0);
+      if (isNaN(value)) return 0;
+      return value;
     },
     sortable: true
   },
