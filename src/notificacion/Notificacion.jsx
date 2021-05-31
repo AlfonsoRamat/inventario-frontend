@@ -7,7 +7,7 @@ import { Columns,  customStyles, opcionesdepagina, conditionalRowStyles } from '
 import { BsTrash} from "react-icons/bs";
 import { Button    } from '@material-ui/core';
 import { RiMailSendLine } from "react-icons/ri";
-
+import ModalEnviar from "./ModalEnviar"
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,10 @@ function Notificacion(props) {
 const[notificaciones,setNotificaciones]=useState([]);
 const[notificacionesRecividas,setNotificacionesR]=useState([]);
 const[notificacionesEnviadas,setNotificacionesE]=useState([]);
-
+const [modal, setModal] = useState(false);
+function toggleModal() {
+    setModal((prev) => prev ? false : true);
+}
 async function deletemensaje(id){
  
 }
@@ -36,9 +39,11 @@ useEffect(() => {
         color="secondary"
         className={classes.button}
         endIcon={<RiMailSendLine >Redactar</RiMailSendLine >}
+        onClick={toggleModal}
       >
         Redactar
       </Button>
+      <ModalEnviar modal={modal} toggleModal={toggleModal} />
 <h2 className="subtitle">Recibidos</h2>
 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 
