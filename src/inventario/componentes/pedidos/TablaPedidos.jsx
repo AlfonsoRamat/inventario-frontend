@@ -12,7 +12,7 @@ import ReactExport from 'react-data-export';
 
 function TablaPedidos(props) {
 
-    const { productos, proveedores } = useContext(InventarioContext);
+    const { productos, proveedores,tabreload, setTabReload } = useContext(InventarioContext);
 
     const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
@@ -24,18 +24,18 @@ function TablaPedidos(props) {
         setmodal(!modal);
     };
 
-    const [filtrarVacios, setFiltrarVacios] = useState(false);
 
-     function filtrarstock(e) {
-console.log(e)
-if (e==="productosEnCero"){setFiltrarVacios(!filtrarVacios);}
-setUsarDatosSinAlertas(!usarDatosSinAlertas);
+
+     function filtrarstock() {
+
+
+
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
 
-            if (value <= prod.alertaMin) { if (value === 0 && filtrarVacios) return false; else return true; }
+            if (value <= prod.alertaMin) { return true; }
             else  {if(!usarDatosSinAlertas) return true; else return false;}
         });
         setFiltro(listas);
@@ -101,9 +101,9 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
-        if(index!=null){ setTabIndex(index);}
+        if(index!=null&&!tabreload ){ setTabIndex(index);setTabReload(!tabreload)}
         // eslint-disable-next-line
-    }, [userSelection])
+    }, [userSelection,usarDatosSinAlertas])
 
 
     return (
@@ -112,7 +112,10 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
             <div>
                 <>
 
-                    <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)}>
+                    <Tabs selectedIndex={tabIndex} onSelect={index => 
+                        {
+                            setTabIndex(index)
+                        }}>
                         <TabList>
                             <Tab>Stock</Tab>
                             <Tab>Alertas</Tab>
@@ -185,10 +188,11 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
 
                             </div>
                             <div className="columna">
-                           {// <label htmlFor="productosEnCero">Incluir productos sin stock</label>
-                            //<input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={(e) => { filtrarstock(e.target.name); }} id="productosEnCero" />
-                            }
-                            <input type="checkbox" checked={usarDatosSinAlertas} name="todosproductos" onChange={(e) => { filtrarstock(e.target.name); }} id="todosproductos" />
+
+                            <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => { 
+                                filtrarstock(e.target.name); 
+                                setUsarDatosSinAlertas(!usarDatosSinAlertas);
+                                }} id="todosproductos" />
                             <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
                             </div>
                             <div className="columna">
