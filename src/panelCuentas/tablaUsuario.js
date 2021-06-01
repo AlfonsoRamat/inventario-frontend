@@ -30,16 +30,16 @@ const customStyles = {
   
   const Columns = [
     {
-      name: 'Asunto',
-      selector: 'asunto',
-      maxWidth: '1000px',
-      width: "10%",
-      sortable: true
-    }, {
-      name: 'Fecha',
-      selector: 'fecha',
+      name: 'Nombre',
+      selector: 'nombre',
       sortable: true
     },
+    {
+      name: 'Permisos',
+      selector: 'permisos',
+      sortable: true
+    },
+
   ];
   
   

@@ -102,9 +102,9 @@ function TablaPedidos(props) {
         if (userSelection) toggleModal();
         filtrarstock();
    
-        if(index!=null&&!tabreload ){ setTabIndex(index);setTabReload(!tabreload)}
+        if(index!=null&&!tabreload ){ setTabIndex(index-1);setTabReload(!tabreload)}
         // eslint-disable-next-line
-    }, [userSelection,usarDatosSinAlertas])
+    }, [userSelection,usarDatosSinAlertas,tabIndex])
 
 
     return (

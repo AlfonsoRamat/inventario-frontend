@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { MdNotificationsOff, MdVerifiedUser } from "react-icons/md";
 import { AuthContext } from "../../../shared/configs/Authcontext";
-import { NavLink } from "react-router-dom";
+import { NavLink,useHistory  } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -41,7 +41,7 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 function Navbar(props) {
-
+    const history = useHistory();
     const auth = useContext(AuthContext);
     const user = auth.user;
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -79,15 +79,16 @@ function Navbar(props) {
                         <ListItemIcon>
                             <VscAccount />
                         </ListItemIcon>
-                        <ListItemText  >
-                        <NavLink  to='/inventario'>INVENTARIO</NavLink>
-                        </ListItemText>                                       
+                        <ListItemText primary="Mi Perfil" />
+                        
+                                                              
                     </StyledMenuItem>
                     <StyledMenuItem>
                         <ListItemIcon>
                             <VscExclude />
                         </ListItemIcon>
-                        <ListItemText primary="Panel de cuentas" />
+                        <ListItemText primary="panel" onClick={() =>history.push("/panelcuentas")} />
+                        
                     </StyledMenuItem>
                     <StyledMenuItem>
                         <ListItemIcon>
