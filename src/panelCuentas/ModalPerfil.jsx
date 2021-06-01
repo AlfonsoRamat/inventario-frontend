@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Box } from '@material-ui/core';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-function ModalEnviar({ modal, toggleModal }) {
+function ModalPerfil({ modal, toggleModal }) {
     const [usuarios, setUsuarios] = useState([])
     const [variable, setvariable] = useState([]);
     const [asunto, setAsunto] = useState("")
@@ -90,4 +90,4 @@ function ModalEnviar({ modal, toggleModal }) {
     )
 }
 
-export default ModalEnviar;
+export default ModalPerfil;

@@ -20,25 +20,7 @@ const customStyles = {
     },
   };
   
-  const conditionalRowStyles = [
-  
-    {
-      when: row => {
 
-        if (row.leido) return true;
-        else return false;
-      },
-      style: {
-        backgroundColor: 'yellow',
-        color: 'red',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-    
-  
-  ];
   const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',
@@ -62,4 +44,4 @@ const customStyles = {
   
   
   
-  export { Columns, customStyles, opcionesdepagina, conditionalRowStyles };
+  export { Columns, customStyles, opcionesdepagina };

@@ -53,7 +53,9 @@ function Navbar(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    const setTabIndex = () => {
+        setAnchorEl(null);
+    };
     return (
         <nav className="navbar">
             <ul className="list">
@@ -62,9 +64,10 @@ function Navbar(props) {
                 {(user.permisos === "MASTER") && <li className="item"><NavLink className="link-item" activeClassName="link-item-active" to='/reportes'>REPORTES</NavLink></li>}
             </ul>
             <div className="user-section">
-                <NavLink className="user-links" to="/notifications"><MdNotificationsOff size="1.1em" color="white" /></NavLink>
-                <NavLink className="user-links" onClick={handleClick} to="/details"><MdVerifiedUser className="username" size="1.1em" color="white" />{user.nombre}</NavLink>
-
+           
+                <MdVerifiedUser className="username" size="1.1em" color="white" onClick={handleClick}/><label onClick={handleClick}>{user.nombre}</label>
+                {(user.permisos === "MASTER" || user.permisos === "ADMIN") &&   <NavLink className="user-links" to="/inventario/alerta">
+                    <MdNotificationsOff size="1.1em" color="white" />{setTabIndex}</NavLink>}
                 <StyledMenu
                     id="customized-menu"
                     anchorEl={anchorEl}
@@ -78,8 +81,7 @@ function Navbar(props) {
                         </ListItemIcon>
                         <ListItemText  >
                         <NavLink  to='/inventario'>INVENTARIO</NavLink>
-                        </ListItemText>
-                                           
+                        </ListItemText>                                       
                     </StyledMenuItem>
                     <StyledMenuItem>
                         <ListItemIcon>

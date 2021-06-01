@@ -10,7 +10,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ReactExport from 'react-data-export';
 
-function TablaPedidos() {
+function TablaPedidos(props) {
 
     const { productos, proveedores } = useContext(InventarioContext);
 
@@ -95,9 +95,13 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
        setlistaSelected(row.selectedRows)
         console.log('Selected Rows: ', listaSelected);
       };
+      const [tabIndex, setTabIndex] = useState(0);
+      const index=props.index;
+
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
+        if(index!=null){ setTabIndex(index);}
         // eslint-disable-next-line
     }, [userSelection])
 
@@ -108,7 +112,7 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
             <div>
                 <>
 
-                    <Tabs>
+                    <Tabs selectedIndex={tabIndex} onSelect={index => setTabIndex(index)}>
                         <TabList>
                             <Tab>Stock</Tab>
                             <Tab>Alertas</Tab>
