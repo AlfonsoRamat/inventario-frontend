@@ -8,6 +8,7 @@ import { BsTrash } from "react-icons/bs";
 import { Button } from '@material-ui/core';
 import ModalPerfil from "./ModalPerfil"
 import { makeStyles } from '@material-ui/core/styles';
+import { AuthContext } from '../shared/configs/Authcontext';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -17,9 +18,13 @@ const useStyles = makeStyles((theme) => ({
 
 function PanelCuentas(props) {
     const classes = useStyles();
+    const auth = useContext(AuthContext);
+    const user = auth.user;
+
     const [usuarios, setUsuarios] = useState([])
     const [modal, setModal] = useState(false);
     function toggleModal() {
+        console.log(user)
         setModal((prev) => prev ? false : true);
     }
     async function deletemensaje(id) {
@@ -39,7 +44,7 @@ function PanelCuentas(props) {
             >
                 Agregar cuenta
       </Button>
-            <ModalPerfil modal={modal} toggleModal={toggleModal} />
+            <ModalPerfil modal={modal} toggleModal={toggleModal} usuario={user} />
             <h2 className="subtitle">Panel de cuentas</h2>
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 

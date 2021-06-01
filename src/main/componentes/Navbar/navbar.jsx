@@ -83,13 +83,14 @@ function Navbar(props) {
                         
                                                               
                     </StyledMenuItem>
-                    <StyledMenuItem>
+                    {(user.permisos === "MASTER" || user.permisos === "ADMIN") &&       
+                     <StyledMenuItem>
                         <ListItemIcon>
                             <VscExclude />
                         </ListItemIcon>
-                        <ListItemText primary="panel" onClick={() =>history.push("/panelcuentas")} />
+                        <ListItemText primary="Panel de cuentas" onClick={() => history.push("/panelcuentas")} />
                         
-                    </StyledMenuItem>
+                    </StyledMenuItem>}
                     <StyledMenuItem>
                         <ListItemIcon>
                             <VscSignOut />
