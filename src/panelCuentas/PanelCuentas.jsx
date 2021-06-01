@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import DataTable from 'react-data-table-component';
 import AxiosInstance from '../shared/configs/AxiosInstance';
 import { Columns, opcionesdepagina, customStyles } from './tablaUsuario';
-import { BsTrash } from "react-icons/bs";
+import { BsTrash,BsPencilSquare } from "react-icons/bs";
 import { Button } from '@material-ui/core';
 import ModalPerfil from "./ModalPerfil"
 import { makeStyles } from '@material-ui/core/styles';
@@ -54,6 +54,14 @@ function PanelCuentas(props) {
                         button: true,
                         cell: row =>
                             <BsTrash onClick={() => {
+                                if (window.confirm(`Seguro que desea eliminar ${row.asunto} `)) { deletemensaje(row.id) }
+                            }} />
+                    },
+                    {
+                        name: 'Editar',
+                        button: true,
+                        cell: row =>
+                            <BsPencilSquare onClick={() => {
                                 if (window.confirm(`Seguro que desea eliminar ${row.asunto} `)) { deletemensaje(row.id) }
                             }} />
                     },

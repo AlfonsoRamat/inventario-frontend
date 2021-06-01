@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import {BsPencilSquare } from "react-icons/bs";
+import "./ModalPerfil.css";
 
-
-    function ModalPerfil({ modal, toggleModal ,usuario}) {
+    function ModalPerfil({ modal, toggleModal ,usuario,perfil}) {
   
     const initialValues = usuario ?
         ({
@@ -44,17 +45,17 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
                         <div className="">
                             <div className="text-center flex justify-between">
 
-                                <div className="formatimput">
-                                    <label htmlFor="nombre">Nombre</label>
+                                <div className="fimput">
+                                    <label htmlFor="nombre">Nombre{perfil?<BsPencilSquare/>:null} </label>
                                     <Field type="text" id="nombre" name="nombre" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                     <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                 </div>
-                                <div className="formatimput">
-                                    <label htmlFor="password">Contraseña</label>
+                                <div className="fimput">
+                                    <label htmlFor="password">Contraseña{perfil?<BsPencilSquare/>:null}</label>
                                     <Field type="password" id="password" name="password" 
                                     className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                 </div>
-                                <div className="formatimput">
+                                <div className="fimput">
                                     <label htmlFor="permisos">Permisos</label>
                                     <Field as="select" id="permisos" name="permisos" className=
                                         "px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" >
@@ -65,8 +66,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
                                     </Field>
                                     <ErrorMessage name="permisos">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                 </div>
-                                <div className="formatimput">
-                                    <label htmlFor="ventaRapida">Contraseña de venta rapida</label>
+                                <div className="fimput">
+                                    <label htmlFor="ventaRapida">Contraseña de venta rapida{perfil?<BsPencilSquare/>:null}</label>
                                     <Field type="password" id="ventaRapida" name="ventaRapida" 
                                     className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                 </div>
