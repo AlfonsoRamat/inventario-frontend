@@ -19,16 +19,16 @@ function TablaPedidos(props) {
     const [userSelection, setUserSelection] = useState(null);
     const [usarDatosSinAlertas,setUsarDatosSinAlertas] = useState(true);
     const [listaSelected,setlistaSelected] = useState([]);
-
+    const [bandera,setBandera] = useState(true);
     function toggleModal() {
         setmodal(!modal);
     };
-
+   async  function reloadtable() {
+        setBandera(!bandera);
+    };
 
 
      function filtrarstock() {
-
-
 
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
@@ -39,7 +39,7 @@ function TablaPedidos(props) {
             else  {if(!usarDatosSinAlertas) return true; else return false;}
         });
         setFiltro(listas);
-
+        reloadtable();
     }
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -101,6 +101,7 @@ function TablaPedidos(props) {
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
+   
         if(index!=null&&!tabreload ){ setTabIndex(index);setTabReload(!tabreload)}
         // eslint-disable-next-line
     }, [userSelection,usarDatosSinAlertas])
