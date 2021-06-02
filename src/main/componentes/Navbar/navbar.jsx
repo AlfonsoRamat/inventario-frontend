@@ -53,8 +53,14 @@ function Navbar(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const setTabIndex = () => {
-        setAnchorEl(null);
+    const irPerfil = () => {
+        history.push("/perfil"); 
+        handleClose();
+    };
+    
+    const irPanel = () => {
+        history.push("/panelcuentas"); 
+        handleClose();
     };
     return (
         <nav className="navbar">
@@ -67,7 +73,7 @@ function Navbar(props) {
            
                 <MdVerifiedUser className="username" size="1.1em" color="white" onClick={handleClick}/><label onClick={handleClick}>{user.nombre}</label>
                 {(user.permisos === "MASTER" || user.permisos === "ADMIN") &&   <NavLink className="user-links" to="/inventario/alerta">
-                    <MdNotificationsOff size="1.1em" color="white" />{setTabIndex}</NavLink>}
+                    <MdNotificationsOff size="1.1em" color="white" /></NavLink>}
                 <StyledMenu
                     id="customized-menu"
                     anchorEl={anchorEl}
@@ -79,7 +85,7 @@ function Navbar(props) {
                         <ListItemIcon>
                             <VscAccount />
                         </ListItemIcon>
-                        <ListItemText primary="Mi Perfil" />
+                        <ListItemText primary="Mi Perfil" onClick={irPerfil}/>
                         
                                                               
                     </StyledMenuItem>
@@ -88,7 +94,7 @@ function Navbar(props) {
                         <ListItemIcon>
                             <VscExclude />
                         </ListItemIcon>
-                        <ListItemText primary="Panel de cuentas" onClick={() => history.push("/panelcuentas")} />
+                        <ListItemText primary="Panel de cuentas" onClick={irPanel} />
                         
                     </StyledMenuItem>}
                     <StyledMenuItem>
