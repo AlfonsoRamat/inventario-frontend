@@ -1,7 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import {BsPencilSquare } from "react-icons/bs";
 import "./ModalPerfil.css";
 
     function ModalPerfil({ modal, toggleModal ,usuario,perfil}) {
@@ -46,12 +45,12 @@ import "./ModalPerfil.css";
                             <div className="text-center flex justify-between">
 
                                 <div className="fimput">
-                                    <label htmlFor="nombre">Nombre{perfil?<BsPencilSquare/>:null} </label>
+                                    <label htmlFor="nombre">Nombre </label>
                                     <Field type="text" id="nombre" name="nombre" className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                     <ErrorMessage name="nombre">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                 </div>
                                 <div className="fimput">
-                                    <label htmlFor="password">Contraseña{perfil?<BsPencilSquare/>:null}</label>
+                                    <label htmlFor="password">Contraseña</label>
                                     <Field type="password" id="password" name="password" 
                                     className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                 </div>
@@ -67,7 +66,7 @@ import "./ModalPerfil.css";
                                     <ErrorMessage name="permisos">{msg => <div className="error">{msg}</div>}</ErrorMessage>
                                 </div>
                                 <div className="fimput">
-                                    <label htmlFor="ventaRapida">Contraseña de venta rapida{perfil?<BsPencilSquare/>:null}</label>
+                                    <label htmlFor="ventaRapida">Contraseña de venta rapida</label>
                                     <Field type="password" id="ventaRapida" name="ventaRapida" 
                                     className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                                 </div>
