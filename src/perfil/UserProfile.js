@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 });
 
 export default function UserProfile() {
-
+//open dialog
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -38,7 +38,7 @@ export default function UserProfile() {
   const handleClose = () => {
     setOpen(false);
   };
-
+//formik
   const auth = useContext(AuthContext);
   const user = auth.user;
   const classes = useStyles();
@@ -59,20 +59,22 @@ export default function UserProfile() {
 const submitForm = (values, actions) => {
 if(values.oldpassword!==values.newpassword &&values.newpassword==values.password){
   handleModificarPassword(values.oldpassword,values.newpassword);
-}else console.log("no hace nada");
+}else setSamepass(false)
 
 }
+//accion sumit
 async function handleModificarPassword  (pasword,newPassword)  {
-  handleClickOpen();
+  
  await AxiosInstance().put('/usuarios/change-password', { pasword,newPassword})
       .then(res => {
         console.log("se cambio la contraseña");
-        
+        handleClickOpen();
       })
       .catch(error => console.log(error));
 }
 
-
+// validacion
+const [samepass, setSamepass] = useState(true);
 
   return (
     <div className="contenedorPerfil" >
@@ -112,7 +114,7 @@ async function handleModificarPassword  (pasword,newPassword)  {
                   <label htmlFor="password">Repita contraseña</label>
                   <Field type="password" id="password" name="password" 
                     className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
-                 
+                 {samepass?null:<label className="error">No coincide la contraseña</label>}
                 </div>
                 </div>
                 }
