@@ -2,12 +2,7 @@
 import React, { useEffect, useState,useContext } from 'react';
 import './venta.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import DataTable from 'react-data-table-component';
-
-
-
 import AxiosInstance from '../shared/configs/AxiosInstance';
-
 import VentaCabecera from './components/VentaCabecera';
 import ClienteForm from './components/ClienteForm';
 import PieDeVenta from './components/PieDeVenta';
@@ -47,7 +42,6 @@ function Venta(props) {
             return producto;
         })
         setProductos(productosReducidos);
-        console.log("producto reducidos",productos)
     }
 
     async function agregarEnVentas(producto) {
