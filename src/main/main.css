@@ -1,8 +1,8 @@
 .grid-container {
     display: grid;
-    height: 100vw;
+    height: 100%;
     grid-template-columns: auto auto auto auto auto auto;
-    grid-template-rows: 3% 93% 2%;
+    grid-template-rows: 5% 93% 2%;
     grid-template-areas: 
     'header header header header header header'
     'main main main main main main'

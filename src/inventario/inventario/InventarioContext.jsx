@@ -54,7 +54,7 @@ export function InventarioProvider({ children }) {
     const [productos, productosDispatch] = useReducer(reducer, []);
     const [rubros, rubrosDispatch] = useReducer(rubroReducer, []);
     const [reload, setReload] = useState(false);
-
+    const [tabreload, setTabReload] = useState(false);
     function getProveedores() {
 
         AxiosInstance().get('/proveedores').then(({ data }) => {
@@ -93,7 +93,7 @@ export function InventarioProvider({ children }) {
     }, [reload]);
 
     return (
-        <InventarioContext.Provider value={{ productos, proveedores, rubros, setReload, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
+        <InventarioContext.Provider value={{ tabreload, setTabReload,productos, proveedores, rubros, setReload, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
             {children}
         </InventarioContext.Provider>
     )

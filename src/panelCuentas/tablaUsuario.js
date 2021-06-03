@@ -20,25 +20,7 @@ const customStyles = {
     },
   };
   
-  const conditionalRowStyles = [
-  
-    {
-      when: row => {
 
-        if (row.leido) return true;
-        else return false;
-      },
-      style: {
-        backgroundColor: 'yellow',
-        color: 'red',
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      },
-    },
-    
-  
-  ];
   const opcionesdepagina = {
     rowsPerPageText: 'Filas por pagina',
     rangeSeparatorText: 'de',
@@ -48,18 +30,18 @@ const customStyles = {
   
   const Columns = [
     {
-      name: 'Asunto',
-      selector: 'asunto',
-      maxWidth: '1000px',
-      width: "10%",
-      sortable: true
-    }, {
-      name: 'Fecha',
-      selector: 'fecha',
+      name: 'Nombre',
+      selector: 'nombre',
       sortable: true
     },
+    {
+      name: 'Permisos',
+      selector: 'permisos',
+      sortable: true
+    },
+
   ];
   
   
   
-  export { Columns, customStyles, opcionesdepagina, conditionalRowStyles };
+  export { Columns, customStyles, opcionesdepagina };

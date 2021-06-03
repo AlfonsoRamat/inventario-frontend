@@ -7,7 +7,8 @@ import { CajaContextProvider } from '../venta/CajaContext';
 import { ReporteContextProvider } from '../reportes/ReportesContext';
 import ContenedorVenta from '../venta/ContenedorVenta';
 import Reportes from '../reportes/Reportes';
-import Notificacion from '../notificacion/Notificacion';
+import PanelCuentas from '../panelCuentas/PanelCuentas';
+import UserProfile from '../perfil/UserProfile';
 
 import './main.css';
 
@@ -51,10 +52,15 @@ function Main(props) {
           <Route path="/venta" exact>
             <ContenedorVenta />
           </Route>
-          <Route path="/notifications" exact>
-            <Notificacion/>
+          <Route path="/panelcuentas" exact>
+            <PanelCuentas/>
           </Route>
-         
+          <Route path="/inventario/alerta" exact>
+          <Inventario index={1} />
+          </Route>
+          <Route path="/perfil" exact>
+          <UserProfile />
+          </Route>
           </CajaContextProvider>
         </Switch>
       </div>

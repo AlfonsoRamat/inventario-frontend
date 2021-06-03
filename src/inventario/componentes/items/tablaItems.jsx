@@ -21,7 +21,7 @@ const TablaItems = () => {
         if (rows) {
             return rows.filter(row =>
                 row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
                 row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
             );
         } else return [];

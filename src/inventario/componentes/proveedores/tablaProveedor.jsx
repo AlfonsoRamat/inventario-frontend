@@ -17,8 +17,7 @@ function Tablaproveedor() {
 
     function buscar(rows) {
         if (rows) {
-            return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codigoInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1)
+            return rows.filter(row => row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 )
         } else return [];
     }
 

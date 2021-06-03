@@ -10,36 +10,36 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ReactExport from 'react-data-export';
 
-function TablaPedidos() {
+function TablaPedidos(props) {
 
-    const { productos, proveedores } = useContext(InventarioContext);
+    const { productos, proveedores,tabreload, setTabReload } = useContext(InventarioContext);
 
     const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
     const [userSelection, setUserSelection] = useState(null);
     const [usarDatosSinAlertas,setUsarDatosSinAlertas] = useState(true);
     const [listaSelected,setlistaSelected] = useState([]);
-
+    const [bandera,setBandera] = useState(true);
     function toggleModal() {
         setmodal(!modal);
     };
+   async  function reloadtable() {
+        setBandera(!bandera);
+    };
 
-    const [filtrarVacios, setFiltrarVacios] = useState(false);
 
-     function filtrarstock(e) {
-console.log(e)
-if (e==="productosEnCero"){setFiltrarVacios(!filtrarVacios);}
-setUsarDatosSinAlertas(!usarDatosSinAlertas);
+     function filtrarstock() {
+
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
             }, 0);
 
-            if (value <= prod.alertaMin) { if (value === 0 && filtrarVacios) return false; else return true; }
+            if (value <= prod.alertaMin) { return true; }
             else  {if(!usarDatosSinAlertas) return true; else return false;}
         });
         setFiltro(listas);
-
+        reloadtable();
     }
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -77,7 +77,7 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
         if (rows) {
             return rows.filter(row =>
                 row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codInterno.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
                 row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
             );
         } else return [];
@@ -95,11 +95,16 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
        setlistaSelected(row.selectedRows)
         console.log('Selected Rows: ', listaSelected);
       };
+      const [tabIndex, setTabIndex] = useState(0);
+      const index=props.index;
+
     useEffect(() => {
         if (userSelection) toggleModal();
         filtrarstock();
+   
+        if(index!=null&&!tabreload ){ setTabIndex(index-1);setTabReload(!tabreload)}
         // eslint-disable-next-line
-    }, [userSelection])
+    }, [userSelection,usarDatosSinAlertas,tabIndex])
 
 
     return (
@@ -108,7 +113,10 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
             <div>
                 <>
 
-                    <Tabs>
+                    <Tabs selectedIndex={tabIndex} onSelect={index => 
+                        {
+                            setTabIndex(index)
+                        }}>
                         <TabList>
                             <Tab>Stock</Tab>
                             <Tab>Alertas</Tab>
@@ -181,10 +189,11 @@ setUsarDatosSinAlertas(!usarDatosSinAlertas);
 
                             </div>
                             <div className="columna">
-                           {// <label htmlFor="productosEnCero">Incluir productos sin stock</label>
-                            //<input type="checkbox" checked={filtrarVacios} name="productosEnCero" onChange={(e) => { filtrarstock(e.target.name); }} id="productosEnCero" />
-                            }
-                            <input type="checkbox" checked={usarDatosSinAlertas} name="todosproductos" onChange={(e) => { filtrarstock(e.target.name); }} id="todosproductos" />
+
+                            <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => { 
+                                filtrarstock(e.target.name); 
+                                setUsarDatosSinAlertas(!usarDatosSinAlertas);
+                                }} id="todosproductos" />
                             <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
                             </div>
                             <div className="columna">
