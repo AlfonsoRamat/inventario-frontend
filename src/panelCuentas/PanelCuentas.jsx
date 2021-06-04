@@ -9,6 +9,11 @@ import { Button } from '@material-ui/core';
 import ModalPerfil from "./ModalPerfil"
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../shared/configs/Authcontext';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -23,15 +28,49 @@ function PanelCuentas(props) {
 
     const [usuarios, setUsuarios] = useState([])
     const [modal, setModal] = useState(false);
+
+function getUsuario()
+    {AxiosInstance().get('/usuarios/getall').then(res => {
+            
+        setUsuarios(res.data);
+    }).catch(err => {
+
+    }); }
     function toggleModal() {
         console.log(user)
         setModal((prev) => prev ? false : true);
     }
     async function deletemensaje(id) {
-
+        {await AxiosInstance().get('/usuarios/delete').then(res => {
+            
+            
+        }).catch(err => {
+    
+        }); }
     }
-    useEffect(() => {
 
+    async function resetPass(userId)
+    {
+        {await AxiosInstance().put('/usuarios/reset-user-password',userId)
+        .then(res => {
+                 handleClickOpen();
+        }).catch(err => {
+    
+        }); }
+    }
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    useEffect(() => {
+        getUsuario();
     }, [])
 
     return (
@@ -58,11 +97,11 @@ function PanelCuentas(props) {
                             }} />
                     },
                     {
-                        name: 'Editar',
+                        name: 'Reset contraseña',
                         button: true,
                         cell: row =>
                             <BsPencilSquare onClick={() => {
-                                if (window.confirm(`Seguro que desea eliminar ${row.asunto} `)) { deletemensaje(row.id) }
+                                if (window.confirm(`Seguro que desea reset la contraseña ${row.nombre} `)) { resetPass(row.id) }
                             }} />
                     },
 
@@ -77,6 +116,25 @@ function PanelCuentas(props) {
 
                 />
             </div>
+            <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Contraseña"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Su contraseña ha sido resetiada correctamente.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <button onClick={handleClose} >
+            Aceptar
+          </button>
+
+        </DialogActions>
+      </Dialog>
         </div>
 
 

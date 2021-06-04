@@ -2,21 +2,24 @@ import React from 'react';
 import Modal from 'react-modal';
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./ModalPerfil.css";
+import AxiosInstance from '../shared/configs/AxiosInstance';
 
     function ModalPerfil({ modal, toggleModal ,usuario,perfil}) {
-  
+        const handleAgregarUsuario = (values) => {
+            AxiosInstance().post('/usuarios/register', { ...values })
+                .then(res => {
+console.log("nuevo usuraio");
+                })
+                .catch(error => console.log(error));
+        }
     const initialValues = usuario ?
         ({
             usuario,
         })
-        : {
-            nombre: '',
-            password: '',
-            permisos: '',
-            ventaRapida: '',
-        };
+        : null;
     const submitForm = (values, actions) => {
-
+        handleAgregarUsuario(values);
+        
 
     }
 
