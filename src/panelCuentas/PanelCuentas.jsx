@@ -9,12 +9,12 @@ import { Button } from '@material-ui/core';
 import ModalPerfil from "./ModalPerfil"
 import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../shared/configs/Authcontext';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
@@ -39,6 +39,7 @@ function getUsuario()
     function toggleModal() {
         console.log(user)
         setModal((prev) => prev ? false : true);
+        
     }
     async function deletemensaje(id) {
         {await AxiosInstance().get('/usuarios/delete').then(res => {
@@ -53,22 +54,27 @@ function getUsuario()
     {
         {await AxiosInstance().put('/usuarios/reset-user-password',{userId})
         .then(res => {
-            console.log(userId);
-                 handleClickOpen();
+
+            handleClicksnakBar();
         }).catch(err => {
             console.log(err);
         }); }
     }
 
-    const [open, setOpen] = React.useState(false);
+//snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
+  const handleClicksnakBar = () => {
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
 
     useEffect(() => {
         getUsuario();
@@ -85,7 +91,7 @@ function getUsuario()
             >
                 Agregar cuenta
       </Button>
-            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} />
+            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} handleClicksnakBar={handleClicksnakBar} />
            
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 
@@ -118,25 +124,14 @@ function getUsuario()
 
                 />
             </div>
-            <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Contraseña"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Su contraseña ha sido resetiada correctamente.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <button onClick={handleClose} >
-            Aceptar
-          </button>
 
-        </DialogActions>
-      </Dialog>
+
+
+      <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity="success">
+          Usuario Agregado con exito.
+        </Alert>
+      </Snackbar>
         </div>
 
 
