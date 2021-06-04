@@ -4,24 +4,27 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./ModalPerfil.css";
 import AxiosInstance from '../shared/configs/AxiosInstance';
 
-    function ModalPerfil({ modal, toggleModal ,usuario,perfil}) {
+    function ModalPerfil({ modal, toggleModal ,getUsuario}) {
         const handleAgregarUsuario = (values) => {
             AxiosInstance().post('/usuarios/register', { ...values })
                 .then(res => {
-console.log("nuevo usuraio");
+                    getUsuario();
+                    toggleModal();
                 })
                 .catch(error => console.log(error));
         }
-    const initialValues = usuario ?
+    const initialValues =
         ({
-            usuario,
+            nombre:'',
+            password:'',
+            permisos:'VENDEDOR',
+            ventaRapida:'',
+            
         })
-        : null;
+        
     const submitForm = (values, actions) => {
         handleAgregarUsuario(values);
-        
-
-    }
+           }
 
 
 

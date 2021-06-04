@@ -43,18 +43,12 @@ export default function UserProfile() {
   const user = auth.user;
   const classes = useStyles();
   const [verContraseña, setVerContraseña]=useState(true);
-  const initialValues = user ?
-  ({
-      ...user,
-      oldpassword:user.password,
-      newpassword:'',
-
-  })
-  : {
-      nombre: '',
-      password: '',
-      permisos: '',
-      ventaRapida: '',
+  const initialValues = 
+ {
+  oldpassword: '',
+  newpassword: '',
+  password: '',
+ 
   };
 const submitForm = (values, actions) => {
 if(values.oldpassword!==values.newpassword &&values.newpassword==values.password){
@@ -79,7 +73,7 @@ const [samepass, setSamepass] = useState(true);
   return (
     <div className="contenedorPerfil" >
       <Formik onSubmit={submitForm} initialValues={initialValues} >
-        <Form className="formulario-modal">
+        <Form className="formulario-perfil-modal">
           <Card className={classes.root}>
             <CardActionArea>
               <CardMedia

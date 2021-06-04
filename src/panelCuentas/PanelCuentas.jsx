@@ -51,11 +51,12 @@ function getUsuario()
 
     async function resetPass(userId)
     {
-        {await AxiosInstance().put('/usuarios/reset-user-password',userId)
+        {await AxiosInstance().put('/usuarios/reset-user-password',{userId})
         .then(res => {
+            console.log(userId);
                  handleClickOpen();
         }).catch(err => {
-    
+            console.log(err);
         }); }
     }
 
@@ -75,6 +76,7 @@ function getUsuario()
 
     return (
         <div className="">
+             <h2 className="subtitle">Panel de cuentas</h2>
             <Button
                 variant="contained"
                 color="secondary"
@@ -83,8 +85,8 @@ function getUsuario()
             >
                 Agregar cuenta
       </Button>
-            <ModalPerfil modal={modal} toggleModal={toggleModal} usuario={user} />
-            <h2 className="subtitle">Panel de cuentas</h2>
+            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} />
+           
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 
                 <DataTable
