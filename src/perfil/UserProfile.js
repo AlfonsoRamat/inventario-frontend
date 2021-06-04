@@ -125,8 +125,8 @@ const [samepass, setSamepass] = useState(true);
             </CardActionArea>
             <CardActions>
 
-              <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                type="submit">Agregar</button>
+             { verContraseña? null:<button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                type="submit">Agregar</button>}
             </CardActions>
           </Card>
         </Form>
