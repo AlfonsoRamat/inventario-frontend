@@ -11,7 +11,18 @@ import { CajaContext } from "./CajaContext";
 function ContenedorVenta() {
   const { cajaAbierta } = useContext(CajaContext);
   const [tabValue, setTabValue] = useState(0);
-  const [tabList, setTabList] = useState([]);
+  const [tabList, setTabList] = useState([
+    {
+      key: 0,
+      id: 0,
+      label: "Caja",
+    },
+    {
+      key: 1,
+      id: 1,
+      label: "Reserva",
+    },
+  ]);
 
   const handleTabChange = (event, value) => {
     setTabValue(value);
@@ -48,38 +59,21 @@ function ContenedorVenta() {
   };
 
   useEffect(() => {
-    const tabs = [];
-
-      if(tabList.length === 0){
-          tabs.push({
-            key: 0,
-            id: 0,
-            label: "Caja",
-          });
-      }
-
+    if (cajaAbierta && tabList.length === 1) {
+      setTabList((prev) => [
+        ...prev,
+        {
+          key: 1,
+          id: 1,
+          label: "Reserva",
+        },
+      ]);
+    }
     if (cajaAbierta) {
-        if(tabList.length === 1){
-            tabs.push({
-              key: 1,
-              id: 1,
-              label: "Reserva",
-            });
-        }
-      //Aca tengo que cargar todas las ventas en pestañas
       cajaAbierta.Ventas.forEach((venta) => {
-        if (venta && (venta.estadoVenta === "abierta")) {
-          tabs.push({
-            key: venta.id,
-            id: venta.id,
-            label: "venta",
-            props: venta,
-          });
-        }
+       if(venta.estadoVenta ==="abierta") addTab(venta);
       });
     }
-    setTabList((prev) => [...prev, ...tabs]);
-    return;
   }, [cajaAbierta]);
 
   return (
@@ -123,11 +117,20 @@ function ContenedorVenta() {
           // Aca se renderizan las tabs
           tabList.map((tab) => {
             return (
-              <Box m={1} role="tabpanel" value={tab.id} key={tab.key.toString()} hidden={tab.id !== tabValue}>
-                {
-                (tabValue === 0) ? (<ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} />)
-                : ((tabValue === 1) ? <TablaReserva cajaAbierta={cajaAbierta} /> : <Venta ventaprop={tab.props}/>)
-                }
+              <Box
+                m={1}
+                role="tabpanel"
+                value={tab.id}
+                key={tab.key.toString()}
+                hidden={tab.id !== tabValue}
+              >
+                {tabValue === 0 ? (
+                  <ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} />
+                ) : tabValue === 1 ? (
+                  <TablaReserva cajaAbierta={cajaAbierta} />
+                ) : (
+                  <Venta ventaprop={tab.props} />
+                )}
               </Box>
             );
           })
