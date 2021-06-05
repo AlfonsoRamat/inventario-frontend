@@ -191,7 +191,7 @@ function TablaPedidos(props) {
                             <div className="columna">
 
                             <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => { 
-                                filtrarstock(e.target.name); 
+                                filtrarstock(); 
                                 setUsarDatosSinAlertas(!usarDatosSinAlertas);
                                 }} id="todosproductos" />
                             <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>

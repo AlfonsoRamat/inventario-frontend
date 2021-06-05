@@ -7,9 +7,8 @@ import { Columns, opcionesdepagina, customStyles } from './tablaUsuario';
 import { BsTrash,BsPencilSquare } from "react-icons/bs";
 import { Button } from '@material-ui/core';
 import ModalPerfil from "./ModalPerfil"
-import { makeStyles } from '@material-ui/core/styles';
 import { AuthContext } from '../shared/configs/Authcontext';
-
+import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
@@ -41,13 +40,14 @@ function getUsuario()
         setModal((prev) => prev ? false : true);
         
     }
-    async function deletemensaje(id) {
-        {await AxiosInstance().get('/usuarios/delete').then(res => {
+    async function deletemensaje(userId) {
+        console.log("user id",userId);
+        await  AxiosInstance().delete('/usuarios/delete-user',{userId:userId}).then(res => {
             
-            
+            handleClicksnakBar();
         }).catch(err => {
-    
-        }); }
+    console.log(err);
+        }); 
     }
 
     async function resetPass(userId)
@@ -101,7 +101,7 @@ const [opensnakBar, setOpensnakBar] = useState(false);
                         button: true,
                         cell: row =>
                             <BsTrash onClick={() => {
-                                if (window.confirm(`Seguro que desea eliminar ${row.asunto} `)) { deletemensaje(row.id) }
+                                if (window.confirm(`Seguro que desea eliminar ${row.nombre} `)) { deletemensaje(row.id) }
                             }} />
                     },
                     {

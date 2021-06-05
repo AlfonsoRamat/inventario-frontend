@@ -17,6 +17,12 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import {BsPencilSquare } from "react-icons/bs";
 import "./UserProfile.css"
 import AxiosInstance from '../shared/configs/AxiosInstance';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 
 const useStyles = makeStyles({
   root: {
@@ -57,9 +63,9 @@ if(values.oldpassword!==values.newpassword &&values.newpassword==values.password
 
 }
 //accion sumit
-async function handleModificarPassword  (pasword,newPassword)  {
+async function handleModificarPassword  (password,newPassword)  {
   
- await AxiosInstance().put('/usuarios/change-password', { pasword,newPassword})
+ await AxiosInstance().put('/usuarios/change-password', { password,newPassword})
       .then(res => {
         console.log("se cambio la contraseña");
         handleClickOpen();
