@@ -19,7 +19,7 @@ const style = {
 }
 
 
-function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
+function RubrosModal({ rubrosModalState, toogleRubrosModalState,handleClicksnakBar }) {
 
     const [bandera, SetBandera] = useState(false);
     const {  rubrosDispatch } = useContext(InventarioContext);
@@ -39,7 +39,8 @@ function RubrosModal({ rubrosModalState, toogleRubrosModalState }) {
         AxiosInstance().post('/rubros', { rubro }).then(({ data }) => {
             rubrosDispatch({ type: 'agregar', payload: data });
             setRubro('');
-            toogleRubrosModalState()
+            handleClicksnakBar(false);
+            toogleRubrosModalState();
         }).catch(err => console.log(err));
     }
     useEffect(() => {

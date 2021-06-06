@@ -6,7 +6,11 @@ import { columnas, customStyles } from "../../../shared/configs/tablaRubro";
 import DataTable from 'react-data-table-component';
 import RubrosModal from '../rubrosModal/RubrosModal';
 import './TablasRubros.css'
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 function TablasRubros() {
 
@@ -32,6 +36,7 @@ function TablasRubros() {
                 AxiosInstance().put('/productos/rubro', { rubro, porcentajeCantidad, aumentar })
                     .then(() => {
                         setReload(prev => !prev);
+                        handleClicksnakBar(true);
                     })
                     .catch(err => console.log("Algo salio mal", err));
             }
@@ -48,6 +53,21 @@ function TablasRubros() {
             );
         } else return [];
     }
+//snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
+const [advertencia, setAdvertencia]=useState(false)
+  const handleClicksnakBar = (adv) => {
+      setAdvertencia(adv)
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
 
     return (
         <>
@@ -62,7 +82,7 @@ function TablasRubros() {
             </div>
             <div className="bottonagregar">
                 <button type="button" className="btn-proveedor" onClick={toogleRubrosModalState}>Agregar Rubro</button>
-                <RubrosModal rubrosModalState={rubrosModalState} toogleRubrosModalState={toogleRubrosModalState} />
+                <RubrosModal rubrosModalState={rubrosModalState} toogleRubrosModalState={toogleRubrosModalState} handleClicksnakBar={handleClicksnakBar}/>
             </div>
             <div className="listaRubros">
                 <DataTable
@@ -103,7 +123,11 @@ function TablasRubros() {
                     customStyles={customStyles}
                 />
             </div>
-
+            <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={advertencia?"warning":"success"}>
+         {advertencia?"Rubro modificado con exito.":"Rubro agregado con exito."} 
+        </Alert>
+      </Snackbar>
         </>
     )
 
