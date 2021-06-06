@@ -12,7 +12,12 @@ import AxiosInstance from '../shared/configs/AxiosInstance';
                     handleClicksnakBar();
                     toggleModal();
                 })
-                .catch(error => console.log(error));
+                .catch(({data}) => {
+                    
+                    const {error}=data;
+                    console.log(error)
+
+                });
         }
     const initialValues =
         ({

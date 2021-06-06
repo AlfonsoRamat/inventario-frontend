@@ -12,23 +12,23 @@ import ReactExport from 'react-data-export';
 
 function TablaPedidos(props) {
 
-    const { productos, proveedores,tabreload, setTabReload } = useContext(InventarioContext);
+    const { productos, proveedores, tabreload, setTabReload } = useContext(InventarioContext);
 
     const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
     const [userSelection, setUserSelection] = useState(null);
-    const [usarDatosSinAlertas,setUsarDatosSinAlertas] = useState(true);
-    const [listaSelected,setlistaSelected] = useState([]);
-    const [bandera,setBandera] = useState(true);
+    const [usarDatosSinAlertas, setUsarDatosSinAlertas] = useState(true);
+    const [listaSelected, setlistaSelected] = useState([]);
+    const [bandera, setBandera] = useState(true);
     function toggleModal() {
         setmodal(!modal);
     };
-   async  function reloadtable() {
+    async function reloadtable() {
         setBandera(!bandera);
     };
 
 
-     function filtrarstock() {
+    function filtrarstock() {
 
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
@@ -36,7 +36,7 @@ function TablaPedidos(props) {
             }, 0);
 
             if (value <= prod.alertaMin) { return true; }
-            else  {if(!usarDatosSinAlertas) return true; else return false;}
+            else { if (!usarDatosSinAlertas) return true; else return false; }
         });
         setFiltro(listas);
         reloadtable();
@@ -91,20 +91,24 @@ function TablaPedidos(props) {
         } else return rows;
 
     }
-    function handleChange(row)  {
-       setlistaSelected(row.selectedRows)
+    function handleChange(row) {
+        setlistaSelected(row.selectedRows)
         console.log('Selected Rows: ', listaSelected);
-      };
-      const [tabIndex, setTabIndex] = useState(0);
-      const index=props.index;
+    };
+    const [tabIndex, setTabIndex] = useState(0);
+    const index = props.index;
+    function agregarstock(selectedItem){
+        setUserSelection(selectedItem);
+        if (userSelection) toggleModal();
+    }
 
     useEffect(() => {
-        if (userSelection) toggleModal();
+        
         filtrarstock();
-   
-        if(index!=null&&!tabreload ){ setTabIndex(index-1);setTabReload(!tabreload)}
+
+        if (index != null && !tabreload) { setTabIndex(index - 1); setTabReload(!tabreload) }
         // eslint-disable-next-line
-    }, [userSelection,usarDatosSinAlertas,tabIndex])
+    }, [ usarDatosSinAlertas, tabIndex])
 
 
     return (
@@ -113,62 +117,16 @@ function TablaPedidos(props) {
             <div>
                 <>
 
-                    <Tabs selectedIndex={tabIndex} onSelect={index => 
-                        {
-                            setTabIndex(index)
-                        }}>
+                    <Tabs selectedIndex={tabIndex} onSelect={index => {
+                        setTabIndex(index)
+                    }}>
                         <TabList>
                             <Tab>Stock</Tab>
                             <Tab>Alertas</Tab>
                         </TabList>
+                        <div>
 
-                        <TabPanel>
-                            <div className="body">
-                                <div>
-
-                                    <Autocomplete
-                                        id="provider"
-                                        onChange={(option, value) => {
-                                            if (value) { setvariable(value) }
-                                        }}
-                                        options={proveedores}
-                                        onInputChange={(event, value) => {
-                                            setvariable(value)
-                                        }}
-
-                                        getOptionLabel={(option) => option.nombre}
-                                        style={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
-                                    />
-
-                                    <div className="input-icono">
-                                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
-                                    </div>
-
-                                </div>
-                                <div className="">
-
-                                    <h2 className="subtitle">Modifica Stock</h2>
-                                    <DataTable
-                                        columns={PedidoColumns}
-                                        data={filtrar(buscar(productos))}
-                                        pagination
-                                        paginationComponentOptions={opcionesdepagina}
-                                        customStyles={customStyles}
-                                        responsive
-                                        
-                                        onRowClicked={selectedItem => {
-                                            setUserSelection(selectedItem);
-                                        }}
-
-                                        noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
-
-                                </div>
-                            </div>
-                        </TabPanel>
-                        <TabPanel><div className="split">
-
-                            <div className="columna"> <Autocomplete
+                            <Autocomplete
                                 id="provider"
                                 onChange={(option, value) => {
                                     if (value) { setvariable(value) }
@@ -183,31 +141,57 @@ function TablaPedidos(props) {
                                 renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
                             />
 
-                                <div className="input-icono">
-                                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                            <div className="input-icono">
+                                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                            </div>
+
+                        </div>
+
+                        <TabPanel>
+                            <div className="body">
+                                <div className="">
+
+                                    <h2 className="subtitle">Modifica Stock</h2>
+                                    <DataTable
+                                        columns={PedidoColumns}
+                                        data={filtrar(buscar(productos))}
+                                        pagination
+                                        paginationComponentOptions={opcionesdepagina}
+                                        customStyles={customStyles}
+                                        responsive
+
+                                        onRowClicked={selectedItem => {
+                                           agregarstock(selectedItem)
+                                        }}
+
+                                        noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
+
                                 </div>
-
                             </div>
+                        </TabPanel>
+                        <TabPanel><div className="split">
+
+
                             <div className="columna">
 
-                            <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => { 
-                                filtrarstock(); 
-                                setUsarDatosSinAlertas(!usarDatosSinAlertas);
+                                <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => {
+                                    filtrarstock();
+                                    setUsarDatosSinAlertas(!usarDatosSinAlertas);
                                 }} id="todosproductos" />
-                            <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
+                                <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
                             </div>
                             <div className="columna">
 
-                             <ExcelFile
-                                    filename={"pedidos productos "+ new Date()}
+                                <ExcelFile
+                                    filename={"pedidos productos " + new Date()}
                                     element={<button type="button" className="">Descargar borrador de pedido</button>}>
                                     <ExcelSheet dataSet={DataSet} name="tabla de productos" />
                                 </ExcelFile>
 
-                                </div>
+                            </div>
                         </div>
 
-                        <h2 className="subtitle">Productos en Alerta</h2>
+                            <h2 className="subtitle">Productos en Alerta</h2>
                             <DataTable
                                 conditionalRowStyles={conditionalRowStyles}
                                 columns={AlertaColumns}
@@ -218,7 +202,7 @@ function TablaPedidos(props) {
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 customStyles={customStyles}
-                                selectableRows 
+                                selectableRows
 
                                 onSelectedRowsChange={row => handleChange(row)}
                                 noDataComponent={<div>No hay productos con cantidades criticas</div>} />

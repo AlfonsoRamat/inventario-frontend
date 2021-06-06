@@ -42,8 +42,8 @@ function getUsuario()
     }
     async function deletemensaje(userId) {
         console.log("user id",userId);
-        await  AxiosInstance().delete('/usuarios/delete-user',{userId:userId}).then(res => {
-            
+        await  AxiosInstance().delete ('/usuarios/delete-user', {data:{userId:userId}}).then(res => {
+            getUsuario();
             handleClicksnakBar();
         }).catch(err => {
     console.log(err);
