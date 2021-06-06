@@ -170,7 +170,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                 <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                     type="submit">{userSelection ? "Modificar" : "Agregar"}</button>
                                 <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                                    type="reset" value="finalizar" onClick={toggleModal}>Finalizar</button>
+                                    type="reset" value="finalizar" onClick={toggleModal}>Cerrar</button>
                             </div>
                         </div></div>
                 </Form>
