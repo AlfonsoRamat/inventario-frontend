@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
-import { TabPanel } from 'react-tabs'
 import { CajaContext } from '../CajaContext';
 import CuadroCaja from './CuadroCaja'
 import { columnas, customStyles, opcionesdepagina } from "../../shared/configs/tablaVenta";
@@ -8,6 +7,18 @@ import { columnas, customStyles, opcionesdepagina } from "../../shared/configs/t
 function ContenedorCaja({ setTabIndex,closeAll }) {
 
     const { cajaAbierta } = useContext(CajaContext);
+
+    const [ventas, setVentas] = useState([]);
+
+
+useEffect(() => {
+    if(!cajaAbierta) return;
+    cajaAbierta.Ventas.forEach(venta =>{
+        if(venta.estadoVenta === "finalizada"){
+            setVentas(prev => [...prev, venta]);
+        }
+    })
+}, [cajaAbierta]);
 
     return (
         <div className='cajaConteiner'>
@@ -20,6 +31,7 @@ function ContenedorCaja({ setTabIndex,closeAll }) {
                 <div className="table-responsive">
                     <DataTable
                         columns={columnas}
+                        data={ventas}
                         pagination
                         paginationComponentOptions={opcionesdepagina}
                         paginationPerPage={5}

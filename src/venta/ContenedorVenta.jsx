@@ -8,6 +8,14 @@ import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
 
+const EstadoVenta = {
+  APROBADA: "finalizada",
+  CANCELADA: "cancelada",
+  ABIERTA: "abierta",
+  RETIRAR_EFECTIVO: "retirarEfectivo",
+  AGREGAR_EFECTIVO: "agregarEfectivo",
+};
+
 function ContenedorVenta() {
   const { cajaAbierta } = useContext(CajaContext);
   const [tabValue, setTabValue] = useState(0);
@@ -37,7 +45,7 @@ function ContenedorVenta() {
           key: id,
           id: id,
           label: "venta",
-          props: null,
+          venta: null,
         },
       ]);
       setTabValue(id);
@@ -71,9 +79,10 @@ function ContenedorVenta() {
     }
     if (cajaAbierta) {
       cajaAbierta.Ventas.forEach((venta) => {
-       if(venta.estadoVenta ==="abierta") addTab(venta);
+        if (venta.estadoVenta === EstadoVenta.ABIERTA) addTab(venta);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cajaAbierta]);
 
   return (
@@ -129,7 +138,7 @@ function ContenedorVenta() {
                 ) : tabValue === 1 ? (
                   <TablaReserva cajaAbierta={cajaAbierta} />
                 ) : (
-                  <Venta ventaprop={tab.props} />
+                  <Venta venta={tab.venta} />
                 )}
               </Box>
             );

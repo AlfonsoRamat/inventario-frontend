@@ -3,25 +3,15 @@ import AxiosInstance from '../shared/configs/AxiosInstance';
 
 export const CajaContext = createContext(null);
 
-
-const EstadoVenta = {
-    APROBADA: "finalizada",
-    CANCELADA: "cancelada",
-    ABIERTA: "abierta",
-    RETIRAR_EFECTIVO: "retirarEfectivo",
-    AGREGAR_EFECTIVO: "agregarEfectivo"
-}
-
 export function CajaContextProvider({ children }) {
     const [productos, setProductos] = useState([]);
     const [cajaAbierta, setCajaAbierta] = useState(null);
 
     function buscarCajaAbierta() {
-        AxiosInstance().get('/caja/caja-abierta').then(({ data }) => {
+        AxiosInstance().get('/caja/caja-abierta')
+        .then(({ data }) => {
             setCajaAbierta(data);
-        })
-            .catch(err => console.log(err));
-
+        }).catch(err => console.log(err));
     }
 
     function abrirCaja(montoEfectivoInicio) {
