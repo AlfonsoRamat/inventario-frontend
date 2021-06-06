@@ -3,15 +3,6 @@ import AxiosInstance from '../shared/configs/AxiosInstance';
 
 export const CajaContext = createContext(null);
 
-
-const EstadoVenta = {
-    APROBADA: "finalizada",
-    CANCELADA: "cancelada",
-    ABIERTA: "abierta",
-    RETIRAR_EFECTIVO: "retirarEfectivo",
-    AGREGAR_EFECTIVO: "agregarEfectivo"
-}
-
 export function CajaContextProvider({ children }) {
     const [productos, setProductos] = useState([]);
     const [cajaAbierta, setCajaAbierta] = useState(null);
