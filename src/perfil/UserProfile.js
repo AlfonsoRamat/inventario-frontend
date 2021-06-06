@@ -6,11 +6,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import imgen from "../shared/images/mainbackground.jpg";
 import { AuthContext } from "../shared/configs/Authcontext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -34,16 +29,7 @@ const useStyles = makeStyles({
 });
 
 export default function UserProfile() {
-//open dialog
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 //formik
   const auth = useContext(AuthContext);
   const user = auth.user;
@@ -67,14 +53,39 @@ async function handleModificarPassword  (password,newPassword)  {
   
  await AxiosInstance().put('/usuarios/change-password', { password,newPassword})
       .then(res => {
-        console.log("se cambio la contraseña");
-        handleClickOpen();
+        
+        handleClicksnakBar(false);
+        setVerContraseña(!verContraseña);
+        
       })
-      .catch(error => console.log(error));
+      .catch( ({data}) => {
+                    
+        const {error}=data;
+        console.log(error.message)
+        setMessagePass(error.message+" Intentelo nuevamente")
+        
+      handleClicksnakBar(true);});
 }
 
 // validacion
 const [samepass, setSamepass] = useState(true);
+//snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
+const [advertencia, setAdvertencia]=useState(false);
+const [messagePass, setMessagePass] = useState("");
+  const handleClicksnakBar = (adv) => {
+      setAdvertencia(adv)
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
+
 
   return (
     <div className="contenedorPerfil" >
@@ -132,26 +143,12 @@ const [samepass, setSamepass] = useState(true);
         </Form>
       </Formik>
       
-      
-       <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"Contraseña"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Su contraseña ha sido modificada correctamente.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <button onClick={handleClose} >
-            Aceptar
-          </button>
-
-        </DialogActions>
-      </Dialog>
+      <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={advertencia?"error":"success"}>
+         {advertencia?messagePass:"Contraseña modificada con exito."} 
+        </Alert>
+      </Snackbar> 
+       
     </div>
   );
 }
