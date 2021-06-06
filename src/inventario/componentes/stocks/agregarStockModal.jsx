@@ -6,7 +6,7 @@ import StockFormValidation from "../../../shared/validators/StockFormValidation"
 import { InventarioContext } from '../../inventario/InventarioContext';
 import "./agregarStockModal.css"
 
-function AgregarStockModal({ modal, toggleModal, userSelection, setUserSelection }) {
+function AgregarStockModal({ modal, toggleModal, userSelection, setUserSelection,handleClicksnakBar }) {
     const { productosDispatch } = useContext(InventarioContext);
 
     const initialValues = {
@@ -18,7 +18,7 @@ function AgregarStockModal({ modal, toggleModal, userSelection, setUserSelection
         const id = userSelection.id;
         AxiosInstance().post('/productos/repo/', { id, ...values })
             .then(({ data }) => {
-                console.log('payload data', data);
+                handleClicksnakBar();
                 productosDispatch({ type: 'modificar', payload: data });
                 setUserSelection(null);
                 actions.resetForm();

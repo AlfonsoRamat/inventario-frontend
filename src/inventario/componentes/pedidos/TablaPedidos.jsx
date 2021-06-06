@@ -9,6 +9,11 @@ import './TablaPedidos.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ReactExport from 'react-data-export';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 function TablaPedidos(props) {
 
@@ -101,7 +106,20 @@ function TablaPedidos(props) {
         setUserSelection(selectedItem);
         if (userSelection) toggleModal();
     }
+    //cartelito
+    const [opensnakBar, setOpensnakBar] = useState(false);
 
+    const handleClicksnakBar = () => {
+      setOpensnakBar(true);
+    };
+  
+    const handleClosesnackBar = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpensnakBar(false);
+    };
     useEffect(() => {
 
         filtrarstock();
@@ -113,7 +131,7 @@ function TablaPedidos(props) {
 
     return (
         <>
-            <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} />
+            <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} handleClicksnakBar={handleClicksnakBar} />
             <div>
                 <>
 
@@ -126,18 +144,6 @@ function TablaPedidos(props) {
                         </TabList>
                         <div className="split">
                             <div className="columna">
-                                <div className="input-icono">
-                                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
-                                </div>
-                                {tabIndex?<div>
-                                    <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => {
-                                    filtrarstock();
-                                    setUsarDatosSinAlertas(!usarDatosSinAlertas);
-                                }} id="todosproductos" />
-                                <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
-                                </div>:null}
-                            </div>
-                            <div className="columna">
                                 <Autocomplete
                                     id="provider"
                                     onChange={(option, value) => {
@@ -149,13 +155,23 @@ function TablaPedidos(props) {
                                     }}
 
                                     getOptionLabel={(option) => option.nombre}
-                                    
+
                                     renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
                                 />
                             </div>
 
-
-
+                            <div className="columnai">
+                                <div className="input-icono">
+                                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                </div>
+                                {tabIndex ? <div>
+                                    <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => {
+                                        filtrarstock();
+                                        setUsarDatosSinAlertas(!usarDatosSinAlertas);
+                                    }} id="todosproductos" />
+                                    <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
+                                </div> : null}
+                            </div>
 
 
                         </div>
@@ -217,7 +233,11 @@ function TablaPedidos(props) {
                         </TabPanel>
 
                     </Tabs>
-
+                    <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity="success">
+          Stock Agregado con exito.
+        </Alert>
+      </Snackbar>
 
                 </>
             </div>
