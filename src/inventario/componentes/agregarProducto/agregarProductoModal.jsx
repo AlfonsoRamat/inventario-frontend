@@ -6,7 +6,7 @@ import AxiosInstance from "../../../shared/configs/AxiosInstance";
 import ProductoFormValidator from "../../../shared/validators/ProductoFormValidation";
 import { InventarioContext } from '../../inventario/InventarioContext';
 
-function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelection }) {
+function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelection,handleClicksnakBar}) {
 
     const { productosDispatch, proveedores, rubros } = useContext(InventarioContext);
 
@@ -37,6 +37,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
             console.log('values', values);
             AxiosInstance().put('/productos/', { ...values })
                 .then(({ data }) => {
+                    handleClicksnakBar(true);
                     productosDispatch({ type: 'modificar', payload: data });
                     actions.resetForm();
                     setUserSelection(null);
@@ -46,6 +47,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
         } else {
             AxiosInstance().post('/productos/', { ...values })
                 .then(({ data }) => {
+                    handleClicksnakBar(false);
                     productosDispatch({ type: 'agregar', payload: data });
                     actions.resetForm();
                 })
