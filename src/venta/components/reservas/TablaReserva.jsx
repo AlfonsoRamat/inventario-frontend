@@ -4,7 +4,7 @@ function TablaPedidos({cajaAbierta}) {
     return (<div>
 {
     cajaAbierta?
-"falta todo esto":<img src={Oops} />
+"falta todo esto":<img alt="" src={Oops} />
     }
     </div>)
 }

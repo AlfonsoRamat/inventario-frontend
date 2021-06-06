@@ -37,7 +37,7 @@ function ContenedorVenta() {
           key: id,
           id: id,
           label: "venta",
-          props: null,
+          venta: null,
         },
       ]);
       setTabValue(id);
@@ -74,6 +74,7 @@ function ContenedorVenta() {
        if(venta.estadoVenta ==="abierta") addTab(venta);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cajaAbierta]);
 
   return (
@@ -129,7 +130,7 @@ function ContenedorVenta() {
                 ) : tabValue === 1 ? (
                   <TablaReserva cajaAbierta={cajaAbierta} />
                 ) : (
-                  <Venta ventaprop={tab.props} />
+                  <Venta venta={tab.venta} />
                 )}
               </Box>
             );

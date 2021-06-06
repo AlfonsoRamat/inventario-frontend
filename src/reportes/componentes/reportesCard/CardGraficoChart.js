@@ -1,15 +1,16 @@
-import React, { useContext,useEffect, useState } from 'react';
-import{ReporteContext} from "../../ReportesContext";
+import React, { useContext, useEffect, useState } from 'react';
+import { ReporteContext } from "../../ReportesContext";
 import Chart from "chart.js";
 
 export default function CARD_GRAFICO_Ventas() {
-    const{ GetVentas,Ventas }=  useContext(ReporteContext);
-    const [bandera,SetBandera]=useState(false)
+    const { GetVentas, Ventas } = useContext(ReporteContext);
+    const [bandera, SetBandera] = useState(false)
 
     async function ObtenerData() {
         await GetVentas();
         await SetBandera(true);
-      }
+    }
+
     const fecha_turno_tarde = [];
     const venta_turno_tarde = [];
 
@@ -26,16 +27,16 @@ export default function CARD_GRAFICO_Ventas() {
 
     function llenar_turno_mañana() {
         Ventas.forEach((Venta) => {
-            if((Venta.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1))
-                 { fecha_turno_mañana.push(Venta.fecha) }
-        
-   
+            if ((Venta.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1)) { fecha_turno_mañana.push(Venta.fecha) }
+
+
             if
                 (Venta.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1) { venta_turno_mañana.push(Venta.montoTotalVendido) }
-        
-            });
-           
+
+        });
+
     }
+
     let fecha_turno_mañana = [];
     let venta_turno_mañana = [];
     var config = {
@@ -131,15 +132,16 @@ export default function CARD_GRAFICO_Ventas() {
         },
     };
     useEffect(() => {
-    ObtenerData();
+        ObtenerData();
 
         var ctx = document.getElementById("line-chart").getContext("2d");
         window.myLine = new Chart(ctx, config);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [bandera]);
-    
+
     return (
         <>
-            {      llenar_turno_mañana()}
+            { llenar_turno_mañana()}
             { llenar_turno_tarde()}
 
 

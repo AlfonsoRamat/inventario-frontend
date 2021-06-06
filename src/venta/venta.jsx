@@ -7,14 +7,13 @@ import VentaCabecera from './components/VentaCabecera';
 import ClienteForm from './components/ClienteForm';
 import PieDeVenta from './components/PieDeVenta';
 import{CajaContext} from "../venta/CajaContext";
-function Venta(props) {
+function Venta({venta}) {
 
     const{ setProductos,productos }=  useContext(CajaContext);
     const [productosVenta, setproductosVenta] = useState([]);
     const [cliente, setCliente] = useState([]);
     const [mostrarCliente, setMostrarCliente] = useState(false);
-
-
+    const [stockOriginal, setStockOriginal] = useState([]);
 
     const handleAgregarClientes = (values) => {
         AxiosInstance().post('/cliente', { ...values })
@@ -28,6 +27,7 @@ function Venta(props) {
     function reducirStockEnProductos(cantidad, productoId) {
         const productosReducidos = productos.map(producto => {
             if (producto.id === productoId) {
+                setStockOriginal(prev =>[...prev, producto]);
                 let sustraccion = cantidad;
                 producto.Stocks.forEach(entrada => {
                     if (entrada.cantidad > sustraccion) {
@@ -95,13 +95,12 @@ function Venta(props) {
     }
 
     useEffect(() => {
-       
+       if(venta) {
+           console.log('Items venta',venta.itemsVenta); 
+       }
         getClientes();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
-
 
     return (
         <div className="bodyVenta">
