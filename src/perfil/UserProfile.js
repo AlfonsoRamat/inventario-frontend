@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import imgen from "../shared/images/mainbackground.jpg";
 import { AuthContext } from "../shared/configs/Authcontext";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field } from "formik";
 import {BsPencilSquare } from "react-icons/bs";
 import "./UserProfile.css"
 import AxiosInstance from '../shared/configs/AxiosInstance';
@@ -43,7 +43,7 @@ export default function UserProfile() {
  
   };
 const submitForm = (values, actions) => {
-if(values.oldpassword!==values.newpassword &&values.newpassword==values.password){
+if(values.oldpassword!==values.newpassword &&values.newpassword===values.password){
   handleModificarPassword(values.oldpassword,values.newpassword);
 }else setSamepass(false)
 

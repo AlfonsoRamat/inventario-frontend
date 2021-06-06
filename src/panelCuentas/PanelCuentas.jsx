@@ -32,39 +32,53 @@ function getUsuario()
     {AxiosInstance().get('/usuarios/getall').then(res => {
             
         setUsuarios(res.data);
-    }).catch(err => {
+    }).catch(({data}) => {
+                    
+        const {error}=data;
+        setMensajeError(error.message+" Intentelo nuevamente")
+        handleClicksnakBar("error")
 
     }); }
     function toggleModal() {
-        console.log(user)
+       
         setModal((prev) => prev ? false : true);
         
     }
-    async function deletemensaje(userId) {
-        console.log("user id",userId);
-        await  AxiosInstance().delete ('/usuarios/delete-user', {data:{userId:userId}}).then(res => {
+     function deletemensaje(userId) {
+  
+          AxiosInstance().delete ('/usuarios/delete-user', {data:{userId:userId}}).then(res => {
             getUsuario();
-            handleClicksnakBar();
-        }).catch(err => {
-    console.log(err);
+            handleClicksnakBar("borrar");
+        }).catch(({data}) => {
+                    
+            const {error}=data;
+            setMensajeError(error.message+" Intentelo nuevamente")
+            handleClicksnakBar("error")
+
         }); 
     }
 
-    async function resetPass(userId)
+     function resetPass(userId)
     {
-        {await AxiosInstance().put('/usuarios/reset-user-password',{userId})
+        { AxiosInstance().put('/usuarios/reset-user-password',{userId})
         .then(res => {
 
-            handleClicksnakBar();
-        }).catch(err => {
-            console.log(err);
+            handleClicksnakBar("reset");
+        }).catch(({data}) => {
+                    
+            const {error}=data;
+            setMensajeError(error.message+" Intentelo nuevamente")
+            handleClicksnakBar("error")
+
         }); }
     }
 
 //snackbar ok
 const [opensnakBar, setOpensnakBar] = useState(false);
-
-  const handleClicksnakBar = () => {
+const [tipoCartel,setTipoCartel]=useState("");
+const [mensajeError,setMensajeError]=useState("");
+  const handleClicksnakBar = (tipo) => {
+      setTipoCartel(tipo);
     setOpensnakBar(true);
   };
 
@@ -91,7 +105,7 @@ const [opensnakBar, setOpensnakBar] = useState(false);
             >
                 Agregar cuenta
       </Button>
-            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} handleClicksnakBar={handleClicksnakBar} />
+            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} handleClicksnakBar={handleClicksnakBar} setMensajeError={setMensajeError} />
            
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 
@@ -128,8 +142,12 @@ const [opensnakBar, setOpensnakBar] = useState(false);
 
 
       <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
-        <Alert onClose={handleClosesnackBar} severity="success">
-          Usuario Agregado con exito.
+        <Alert onClose={handleClosesnackBar} severity={
+            {"agregar":"success","reset":"warning","borrar":"info","error":"error"}[tipoCartel]}>
+          {{"agregar":"El usuario fue agregado con exito",
+          "reset":"Contraseña reiniciada con exito",
+          "borrar":"Ususario borrado",
+          "error":mensajeError}[tipoCartel]}
         </Alert>
       </Snackbar>
         </div>
