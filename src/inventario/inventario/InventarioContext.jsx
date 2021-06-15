@@ -88,7 +88,6 @@ export function InventarioProvider({ children }) {
         getProductos();
         getProveedores();
         getRubros();
-        console.log(productos);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reload]);
 

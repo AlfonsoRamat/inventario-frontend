@@ -6,7 +6,7 @@ const AuthContext = React.createContext(null);
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const getData = async () => {
+  const getData = () => {
     AxiosInstance()
       .get("/usuarios/getuser")
       .then((res) => {
@@ -24,12 +24,11 @@ function AuthProvider({ children }) {
       password: password,
     };
 
-    return AxiosInstance()
+    AxiosInstance()
       .post("/usuarios/login", request)
       .then((res) => {
         localStorage.setItem("token", res.data.accessToken);
         getData();
-        return;
       })
       .catch((err) => {
         const mensaje = err.data.error.message;

@@ -2,21 +2,19 @@ import React, { useContext, useState, useEffect } from 'react'
 import { CajaContext } from '../CajaContext';
 import './CuadroCaja.css'
 
-function CuadroCaja({ setTabIndex,closeAll }) {
+function CuadroCaja({ closeAll }) {
     const [monto, setMonto] = useState(0);
     const { cajaAbierta, abrirCaja, cerrarCaja } = useContext(CajaContext);
     
-    function handleClick() {
+    function handleClick(event) {
+        event.preventDefault();
         if (!cajaAbierta) {
             abrirCaja(monto);
-            setTabIndex(0);
             return;
         }else
         {
-            
             cerrarCaja(monto);
             closeAll();
-            
          }
     }
 
@@ -28,7 +26,6 @@ useEffect(() => {
             <div className="rounded-t bg-white mb-0 px-6 py-6">
                 <div className="text-center flex justify-between">
                     <h5 className="text-gray-800 text-xl font-bold">{!cajaAbierta ? "Abrir Caja" : "Cerrar Caja"}</h5>
-
                 </div>
                 <form>
                     <div className="formAbrirCaja">

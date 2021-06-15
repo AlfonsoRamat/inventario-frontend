@@ -18,7 +18,6 @@ function AgregarStockModal({ modal, toggleModal, userSelection, setUserSelection
         const id = userSelection.id;
         AxiosInstance().post('/productos/repo/', { id, ...values })
             .then(({ data }) => {
-                console.log('payload data', data);
                 productosDispatch({ type: 'modificar', payload: data });
                 setUserSelection(null);
                 actions.resetForm();

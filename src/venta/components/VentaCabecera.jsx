@@ -1,35 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import DataTable from 'react-data-table-component'
-import ComboBox from 'react-responsive-combo-box'
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { columnasListaVenta, customStyles } from '../../shared/configs/TablaInventario'
+import React, { useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import ComboBox from "react-responsive-combo-box";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import {
+    columnasListaVenta,
+    customStyles,
+} from "../../shared/configs/TablaInventario";
 import { BsTrash } from "react-icons/bs";
-import TextField from '@material-ui/core/TextField';
-import './VentaCabecera.css';
+import TextField from "@material-ui/core/TextField";
+import "./VentaCabecera.css";
 
-function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
-
+function VentaCabecera({ cliente, productosVenta, toggleCliente, borrarItem }) {
     const [subTotal, setSubTotal] = useState(0);
+    const buttonClassname = "bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150";
 
-
-    const opcionesDePago = [
-        "Efectivo",
-        "Tarjeta",
-        "Debito",
-        "Cuenta Corriente",
-        "Reserva"
-    ]
-    function borrar(id){
-        //TODO: borrar item
-
-    }
+    const opcionesDePago = ["Efectivo", "Tarjeta", "Debito", "Cuenta Corriente", "Reserva", "Efectivo + Tarjeta",];
 
     useEffect(() => {
         const resultado = productosVenta.reduce((total, actual) => {
-            return total + (actual.precioVenta * actual.cantidad);
+            return total + actual.precioVenta * actual.cantidad;
         }, 0);
         setSubTotal(resultado);
-    }, [productosVenta])
+    }, [productosVenta]);
 
     return (
         <div className="cabecera">
@@ -38,21 +30,25 @@ function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
 
                 <div className="cabeceraIzqVenta">
                     <div className="Tablas">
-
                         <div className="table-responsive">
                             <DataTable
-                                columns={[...columnasListaVenta, { name: 'Cantidad', selector: 'cantidad', sortable: true },
-                                {
-                                    name: 'Accion',
-                                    button: true,
-                                    cell: row =>
-                                        <BsTrash onClick={() => {
-                                            if (window.confirm(`Seguro que desea eliminar ${row.rubro} `)) { borrar(row.id) }
-                                        }} />
-            
-            
-                                }]}
-                                
+                                columns={[
+                                    ...columnasListaVenta,
+                                    { name: "Cantidad", selector: "cantidad", sortable: true },
+                                    {
+                                        name: "Accion",
+                                        button: true,
+                                        cell: (row) => (
+                                            <BsTrash
+                                                onClick={() => {
+                                                    if (window.confirm(`Seguro que desea eliminar ${row.nombre}`)) {
+                                                        borrarItem(row);
+                                                    }
+                                                }}
+                                            />
+                                        ),
+                                    },
+                                ]}
                                 data={productosVenta}
                                 fixedHeader
                                 fixedHeaderScrollHeight="300px"
@@ -61,38 +57,46 @@ function VentaCabecera({ cliente, productosVenta, toggleCliente }) {
                                 customStyles={customStyles}
                                 noDataComponent={<div>Agregue un producto para su venta</div>}
                             />
-
                         </div>
-                    </div></div>
+                    </div>
+                </div>
             </div>
 
             <div className="cabeceraDerVenta">
-                <label name="">Total<h1 name="total">${subTotal}</h1></label>
-                <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                    type="button">Cobrar</button>
+                <label name="">
+                    Total<h1 name="total">${subTotal}</h1>
+                </label>
+                <button className={buttonClassname} type="button">
+                    Cobrar
+                </button>
                 <div className="opcionesDeCompra">
                     <div className="renglonDeCompra">
-                        <label >Tipo de pago </label>
+                        <label>Tipo de pago </label>
                         <ComboBox options={opcionesDePago} enableAutocomplete />
                     </div>
                     <div>
-                        <label >Clientes </label>
+                        <label>Clientes </label>
                         <Autocomplete
                             id="combo-box-cliente"
                             options={cliente}
                             getOptionLabel={(option) => option.nombre}
                             style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Cliente" variant="outlined" />}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Cliente" variant="outlined" />
+                            )}
                         />
-                        <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150" 
-                        onClick={toggleCliente} type="button">Crear cliente</button>
-
+                        <button
+                            className={buttonClassname}
+                            onClick={toggleCliente}
+                            type="button"
+                        >
+                            Crear cliente
+                        </button>
                     </div>
                 </div>
             </div>
-
         </div>
-    )
+    );
 }
 
-export default VentaCabecera
+export default VentaCabecera;

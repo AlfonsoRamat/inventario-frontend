@@ -36,19 +36,31 @@ function ContenedorVenta() {
     setTabValue(value);
   };
 
-  const addTab = (venta) => {
+  const addTab = (ventaExistente) => {
     let id = tabList[tabList.length - 1].id + 1;
     if (tabList.length < 7) {
-      setTabList([
-        ...tabList,
-        {
-          key: id,
-          id: id,
-          label: "venta",
-          venta: null,
-        },
-      ]);
-      setTabValue(id);
+      if (!ventaExistente) {
+        setTabList([
+          ...tabList,
+          {
+            key: id,
+            id: id,
+            label: "venta",
+            venta: null,
+          },
+        ]);
+      } else {
+        setTabList([
+          ...tabList,
+          {
+            key: id,
+            id: id,
+            label: "venta",
+            venta: ventaExistente,
+          },
+        ]);
+        setTabValue(id);
+      }
     }
   };
 
@@ -105,7 +117,7 @@ function ContenedorVenta() {
         {
           // Esto renderiza el boton de añadir tab
           cajaAbierta ? (
-            <div onClick={addTab}>
+            <div onClick={()=> addTab()}>
               <BsFilePlus />
               <label>Abrir</label>
             </div>

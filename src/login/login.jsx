@@ -19,11 +19,10 @@ function LoginScreen() {
   const [errorMessage, setErrorMessage] = useState(null);
 
   const submiting = (values) => {
-    signIn(values.user, values.password).then((resultado) => {
-      if (resultado) {
-        setErrorMessage(resultado);
-      }
-    });
+    const resultado = signIn(values.user, values.password)
+    if (resultado) {
+      setErrorMessage(resultado);
+    }
   };
 
   return user ? (
