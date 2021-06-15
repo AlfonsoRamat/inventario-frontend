@@ -38,7 +38,7 @@ export async function obtenerProductos() {
     }
 }
 
-export function addVenta(id) {
+export async function addVenta(id) {
     try {
         const cajaActualizada = await(await AxiosInstance().post("/caja/agregarVenta", { id })).data;
         return cajaActualizada;
