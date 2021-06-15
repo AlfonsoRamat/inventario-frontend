@@ -9,6 +9,11 @@ import './TablaPedidos.css';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import ReactExport from 'react-data-export';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 function TablaPedidos(props) {
 
@@ -47,7 +52,6 @@ function TablaPedidos(props) {
         {
             columns: [
 
-                { title: "Codigo Interno", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
                 { title: "Codigo de barra", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Nombre", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 300 } }, // width in pixels
@@ -58,7 +62,7 @@ function TablaPedidos(props) {
 
             ],
             data: listaSelected.map((data) => [
-                { value: data.codInterno, style: { font: { sz: "14" } } },
+              
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
@@ -97,23 +101,36 @@ function TablaPedidos(props) {
     };
     const [tabIndex, setTabIndex] = useState(0);
     const index = props.index;
-    function agregarstock(selectedItem){
+    function agregarstock(selectedItem) {
         setUserSelection(selectedItem);
         if (userSelection) toggleModal();
     }
+    //cartelito
+    const [opensnakBar, setOpensnakBar] = useState(false);
 
+    const handleClicksnakBar = () => {
+      setOpensnakBar(true);
+    };
+  
+    const handleClosesnackBar = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpensnakBar(false);
+    };
     useEffect(() => {
-        
+
         filtrarstock();
 
         if (index != null && !tabreload) { setTabIndex(index - 1); setTabReload(!tabreload) }
         // eslint-disable-next-line
-    }, [ usarDatosSinAlertas, tabIndex])
+    }, [usarDatosSinAlertas, tabIndex])
 
 
     return (
         <>
-            <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} />
+            <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} handleClicksnakBar={handleClicksnakBar} />
             <div>
                 <>
 
@@ -124,26 +141,37 @@ function TablaPedidos(props) {
                             <Tab>Stock</Tab>
                             <Tab>Alertas</Tab>
                         </TabList>
-                        <div>
+                        <div className="split">
+                            <div className="columna">
+                                <Autocomplete
+                                    id="provider"
+                                    onChange={(option, value) => {
+                                        if (value) { setvariable(value) }
+                                    }}
+                                    options={proveedores}
+                                    onInputChange={(event, value) => {
+                                        setvariable(value)
+                                    }}
 
-                            <Autocomplete
-                                id="provider"
-                                onChange={(option, value) => {
-                                    if (value) { setvariable(value) }
-                                }}
-                                options={proveedores}
-                                onInputChange={(event, value) => {
-                                    setvariable(value)
-                                }}
+                                    getOptionLabel={(option) => option.nombre}
 
-                                getOptionLabel={(option) => option.nombre}
-                                style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
-                            />
-
-                            <div className="input-icono">
-                                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                    renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
+                                />
                             </div>
+
+                            <div className="columnai">
+                                <div className="input-icono">
+                                    <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                                </div>
+                                {tabIndex ? <div>
+                                    <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => {
+                                        filtrarstock();
+                                        setUsarDatosSinAlertas(!usarDatosSinAlertas);
+                                    }} id="todosproductos" />
+                                    <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
+                                </div> : null}
+                            </div>
+
 
                         </div>
 
@@ -161,7 +189,7 @@ function TablaPedidos(props) {
                                         responsive
 
                                         onRowClicked={selectedItem => {
-                                           agregarstock(selectedItem)
+                                            agregarstock(selectedItem)
                                         }}
 
                                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
@@ -174,13 +202,6 @@ function TablaPedidos(props) {
 
                             <div className="columna">
 
-                                <input type="checkbox" checked={!usarDatosSinAlertas} name="todosproductos" onChange={(e) => {
-                                    filtrarstock();
-                                    setUsarDatosSinAlertas(!usarDatosSinAlertas);
-                                }} id="todosproductos" />
-                                <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
-                            </div>
-                            <div className="columna">
 
                                 <ExcelFile
                                     filename={"pedidos productos " + new Date()}
@@ -189,6 +210,8 @@ function TablaPedidos(props) {
                                 </ExcelFile>
 
                             </div>
+
+
                         </div>
 
                             <h2 className="subtitle">Productos en Alerta</h2>
@@ -197,7 +220,7 @@ function TablaPedidos(props) {
                                 columns={AlertaColumns}
                                 data={filtrar(buscar(filtro))}
                                 onRowClicked={selectedItem => {
-                                    setUserSelection(selectedItem);
+                                    agregarstock(selectedItem);
                                 }}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
@@ -209,7 +232,11 @@ function TablaPedidos(props) {
                         </TabPanel>
 
                     </Tabs>
-
+                    <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity="success">
+          Stock Agregado con exito.
+        </Alert>
+      </Snackbar>
 
                 </>
             </div>

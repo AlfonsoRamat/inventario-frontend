@@ -4,6 +4,11 @@ import { getColumnas, customStyles, opcionesdepagina } from "../../../shared/con
 import { InventarioContext } from '../../inventario/InventarioContext';
 import { AgregarProductosModal } from '../';
 import ExpandableComponent from './ExpandableComponent';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 const TablaItems = () => {
 
@@ -27,6 +32,23 @@ const TablaItems = () => {
         } else return [];
     }
 
+//snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
+const [advertencia, setAdvertencia]=useState(false)
+  const handleClicksnakBar = (adv) => {
+      setAdvertencia(adv)
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
+
+
     useEffect(() => {
         if(userSelection){
             toggleModal();
@@ -37,7 +59,7 @@ const TablaItems = () => {
     return (
 
         <div className="Tablas">
-            <AgregarProductosModal modal={modal} userSelection={userSelection}  setUserSelection={setUserSelection} toggleModal={toggleModal} />
+            <AgregarProductosModal modal={modal} userSelection={userSelection}  setUserSelection={setUserSelection} toggleModal={toggleModal} handleClicksnakBar={handleClicksnakBar} />
             <div className='titulo-tabla'>
                
                 <div className='titulo-izq'><h1>Inventario</h1></div>
@@ -70,7 +92,13 @@ const TablaItems = () => {
                     customStyles={customStyles}
                 />
             </div>
+            <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={advertencia?"warning":"success"}>
+         {advertencia?"Producto modificado con exito.":"Producto agregado con exito."} 
+        </Alert>
+      </Snackbar>
         </div>
+        
     );
 }
 

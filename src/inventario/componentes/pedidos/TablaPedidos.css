@@ -4,7 +4,12 @@
 }
 
 .columna {
-    flex-basis: 100%;
+    flex-basis: 90%;
+}
+.columnai {
+    padding-left: 10px;
+    flex-basis: 120%;
+    align-items: flex-end;
 }
 
 .subtitle {

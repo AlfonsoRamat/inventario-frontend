@@ -4,18 +4,19 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./ModalPerfil.css";
 import AxiosInstance from '../shared/configs/AxiosInstance';
 
-    function ModalPerfil({ modal, toggleModal ,getUsuario,handleClicksnakBar}) {
+    function ModalPerfil({ modal, toggleModal ,getUsuario,handleClicksnakBar,setMensajeError}) {
         const handleAgregarUsuario = (values) => {
             AxiosInstance().post('/usuarios/register', { ...values })
                 .then(res => {
                     getUsuario();
-                    handleClicksnakBar();
+                    handleClicksnakBar("agregar");
                     toggleModal();
                 })
                 .catch(({data}) => {
                     
                     const {error}=data;
-                    console.log(error)
+                    setMensajeError(error.message+" Intentelo nuevamente")
+                    handleClicksnakBar("error")
 
                 });
         }

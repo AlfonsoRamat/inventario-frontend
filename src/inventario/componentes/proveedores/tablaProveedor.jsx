@@ -4,7 +4,11 @@ import DataTable from 'react-data-table-component';
 import { getColumnasProveedor, customStyles, opcionesdepagina } from "../../../shared/configs/tablaprovedores";
 import { AgregarProvedorModal } from "../";
 import { InventarioContext } from '../../inventario/InventarioContext';
-
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 function Tablaproveedor() {
 
@@ -24,6 +28,23 @@ function Tablaproveedor() {
     function toogleModal() {
         setModal(!modal);
     }
+    //snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
+const [advertencia, setAdvertencia]=useState(false)
+  const handleClicksnakBar = (adv) => {
+      setAdvertencia(adv)
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
+
+
 
     useEffect(() => {
         if (userSelection) {
@@ -46,7 +67,7 @@ function Tablaproveedor() {
             </div>
             <div className="bottonagregar">
                 <button type="button" className="btn-proveedor" onClick={toogleModal} >Agregar Proveedor</button>
-                <AgregarProvedorModal modal={modal} userSelection={userSelection} setUserSelection={setUserSelection} toogleModal={toogleModal} />
+                <AgregarProvedorModal modal={modal} userSelection={userSelection} setUserSelection={setUserSelection} toogleModal={toogleModal} handleClicksnakBar={handleClicksnakBar} />
             </div>
             <div className="table-responsive">
                 <DataTable
@@ -66,7 +87,11 @@ function Tablaproveedor() {
                 />
 
             </div>
-
+            <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={advertencia?"warning":"success"}>
+         {advertencia?"Proveedor modificado con exito.":"Proveedor agregado con exito."} 
+        </Alert>
+      </Snackbar>
         </div>
     )
 }

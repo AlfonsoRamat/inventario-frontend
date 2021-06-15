@@ -7,7 +7,7 @@ import { InventarioContext } from '../../inventario/InventarioContext';
 import ProveedorFormValidator from '../../../shared/validators/ProveedorFormValidation';
 
 
-function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelection }) {
+function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelection ,handleClicksnakBar}) {
 
     const { proveedoresDispatch } = useContext(InventarioContext);
 
@@ -27,6 +27,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
                     actions.resetForm();
                     setUserSelection(null);
                     toogleModal();
+                    handleClicksnakBar(true);
                 }).catch(err => console.log(err));
             return
         }
@@ -34,6 +35,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
             .then(res => {
                 proveedoresDispatch({ type: 'agregar', payload: res.data });
                 actions.resetForm();
+                handleClicksnakBar(false);
             })
             .catch(error => console.log(error));
     }
@@ -87,7 +89,7 @@ function AgregarProvedorModal({ modal, toogleModal, userSelection, setUserSelect
                                             onClick={() => {
                                                 setUserSelection(null)
                                                 toogleModal()
-                                            }}>Finalizar</button>
+                                            }}>Cerrar</button>
                                     </div>
                                 </div>
                             </div>

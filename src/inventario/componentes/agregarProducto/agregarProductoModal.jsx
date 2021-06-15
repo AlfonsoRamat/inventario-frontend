@@ -6,7 +6,7 @@ import AxiosInstance from "../../../shared/configs/AxiosInstance";
 import ProductoFormValidator from "../../../shared/validators/ProductoFormValidation";
 import { InventarioContext } from '../../inventario/InventarioContext';
 
-function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelection }) {
+function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelection,handleClicksnakBar}) {
 
     const { productosDispatch, proveedores, rubros } = useContext(InventarioContext);
 
@@ -37,6 +37,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
             console.log('values', values);
             AxiosInstance().put('/productos/', { ...values })
                 .then(({ data }) => {
+                    handleClicksnakBar(true);
                     productosDispatch({ type: 'modificar', payload: data });
                     actions.resetForm();
                     setUserSelection(null);
@@ -46,6 +47,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
         } else {
             AxiosInstance().post('/productos/', { ...values })
                 .then(({ data }) => {
+                    handleClicksnakBar(false);
                     productosDispatch({ type: 'agregar', payload: data });
                     actions.resetForm();
                 })
@@ -168,7 +170,7 @@ function AgregarProductosModal({ modal, toggleModal, userSelection, setUserSelec
                                 <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
                                     type="submit">{userSelection ? "Modificar" : "Agregar"}</button>
                                 <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                                    type="reset" value="finalizar" onClick={toggleModal}>Finalizar</button>
+                                    type="reset" value="finalizar" onClick={toggleModal}>Cerrar</button>
                             </div>
                         </div></div>
                 </Form>

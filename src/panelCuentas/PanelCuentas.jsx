@@ -33,40 +33,53 @@ function PanelCuentas(props) {
       .get("/usuarios/getall")
       .then((res) => {
         setUsuarios(res.data);
-      })
-      .catch((err) => {});
-  }
-  function toggleModal() {
-    console.log(user);
-    setModal((prev) => (prev ? false : true));
-  }
-  async function deletemensaje(userId) {
-    console.log("user id", userId);
-    await AxiosInstance()
-      .delete("/usuarios/delete-user", { data: { userId: userId } })
-      .then((res) => {
-        getUsuario();
-        handleClicksnakBar();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+    }).catch(({data}) => {
+                    
+        const {error}=data;
+        setMensajeError(error.message+" Intentelo nuevamente")
+        handleClicksnakBar("error")
 
-  async function resetPass(userId) {
-    await AxiosInstance()
-      .put("/usuarios/reset-user-password", { userId })
-      .then((res) => {
-        handleClicksnakBar();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  //snackbar ok
-  const [opensnakBar, setOpensnakBar] = useState(false);
+    }); }
+    function toggleModal() {
+       
+        setModal((prev) => prev ? false : true);
+        
+    }
+     function deletemensaje(userId) {
+  
+          AxiosInstance().delete ('/usuarios/delete-user', {data:{userId:userId}}).then(res => {
+            getUsuario();
+            handleClicksnakBar("borrar");
+        }).catch(({data}) => {
+                    
+            const {error}=data;
+            setMensajeError(error.message+" Intentelo nuevamente")
+            handleClicksnakBar("error")
 
-  const handleClicksnakBar = () => {
+        }); 
+    }
+
+     function resetPass(userId)
+    {
+        { AxiosInstance().put('/usuarios/reset-user-password',{userId})
+        .then(res => {
+
+            handleClicksnakBar("reset");
+        }).catch(({data}) => {
+                    
+            const {error}=data;
+            setMensajeError(error.message+" Intentelo nuevamente")
+            handleClicksnakBar("error")
+
+        }); }
+    }
+
+//snackbar ok
+const [opensnakBar, setOpensnakBar] = useState(false);
+const [tipoCartel,setTipoCartel]=useState("");
+const [mensajeError,setMensajeError]=useState("");
+  const handleClicksnakBar = (tipo) => {
+      setTipoCartel(tipo);
     setOpensnakBar(true);
   };
 
@@ -93,69 +106,49 @@ function PanelCuentas(props) {
       >
         Agregar cuenta
       </Button>
-      <ModalPerfil
-        modal={modal}
-        toggleModal={toggleModal}
-        getUsuario={getUsuario}
-        handleClicksnakBar={handleClicksnakBar}
-      />
+            <ModalPerfil modal={modal} toggleModal={toggleModal} getUsuario={getUsuario} handleClicksnakBar={handleClicksnakBar} setMensajeError={setMensajeError} />
+           
+            <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
 
-      <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
-        <DataTable
-          columns={[
-            ...Columns,
-            {
-              name: "Borrar",
-              button: true,
-              cell: (row) => (
-                <BsTrash
-                  onClick={() => {
-                    if (
-                      window.confirm(`Seguro que desea eliminar ${row.nombre} `)
-                    ) {
-                      deletemensaje(row.id);
-                    }
-                  }}
-                />
-              ),
-            },
-            {
-              name: "Reset contraseña",
-              button: true,
-              cell: (row) => (
-                <BsPencilSquare
-                  onClick={() => {
-                    if (
-                      window.confirm(
-                        `Seguro que desea reset la contraseña ${row.nombre} `
-                      )
-                    ) {
-                      resetPass(row.id);
-                    }
-                  }}
-                />
-              ),
-            },
-          ]}
-          data={usuarios}
-          highlightOnHover
-          pagination
-          paginationComponentOptions={opcionesdepagina}
-          customStyles={customStyles}
-          responsive
-          noDataComponent={
-            <div>No hay informacion disponible para mostrar</div>
-          }
-        />
-      </div>
+                <DataTable
+                    columns={[...Columns, {
+                        name: 'Borrar',
+                        button: true,
+                        cell: row =>
+                            <BsTrash onClick={() => {
+                                if (window.confirm(`Seguro que desea eliminar ${row.nombre} `)) { deletemensaje(row.id) }
+                            }} />
+                    },
+                    {
+                        name: 'Reset contraseña',
+                        button: true,
+                        cell: row =>
+                            <BsPencilSquare onClick={() => {
+                                if (window.confirm(`Seguro que desea reset la contraseña ${row.nombre} `)) { resetPass(row.id) }
+                            }} />
+                    },
 
-      <Snackbar
-        open={opensnakBar}
-        autoHideDuration={3000}
-        onClose={handleClosesnackBar}
-      >
-        <Alert onClose={handleClosesnackBar} severity="success">
-          Usuario Agregado con exito.
+                    ]}
+                    data={usuarios}
+                    highlightOnHover
+                    pagination
+                    paginationComponentOptions={opcionesdepagina}
+                    customStyles={customStyles}
+                    responsive
+                    noDataComponent={<div>No hay informacion disponible para mostrar</div>}
+
+                />
+            </div>
+
+
+
+      <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={
+            {"agregar":"success","reset":"warning","borrar":"info","error":"error"}[tipoCartel]}>
+          {{"agregar":"El usuario fue agregado con exito",
+          "reset":"Contraseña reiniciada con exito",
+          "borrar":"Ususario borrado",
+          "error":mensajeError}[tipoCartel]}
         </Alert>
       </Snackbar>
     </div>
