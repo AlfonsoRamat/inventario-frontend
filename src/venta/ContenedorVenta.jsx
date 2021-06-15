@@ -69,7 +69,17 @@ function ContenedorVenta() {
     setTabList(temp);
     setTabValue(0);
   };
-
+const [Bandera, setBandera] = useState(true)
+  function openExistTb(){
+    if (cajaAbierta&&Bandera) {
+      console.log("ventas abiertas",cajaAbierta.Ventas)
+      cajaAbierta.Ventas.forEach((venta) => {
+        if (venta.estadoVenta === EstadoVenta.ABIERTA) addTab(venta);
+      });
+      setBandera(!Bandera)
+    }
+    
+  }
   useEffect(() => {
     if (cajaAbierta && tabList.length === 1) {
       setTabList((prev) => [
@@ -81,11 +91,7 @@ function ContenedorVenta() {
         },
       ]);
     }
-    if (cajaAbierta) {
-      cajaAbierta.Ventas.forEach((venta) => {
-        if (venta.estadoVenta === EstadoVenta.ABIERTA) addTab(venta);
-      });
-    }
+  openExistTb();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [{...cajaAbierta}]);
 
