@@ -17,7 +17,7 @@ const EstadoVenta = {
 };
 
 function ContenedorVenta() {
-  const { cajaAbierta } = useContext(CajaContext);
+  const { cajaAbierta, agregarVenta } = useContext(CajaContext);
   const [tabValue, setTabValue] = useState(0);
   const [tabList, setTabList] = useState([
     {
@@ -40,15 +40,7 @@ function ContenedorVenta() {
     let id = tabList[tabList.length - 1].id + 1;
     if (tabList.length < 7) {
       if (!ventaExistente) {
-        setTabList([
-          ...tabList,
-          {
-            key: id,
-            id: id,
-            label: "venta",
-            venta: null,
-          },
-        ]);
+        agregarVenta();
       } else {
         setTabList([
           ...tabList,
@@ -95,7 +87,7 @@ function ContenedorVenta() {
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cajaAbierta]);
+  }, [{...cajaAbierta}]);
 
   return (
     <div>
@@ -117,7 +109,7 @@ function ContenedorVenta() {
         {
           // Esto renderiza el boton de añadir tab
           cajaAbierta ? (
-            <div onClick={()=> addTab()}>
+            <div onClick={() => addTab()}>
               <BsFilePlus />
               <label>Abrir</label>
             </div>

@@ -7,13 +7,11 @@ export function CajaContextProvider({ children }) {
   const [productos, setProductos] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  let mounted = false;
 
   function buscarCajaAbierta() {
     getCaja().then(caja => {
       setCajaAbierta(caja);
     }).catch(err => console.log('Error al obtener la caja', err));
-    console.log('getCaja', cajaAbierta);
   }
 
   function abrirCaja(montoEfectivoInicio) {
@@ -34,7 +32,7 @@ export function CajaContextProvider({ children }) {
       .catch(error => console.log('Error al cerrar la caja', error));
   }
 
-  function agregarVenta(id) {
+  function agregarVenta() {
     addVenta(cajaAbierta.id)
       .then(cajaActualizada => setCajaAbierta(cajaActualizada))
       .catch(error => console.log('Error al agregar una venta a la caja', error));
@@ -48,10 +46,8 @@ export function CajaContextProvider({ children }) {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    mounted = true;
     buscarCajaAbierta();
     getProductos();
-    return () => (mounted = false);
   }, []);
 
   return (
