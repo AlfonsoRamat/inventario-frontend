@@ -7,6 +7,9 @@ import TablaReserva from "./components/reservas/TablaReserva";
 import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
+//TODO: esto funciona de la siguiente manera te abre una ventana  con id y las otras ventanas de venta
+// sin id por ende deberia al momento de cobrar crear la venta y agregar los item y cerrarla
+// en el caso que se interrumpa el proseso en el medio de la carga y queda la venta abierta se va a recargar automaticamente pero solo una
 
 const EstadoVenta = {
   APROBADA: "finalizada",
@@ -93,10 +96,13 @@ const [Bandera, setBandera] = useState(true)
     }
     
   }
-  useEffect(() => {
 
+  //afvertenica salir sin guardar
+//TODO: https://javascript.plainenglish.io/how-to-alert-a-user-before-leaving-a-page-in-react-a2858104ca94  deberiamos hacer algo de esto
+  useEffect(() => {
   openExistTb();
     // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, [{...cajaAbierta}]);
 
   return (
