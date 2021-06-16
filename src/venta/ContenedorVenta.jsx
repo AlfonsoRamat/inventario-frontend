@@ -39,8 +39,19 @@ function ContenedorVenta() {
   const addTab = (ventaExistente) => {
     let id = tabList[tabList.length - 1].id + 1;
     if (tabList.length < 7) {
-      if (!ventaExistente) {
+
+      if (!ventaExistente && !cajaAbierta.Ventas.some((venta)=>venta.estadoVenta === EstadoVenta.ABIERTA)) {
         agregarVenta();
+        setTabList([
+          ...tabList,
+          {
+            key: id,
+            id: id,
+            label: "venta",
+            venta: cajaAbierta.Ventas[cajaAbierta.Ventas.length-1],
+          },
+        ]);
+        setTabValue(id);
       } else {
         setTabList([
           ...tabList,
@@ -53,7 +64,9 @@ function ContenedorVenta() {
         ]);
         setTabValue(id);
       }
+     
     }
+
   };
 
   function closeTab() {
@@ -81,16 +94,7 @@ const [Bandera, setBandera] = useState(true)
     
   }
   useEffect(() => {
-    if (cajaAbierta && tabList.length === 1) {
-      setTabList((prev) => [
-        ...prev,
-        {
-          key: 1,
-          id: 1,
-          label: "Reserva",
-        },
-      ]);
-    }
+
   openExistTb();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [{...cajaAbierta}]);
