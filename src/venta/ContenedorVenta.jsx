@@ -7,9 +7,7 @@ import TablaReserva from "./components/reservas/TablaReserva";
 import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
-//TODO: esto funciona de la siguiente manera te abre una ventana  con id y las otras ventanas de venta
-// sin id por ende deberia al momento de cobrar crear la venta y agregar los item y cerrarla
-// en el caso que se interrumpa el proseso en el medio de la carga y queda la venta abierta se va a recargar automaticamente pero solo una
+import TabPanel from "./components/tabPanels"
 
 const EstadoVenta = {
   APROBADA: "finalizada",
@@ -22,88 +20,17 @@ const EstadoVenta = {
 function ContenedorVenta() {
   const { cajaAbierta, agregarVenta } = useContext(CajaContext);
   const [tabValue, setTabValue] = useState(0);
-  const [tabList, setTabList] = useState([
-    {
-      key: 0,
-      id: 0,
-      label: "Caja",
-    },
-    {
-      key: 1,
-      id: 1,
-      label: "Reserva",
-    },
-  ]);
+
 
   const handleTabChange = (event, value) => {
     setTabValue(value);
   };
 
-  const addTab = (ventaExistente) => {
-    let id = tabList[tabList.length - 1].id + 1;
-    if (tabList.length < 7) {
 
-      if (!ventaExistente && !cajaAbierta.Ventas.some((venta)=>venta.estadoVenta === EstadoVenta.ABIERTA)) {
-        agregarVenta();
-        setTabList([
-          ...tabList,
-          {
-            key: id,
-            id: id,
-            label: "venta",
-            venta: cajaAbierta.Ventas[cajaAbierta.Ventas.length-1],
-          },
-        ]);
-        setTabValue(id);
-      } else {
-        setTabList([
-          ...tabList,
-          {
-            key: id,
-            id: id,
-            label: "venta",
-            venta: ventaExistente,
-          },
-        ]);
-        setTabValue(id);
-      }
-     
-    }
-
-  };
-
-  function closeTab() {
-    if (tabValue > 0) {
-      let temp = tabList.filter((tab) => tab.id !== tabValue);
-      setTabList(temp);
-      setTabValue(0);
-    }
-  }
-
-  const closeAllTab = () => {
-    let temp = tabList.splice(0, 1);
-    setTabList(temp);
-    setTabValue(0);
-  };
-const [Bandera, setBandera] = useState(true)
-  function openExistTb(){
-    if (cajaAbierta&&Bandera) {
-      console.log("ventas abiertas",cajaAbierta.Ventas)
-      cajaAbierta.Ventas.forEach((venta) => {
-        if (venta.estadoVenta === EstadoVenta.ABIERTA) addTab(venta);
-      });
-      setBandera(!Bandera)
-    }
-    
-  }
 
   //afvertenica salir sin guardar
 //TODO: https://javascript.plainenglish.io/how-to-alert-a-user-before-leaving-a-page-in-react-a2858104ca94  deberiamos hacer algo de esto
-  useEffect(() => {
-  openExistTb();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
-  }, [{...cajaAbierta}]);
 
   return (
     <div>
@@ -113,58 +40,23 @@ const [Bandera, setBandera] = useState(true)
         variant="scrollable"
         scrollButtons="on"
       >
-        {
-          tabList.map((tab) => {
-            return (
-              <Tab value={tab.id} key={tab.key.toString()} label={tab.label} />
-            );
-          }) /* ESto genera las pestañas arriba*/
-        }
+      
+        <Tab  label={"Caja"}  />
+        <Tab  label={"Reserva"} disabled={!cajaAbierta?true:false} />
+        <Tab  label={"Venta"} disabled={!cajaAbierta?true:false} />
+        <Tab label={"Venta"} disabled={!cajaAbierta?true:false} />
       </Tabs>
-      <div className="primeralinea">
-        {
-          // Esto renderiza el boton de añadir tab
-          cajaAbierta ? (
-            <div onClick={() => addTab()}>
-              <BsFilePlus />
-              <label>Abrir</label>
-            </div>
-          ) : null
-        }
-        {
-          // Esto renderiza el boton de cerrar tab cuando hay mas de una
-          tabValue > 1 ? (
-            <div onClick={closeTab}>
-              <BsFileMinus />
-              <label onClick={closeTab}>Cerrar</label>
-            </div>
-          ) : null
-        }
-      </div>
-      <Box p={1}>
-        {
-          // Aca se renderizan las tabs
-          tabList.map((tab) => {
-            return (
-              <Box
-                m={1}
-                role="tabpanel"
-                value={tab.id}
-                key={tab.key.toString()}
-                hidden={tab.id !== tabValue}
-              >
-                {tabValue === 0 ? (
-                  <ContenedorCaja setTabIndex={addTab} closeAll={closeAllTab} />
-                ) : tabValue === 1 ? (
-                  <TablaReserva cajaAbierta={cajaAbierta} />
-                ) : (
-                  <Venta venta={tab.venta} />
-                )}
-              </Box>
-            );
-          })
-        }
-      </Box>
+      <TabPanel value={tabValue} index={0}>
+      <ContenedorCaja  />
+      </TabPanel>
+      <TabPanel value={tabValue} index={1}>
+      <TablaReserva cajaAbierta={cajaAbierta} />
+      </TabPanel>
+      <TabPanel value={tabValue} index={2}>
+      <Venta  />
+      </TabPanel>
+    
+   
     </div>
   );
 }

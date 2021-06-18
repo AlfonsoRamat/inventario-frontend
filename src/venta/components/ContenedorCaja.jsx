@@ -4,7 +4,7 @@ import { CajaContext } from '../CajaContext';
 import CuadroCaja from './CuadroCaja'
 import { columnas, customStyles, opcionesdepagina } from "../../shared/configs/tablaVenta";
 
-function ContenedorCaja({ setTabIndex,closeAll }) {
+function ContenedorCaja() {
 
     const { cajaAbierta } = useContext(CajaContext);
 
@@ -24,7 +24,7 @@ useEffect(() => {
         <div className='cajaConteiner'>
             <div className="cajaizquierda">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
-                    <CuadroCaja setTabIndex={setTabIndex} closeAll={closeAll}/>
+                    <CuadroCaja />
                 </div>
             </div>
             <div className="cajaTablaVenta">

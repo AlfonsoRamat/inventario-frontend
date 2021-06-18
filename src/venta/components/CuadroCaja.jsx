@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { CajaContext } from '../CajaContext';
 import './CuadroCaja.css'
 
-function CuadroCaja({ closeAll }) {
+function CuadroCaja() {
     const [monto, setMonto] = useState(0);
     const { cajaAbierta, abrirCaja, cerrarCaja } = useContext(CajaContext);
     
@@ -14,7 +14,7 @@ function CuadroCaja({ closeAll }) {
         }else
         {
             cerrarCaja(monto);
-            closeAll();
+           
          }
     }
 
