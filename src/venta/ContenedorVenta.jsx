@@ -55,6 +55,9 @@ function ContenedorVenta() {
       <TabPanel value={tabValue} index={2}>
       <Venta  />
       </TabPanel>
+      <TabPanel value={tabValue} index={3}>
+      <Venta  />
+      </TabPanel>
     
    
     </div>
