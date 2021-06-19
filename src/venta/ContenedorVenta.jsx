@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from "react";
-import { BsFilePlus, BsFileMinus } from "react-icons/bs";
+import React, { useState, useContext } from "react";
 import Venta from "./venta";
-import { Tabs, Tab, Box } from "@material-ui/core";
+import { Tabs, Tab } from "@material-ui/core";
 import "react-tabs/style/react-tabs.css";
 import TablaReserva from "./components/reservas/TablaReserva";
 import "./venta.css";
