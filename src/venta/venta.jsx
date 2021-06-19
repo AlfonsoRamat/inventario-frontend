@@ -10,7 +10,7 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false)
 
@@ -34,6 +34,7 @@ function Venta({ venta, setVentas }) {
           return entrada;
         });
       });
+      reducirStockEnProductos(cantidadVendida, producto.id);;
     }
   }
 
@@ -54,7 +55,7 @@ function Venta({ venta, setVentas }) {
     const itemsArreglados = construirItems(venta, productos);
     setItemsConstruidos(itemsArreglados);
     getClientes();
-return () => setNeedUpdate(false);
+    return () => setNeedUpdate(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [needUpdate]);
 

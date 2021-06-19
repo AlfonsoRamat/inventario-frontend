@@ -17,7 +17,6 @@ function VentaCabecera({ cliente, productosVenta, toggleCliente, borrarItem }) {
     const opcionesDePago = ["Efectivo", "Tarjeta", "Debito", "Cuenta Corriente", "Reserva", "Efectivo + Tarjeta",];
 
     useEffect(() => {
-        console.log('productosVenta', productosVenta);
         const resultado = productosVenta.reduce((total, actual) => {
             return total + actual.precioVenta * actual.cantidad;
         }, 0);

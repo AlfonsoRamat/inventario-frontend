@@ -6,7 +6,12 @@ export const CajaContext = createContext(null);
 export function CajaContextProvider({ children }) {
   const [productos, setProductos] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
+  const [needUpdate, setNeedUpdate] = useState(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  function actualizarContexto() {
+    setNeedUpdate(true);
+  }
 
   function buscarCajaAbierta() {
     getCaja().then(caja => {
@@ -32,6 +37,25 @@ export function CajaContextProvider({ children }) {
       .catch(error => console.log('Error al cerrar la caja', error));
   }
 
+  function reducirStockEnProductos(cantidad, productoId) {
+    const productosReducidos = productos.map(producto => {
+      if (producto.id === productoId) {
+        let sustraccion = cantidad;
+        producto.Stocks.forEach(entrada => {
+          if (entrada.cantidad > sustraccion) {
+            entrada.cantidad -= sustraccion;
+            sustraccion = 0;
+          } else {
+            sustraccion -= entrada.cantidad;
+            entrada.cantidad = 0;
+          }
+        });
+      }
+      return producto;
+    });
+    setProductos(productosReducidos);
+  }
+
   async function agregarVenta() {
     try {
       const nuevaVenta = await addVenta(cajaAbierta.id);
@@ -39,7 +63,7 @@ export function CajaContextProvider({ children }) {
     } catch (error) {
       console.log('Error al agregar una venta a la caja', error)
     }
-    
+
   }
 
   function getProductos() {
@@ -52,7 +76,8 @@ export function CajaContextProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     buscarCajaAbierta();
     getProductos();
-  }, []);
+    return () => setNeedUpdate(false);
+  }, [needUpdate]);
 
   return (
     <CajaContext.Provider
@@ -63,6 +88,8 @@ export function CajaContextProvider({ children }) {
         abrirCaja,
         cerrarCaja,
         agregarVenta,
+        actualizarContexto,
+        reducirStockEnProductos
       }}
     >
       {children}
