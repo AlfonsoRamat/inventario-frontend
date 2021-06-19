@@ -1,5 +1,3 @@
-import AxiosInstance from "../../shared/configs/AxiosInstance";
-
 export function preguntarCantidad() {
     const cantidadVendida = prompt("Seleccione la cantidad: ");
 
@@ -23,11 +21,50 @@ export function checkearStock(cantidadVendida, producto) {
     return true;
 }
 
-export async function addItemToVenta(itemVenta) {
-    try {
-        const actualizado = await (await AxiosInstance().post("/venta/add-item", { itemVenta })).data;
-        console.log(actualizado); 
-    } catch (error) {
-        console.log('Error al añadir item a la venta', error);
-    }
+
+export function construirItems(venta, productos) {
+    const construidos = [];
+    venta.ItemsVenta.forEach(item => {
+        for (let i = 0; i < productos.length; i++) {
+            if (item.ProductoId === productos[i].id) {
+                const itemConstruido = {
+                    VentaId: venta.id,
+                    nombre: productos[i].nombre,
+                    descripcion: productos[i].descripcion,
+                    ProductoId: productos[i].id,
+                    precioVenta: productos[i].precioVenta,
+                    cantidad: item.cantidad,
+                };
+                construidos.push(itemConstruido);
+                break;
+            }
+        }
+    });
+    return construidos;
 }
+
+export function checkItemsDuplicados(venta, producto, cantidadVendida) {
+    const esDuplicado = venta.ItemsVenta.some(item => item.ProductoId === producto.id);
+
+    if (esDuplicado) {
+        const itemsModificados = venta.ItemsVenta.map(item => {
+            if (item.ProductoId === producto.id) {
+                item.cantidad = parseInt(item.cantidad) + parseInt(cantidadVendida);
+            }
+            return item;
+        });
+        return itemsModificados;
+    }
+
+    const itemVenta = {
+        VentaId: venta.id,
+        ProductoId: producto.id,
+        precioVenta: producto.precioVenta,
+        cantidad: parseInt(cantidadVendida),
+    };
+
+    const itemsModificados = venta.ItemsVenta;
+    itemsModificados.push(itemVenta);
+    return itemsModificados;
+}
+

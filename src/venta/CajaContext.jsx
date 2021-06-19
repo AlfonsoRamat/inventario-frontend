@@ -32,10 +32,14 @@ export function CajaContextProvider({ children }) {
       .catch(error => console.log('Error al cerrar la caja', error));
   }
 
-  function agregarVenta() {
-    addVenta(cajaAbierta.id)
-      .then(cajaActualizada => setCajaAbierta(cajaActualizada))
-      .catch(error => console.log('Error al agregar una venta a la caja', error));
+  async function agregarVenta() {
+    try {
+      const nuevaVenta = await addVenta(cajaAbierta.id);
+      return nuevaVenta;
+    } catch (error) {
+      console.log('Error al agregar una venta a la caja', error)
+    }
+    
   }
 
   function getProductos() {
