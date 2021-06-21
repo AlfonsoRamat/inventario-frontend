@@ -114,11 +114,24 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                     {!medioDePago ?
                         <div className="renglonDeCompra">
                             <label>Tipo de pago </label>
-                            <ComboBox options={Object.values(opcionesDePago)} enableAutocomplete onSelect={(option) => {
-                                agregarModoDePago(option);
-                                setMedioDePago(option);
-                            }} />
-                            {/*TODO: Tipos de pago deberia tener el mismo aspecto y tamaño que el input del cliente */}
+                            <Autocomplete
+                            id="combo-box-pago"
+                            options={Object.values(opcionesDePago)}
+                            onChange={(_, value) => {
+                                if (value) {
+                                    agregarModoDePago(value);
+                                    setMedioDePago(value);
+
+                                }
+                            }}
+                            getOptionLabel={(option) => option}
+                            style={{ width: 300 }}
+                            renderInput={(params) => (
+                                <TextField {...params} label="Tipo de Pago" variant="outlined" />
+                            )}
+                        />
+
+
 
 
                         </div>
