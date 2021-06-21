@@ -57,6 +57,7 @@ export function CajaContextProvider({ children }) {
       .then(success => {
         if (success) {
           setCajaAbierta(null);
+          setmessageExito("Caja cerrada con exito");
           handleClicksnakBar(false)
         }
       })
@@ -65,7 +66,7 @@ export function CajaContextProvider({ children }) {
         setmessajeError(error.message+" Intentelo nuevamente");
         handleClicksnakBar(true);
 
-        console.log('Error al cerrar la caja', error)});
+        });
   }
 
   function aumentarStockEnProductos(devolucion) {

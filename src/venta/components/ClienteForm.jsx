@@ -3,7 +3,9 @@ import "./ClienteForm.css"
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import AxiosInstance from '../../shared/configs/AxiosInstance';
 
-function ClienteForm({ toggleCliente }) {
+function ClienteForm({ toggleCliente ,    setmessajeError,
+    setmessageExito,
+    handleClicksnakBar}) {
 
     const initialValues = {
         nombre: '',
@@ -16,9 +18,16 @@ function ClienteForm({ toggleCliente }) {
         AxiosInstance()
             .post("/cliente", { ...values })
             .then((res) => {
+                setmessageExito("Cliente agregado con exito");
+                handleClicksnakBar(false);
                 toggleCliente();
             })
-            .catch((error) => console.log(error));
+            .catch(({data}) => {
+                const {error}=data;
+                setmessajeError(error.message+" Intentelo nuevamente");
+                handleClicksnakBar(true);
+        
+                });
     };
 
     return (

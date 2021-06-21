@@ -9,7 +9,10 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos,revertirHistorial } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos,revertirHistorial, 
+    setmessajeError,
+    setmessageExito,
+    handleClicksnakBar } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [cliente, setCliente] = useState([]);
@@ -67,6 +70,9 @@ function Venta({ venta, setVentas }) {
 
   async function toggleCliente() {
     setMostrarCliente(!mostrarCliente);
+    if(mostrarCliente){
+      getClientes()
+    }
   }
 
   async function getClientes() {
@@ -115,7 +121,10 @@ function Venta({ venta, setVentas }) {
   return (
     <div className="bodyVenta">
       <VentaCabecera cliente={cliente} borrarItem={borrarItem} agregarModoDePago={agregarModoDePago} agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
-      {mostrarCliente ? (<ClienteForm toggleCliente={toggleCliente} />) : null}
+      {mostrarCliente ? (<ClienteForm toggleCliente={toggleCliente} setmessajeError={setmessajeError}
+          setmessageExito={setmessageExito}
+          handleClicksnakBar={handleClicksnakBar}
+       />) : null}
       <PieDeVenta productos={productos} agregarEnVentas={agregarEnVentas} />
     </div>
   );
