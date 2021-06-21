@@ -68,6 +68,5 @@ export function checkItemsDuplicados(venta, producto, cantidadVendida) {
         precioVenta: producto.precioVenta,
         cantidad: parseInt(cantidadVendida),
     };
-    console.log('undefined aca?', itemModificado);
     return { esDuplicado, itemModificado }
 }
