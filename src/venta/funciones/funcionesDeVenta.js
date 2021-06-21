@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export function preguntarCantidad() {
     const cantidadVendida = prompt("Seleccione la cantidad: ");
 
@@ -9,6 +11,7 @@ export function preguntarCantidad() {
 }
 
 export function checkearStock(cantidadVendida, producto) {
+    if (!cantidadVendida) return;
     const cantidadTotal = producto.Stocks.reduce((total, actual) => { //Calcula cantidad de productos en stock
         return total + actual.cantidad;
     }, 0);
@@ -28,6 +31,7 @@ export function construirItems(venta, productos) {
         for (let i = 0; i < productos.length; i++) {
             if (item.ProductoId === productos[i].id) {
                 const itemConstruido = {
+                    id: item.id,
                     VentaId: venta.id,
                     nombre: productos[i].nombre,
                     descripcion: productos[i].descripcion,
@@ -45,26 +49,25 @@ export function construirItems(venta, productos) {
 
 export function checkItemsDuplicados(venta, producto, cantidadVendida) {
     const esDuplicado = venta.ItemsVenta.some(item => item.ProductoId === producto.id);
-
+    let itemModificado;
     if (esDuplicado) {
-        const itemsModificados = venta.ItemsVenta.map(item => {
+        venta.ItemsVenta.map(item => {
             if (item.ProductoId === producto.id) {
                 item.cantidad = parseInt(item.cantidad) + parseInt(cantidadVendida);
+                itemModificado = item;
             }
             return item;
         });
-        return itemsModificados;
+        return { esDuplicado, itemModificado };
     }
 
-    const itemVenta = {
+    itemModificado = {
+        id: uuidv4(),
         VentaId: venta.id,
         ProductoId: producto.id,
         precioVenta: producto.precioVenta,
         cantidad: parseInt(cantidadVendida),
     };
-
-    const itemsModificados = venta.ItemsVenta;
-    itemsModificados.push(itemVenta);
-    return itemsModificados;
+    console.log('undefined aca?', itemModificado);
+    return { esDuplicado, itemModificado }
 }
-

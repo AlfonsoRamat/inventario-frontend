@@ -13,18 +13,21 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
+}
 
 function TablaPedidos(props) {
-
     const { productos, proveedores, tabreload, setTabReload } = useContext(InventarioContext);
-
     const [filtro, setFiltro] = useState([]);
     const [modal, setmodal] = useState(false);
     const [userSelection, setUserSelection] = useState(null);
     const [usarDatosSinAlertas, setUsarDatosSinAlertas] = useState(true);
     const [listaSelected, setlistaSelected] = useState([]);
     const [bandera, setBandera] = useState(true);
+    const [search, setSearch] = useState("");
+    const [variable, setvariable] = useState([]);
+    const [tabIndex, setTabIndex] = useState(0);
+    const [opensnakBar, setOpensnakBar] = useState(false);
+
     function toggleModal() {
         setmodal(!modal);
     };
@@ -32,9 +35,7 @@ function TablaPedidos(props) {
         setBandera(!bandera);
     };
 
-
     function filtrarstock() {
-
         const listas = productos.filter(prod => {
             let value = prod.Stocks.reduce((total, actual) => {
                 return total + parseInt(actual.cantidad);
@@ -51,18 +52,12 @@ function TablaPedidos(props) {
     const DataSet = [
         {
             columns: [
-
                 { title: "Codigo de barra", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Nombre", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 300 } }, // width in pixels
                 { title: "Cantidad", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
-
-
-
-
             ],
             data: listaSelected.map((data) => [
-              
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
@@ -71,12 +66,10 @@ function TablaPedidos(props) {
                         return total + parseFloat(actual.cantidad);
                     }, 0), style: { font: { sz: "14" } }
                 },
-
             ])
         }
     ];
 
-    const [search, setSearch] = useState("");
     function buscar(rows) {
         if (rows) {
             return rows.filter(row =>
@@ -86,54 +79,46 @@ function TablaPedidos(props) {
             );
         } else return [];
     }
-    const [variable, setvariable] = useState([]);
-    function filtrar(rows) {
 
+    function filtrar(rows) {
         if (rows && variable.id) {
             return rows.filter(row =>
                 row.ProveedorId.indexOf(variable.id) > -1)
         } else return rows;
-
     }
     function handleChange(row) {
         setlistaSelected(row.selectedRows)
         console.log('Selected Rows: ', listaSelected);
     };
-    const [tabIndex, setTabIndex] = useState(0);
+
     const index = props.index;
     function agregarstock(selectedItem) {
         setUserSelection(selectedItem);
         if (userSelection) toggleModal();
     }
-    //cartelito
-    const [opensnakBar, setOpensnakBar] = useState(false);
 
-    const handleClicksnakBar = () => {
-      setOpensnakBar(true);
+    const handleClicksnakBar = () => {//cartelito
+        setOpensnakBar(true);
     };
-  
+
     const handleClosesnackBar = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpensnakBar(false);
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpensnakBar(false);
     };
+
     useEffect(() => {
-
         filtrarstock();
-
         if (index != null && !tabreload) { setTabIndex(index - 1); setTabReload(!tabreload) }
         // eslint-disable-next-line
     }, [usarDatosSinAlertas, tabIndex])
-
 
     return (
         <>
             <AgregarStockModal modal={modal} toggleModal={toggleModal} userSelection={userSelection} setUserSelection={setUserSelection} handleClicksnakBar={handleClicksnakBar} />
             <div>
                 <>
-
                     <Tabs selectedIndex={tabIndex} onSelect={index => {
                         setTabIndex(index)
                     }}>
@@ -145,20 +130,13 @@ function TablaPedidos(props) {
                             <div className="columna">
                                 <Autocomplete
                                     id="provider"
-                                    onChange={(option, value) => {
-                                        if (value) { setvariable(value) }
-                                    }}
+                                    onChange={(_, value) => { if (value) { setvariable(value) } }}
+                                    onInputChange={(_, value) => { setvariable(value) }}
                                     options={proveedores}
-                                    onInputChange={(event, value) => {
-                                        setvariable(value)
-                                    }}
-
                                     getOptionLabel={(option) => option.nombre}
-
                                     renderInput={(params) => <TextField {...params} label="Elige un proveedor" variant="outlined" />}
                                 />
                             </div>
-
                             <div className="columnai">
                                 <div className="input-icono">
                                     <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
@@ -171,14 +149,11 @@ function TablaPedidos(props) {
                                     <label htmlFor="productosEnCero">{"  Incluir productos sin alertas"}</label>
                                 </div> : null}
                             </div>
-
-
                         </div>
 
                         <TabPanel>
                             <div className="body">
                                 <div className="">
-
                                     <h2 className="subtitle">Modifica Stock</h2>
                                     <DataTable
                                         columns={PedidoColumns}
@@ -187,57 +162,39 @@ function TablaPedidos(props) {
                                         paginationComponentOptions={opcionesdepagina}
                                         customStyles={customStyles}
                                         responsive
-
-                                        onRowClicked={selectedItem => {
-                                            agregarstock(selectedItem)
-                                        }}
-
+                                        onRowClicked={selectedItem => { agregarstock(selectedItem) }}
                                         noDataComponent={<div>No hay informacion disponible para mostrar</div>} />
-
                                 </div>
                             </div>
                         </TabPanel>
                         <TabPanel><div className="split">
-
-
                             <div className="columna">
-
-
                                 <ExcelFile
                                     filename={"pedidos productos " + new Date()}
                                     element={<button type="button" className="">Descargar borrador de pedido</button>}>
                                     <ExcelSheet dataSet={DataSet} name="tabla de productos" />
                                 </ExcelFile>
-
                             </div>
-
-
                         </div>
-
                             <h2 className="subtitle">Productos en Alerta</h2>
                             <DataTable
                                 conditionalRowStyles={conditionalRowStyles}
                                 columns={AlertaColumns}
                                 data={filtrar(buscar(filtro))}
-                                onRowClicked={selectedItem => {
-                                    agregarstock(selectedItem);
-                                }}
+                                onRowClicked={selectedItem => { agregarstock(selectedItem) }}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 customStyles={customStyles}
                                 selectableRows
-
                                 onSelectedRowsChange={row => handleChange(row)}
                                 noDataComponent={<div>No hay productos con cantidades criticas</div>} />
                         </TabPanel>
-
                     </Tabs>
                     <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
-        <Alert onClose={handleClosesnackBar} severity="success">
-          Stock Agregado con exito.
-        </Alert>
-      </Snackbar>
-
+                        <Alert onClose={handleClosesnackBar} severity="success">
+                            Stock Agregado con exito.
+                        </Alert>
+                    </Snackbar>
                 </>
             </div>
         </>

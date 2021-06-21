@@ -48,7 +48,6 @@ const [advertencia, setAdvertencia]=useState(false)
     setOpensnakBar(false);
   };
 
-
     useEffect(() => {
         if(userSelection){
             toggleModal();

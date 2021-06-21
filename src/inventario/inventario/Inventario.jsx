@@ -14,7 +14,7 @@ function Inventario(props) {
 const index=props.index;
     useEffect(() => {
         if(index!=null){ setTabIndex(index);}
-
+// eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <>
@@ -23,16 +23,11 @@ const index=props.index;
                     <TabList>
                         <Tab>Productos</Tab>
                         <Tab>Stock</Tab>
-                        <Tab>Provedores</Tab>
-                        
+                        <Tab>Provedores</Tab> 
                         <Tab>Rubros</Tab>
-                        
                     </TabList>
-
                     <TabPanel>
-
                         <TablaItems />
-
                     </TabPanel>
                     <TabPanel>
                         <TablaPedidos index={index} />

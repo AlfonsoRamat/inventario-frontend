@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState, useContext } from "react";
 import "./venta.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,10 +9,9 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos,revertirHistorial } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
-  const [needUpdate, setNeedUpdate] = useState(false)
-
+  const [needUpdate, setNeedUpdate] = useState(false);
   const [cliente, setCliente] = useState([]);
   const [mostrarCliente, setMostrarCliente] = useState(false);
 
@@ -23,19 +21,48 @@ function Venta({ venta, setVentas }) {
     const hayStock = checkearStock(cantidadVendida, producto);
 
     if (hayStock) {
-      const itemsModificados = checkItemsDuplicados(venta, producto, cantidadVendida);
-
+      const { esDuplicado, itemModificado } = checkItemsDuplicados(venta, producto, cantidadVendida);
       setVentas(prev => {
-        return prev.map(entrada => {
-          if (entrada.tabId === venta.tabId) {
-            entrada.ItemsVenta = itemsModificados;
-            setNeedUpdate(true);
-          }
-          return entrada;
-        });
+        if (esDuplicado) {
+          return prev.map((entrada) => {
+            if (entrada.tabId === venta.tabId) {
+              entrada.ItemsVenta.forEach(oldValue => {
+                if (itemModificado.id === oldValue.id) return itemModificado;
+                return oldValue;
+              })
+              setNeedUpdate(true);
+            }
+            return entrada;
+          });
+        } else {
+          return prev.map((entrada) => {
+            if (entrada.tabId === venta.tabId) {
+              entrada.ItemsVenta.push(itemModificado);
+              setNeedUpdate(true);
+            }
+            return entrada;
+          })
+        }
       });
-      reducirStockEnProductos(cantidadVendida, producto.id);;
+      reducirStockEnProductos(itemModificado, producto.id);
     }
+  }
+
+  function borrarItem(itemVenta) {
+    revertirHistorial(itemVenta);
+    const itemsModificados = venta.ItemsVenta.filter(item =>{
+      return item.id !== itemVenta.id;
+    });
+
+    setVentas(prev => {
+      return prev.map(entrada =>{
+        if(entrada.tabId === venta.tabId){
+          entrada.ItemsVenta = itemsModificados;
+        }
+        return entrada;
+      });
+    });
+    setNeedUpdate(true);
   }
 
   async function toggleCliente() {
@@ -51,6 +78,32 @@ function Venta({ venta, setVentas }) {
     }
   }
 
+  function agregarCliente(clienteId) {
+    setVentas((prev) => {
+      return prev.map(entrada => {
+        if (entrada.tabId === venta.tabId) {
+          entrada.ClienteId = clienteId;
+          setNeedUpdate(true);
+        }
+        return entrada;
+      });
+
+    })
+  }
+
+  function agregarModoDePago(pago) {
+    setVentas(prev => {
+      const nuevoArray = prev.map(entrada => {
+        if (entrada.tabId === venta.tabId) {
+          entrada.tipoPago = pago;
+          setNeedUpdate(true);
+        }
+        return entrada;
+      });
+      return nuevoArray;
+    });
+  }
+
   useEffect(() => {
     const itemsArreglados = construirItems(venta, productos);
     setItemsConstruidos(itemsArreglados);
@@ -61,11 +114,8 @@ function Venta({ venta, setVentas }) {
 
   return (
     <div className="bodyVenta">
-      <VentaCabecera cliente={cliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
-      {<button onClick={() => console.log(venta)}>ver venta</button>}
-      {mostrarCliente ? (
-        <ClienteForm toggleCliente={toggleCliente} />
-      ) : null}
+      <VentaCabecera cliente={cliente} borrarItem={borrarItem} agregarModoDePago={agregarModoDePago} agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
+      {mostrarCliente ? (<ClienteForm toggleCliente={toggleCliente} />) : null}
       <PieDeVenta productos={productos} agregarEnVentas={agregarEnVentas} />
     </div>
   );

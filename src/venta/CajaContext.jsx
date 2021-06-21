@@ -1,16 +1,27 @@
 import React, { createContext, useState, useEffect } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { addCaja, addVenta, closeCaja, getCaja, obtenerProductos } from "./funciones/funcionesDeCaja";
+
 
 export const CajaContext = createContext(null);
 
 export function CajaContextProvider({ children }) {
   const [productos, setProductos] = useState([]);
+  const [historial, setHistorial] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   function actualizarContexto() {
     setNeedUpdate(true);
+  }
+
+  function revertirHistorial(itemVenta) {
+    historial.forEach(movimiento => {
+      if (movimiento.ItemVentaId === itemVenta.id) {
+        aumentarStockEnProductos(movimiento);
+      }
+    })
   }
 
   function buscarCajaAbierta() {
@@ -37,16 +48,51 @@ export function CajaContextProvider({ children }) {
       .catch(error => console.log('Error al cerrar la caja', error));
   }
 
-  function reducirStockEnProductos(cantidad, productoId) {
+  function aumentarStockEnProductos(devolucion) {
+    const productosAumentados = productos.map(producto => {
+      if (producto.id === devolucion.ProductoId) {
+        producto.Stocks.forEach(stock => {
+          if (stock.id === devolucion.StockId) {
+            stock.cantidad += devolucion.cantidad;
+          }
+        })
+      }
+      return producto;
+    });
+    setProductos(productosAumentados);
+
+    const filteredHistoriales = historial.filter(movimiento => {
+      return movimiento.id !== devolucion.id;
+    });
+    setHistorial(filteredHistoriales);
+  }
+
+  function reducirStockEnProductos(itemVenta, productoId) {
     const productosReducidos = productos.map(producto => {
       if (producto.id === productoId) {
-        let sustraccion = cantidad;
+        let sustraccion = itemVenta.cantidad;
         producto.Stocks.forEach(entrada => {
           if (entrada.cantidad > sustraccion) {
             entrada.cantidad -= sustraccion;
+            const nuevaHistoria = {
+              id: uuidv4(),
+              ItemVentaId: itemVenta.id,
+              ProductoId: productoId,
+              cantidad: sustraccion,
+              StockId: entrada.id
+            }
+            setHistorial(prev => [...prev, nuevaHistoria]);
             sustraccion = 0;
           } else {
             sustraccion -= entrada.cantidad;
+            const nuevaHistoria = {
+              id: uuidv4(),
+              ItemVentaId: itemVenta.id,
+              ProductoId: productoId,
+              cantidad: entrada.cantidad,
+              StockId: entrada.id
+            }
+            setHistorial(prev => [...prev, nuevaHistoria]);
             entrada.cantidad = 0;
           }
         });
@@ -55,6 +101,8 @@ export function CajaContextProvider({ children }) {
     });
     setProductos(productosReducidos);
   }
+
+
 
   async function agregarVenta() {
     try {
@@ -89,7 +137,9 @@ export function CajaContextProvider({ children }) {
         cerrarCaja,
         agregarVenta,
         actualizarContexto,
-        reducirStockEnProductos
+        reducirStockEnProductos,
+        historial,
+        revertirHistorial
       }}
     >
       {children}
