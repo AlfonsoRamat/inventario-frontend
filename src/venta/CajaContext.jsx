@@ -1,6 +1,20 @@
 import React, { createContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { addCaja, addVenta, closeCaja, getCaja, obtenerProductos } from "./funciones/funcionesDeCaja";
+import { makeStyles } from '@material-ui/core/styles';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 140,
+  },
+});
 
 
 export const CajaContext = createContext(null);
@@ -11,6 +25,7 @@ export function CajaContextProvider({ children }) {
   const [cajaAbierta, setCajaAbierta] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(false)
   // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
   function actualizarContexto() {
     setNeedUpdate(true);
@@ -42,10 +57,15 @@ export function CajaContextProvider({ children }) {
       .then(success => {
         if (success) {
           setCajaAbierta(null);
-          //TODO: Agregar mensaje de cierre correcto
+          handleClicksnakBar(false)
         }
       })
-      .catch(error => console.log('Error al cerrar la caja', error));
+      .catch(({data}) => {
+        const {error}=data;
+        setmessajeError(error.message+" Intentelo nuevamente");
+        handleClicksnakBar(true);
+
+        console.log('Error al cerrar la caja', error)});
   }
 
   function aumentarStockEnProductos(devolucion) {
@@ -119,6 +139,24 @@ export function CajaContextProvider({ children }) {
       setProductos(productos);
     }).catch(err => console.log('Error al obtener los productos', err));
   }
+  //snackbar ok
+  const [opensnakBar, setOpensnakBar] = useState(false);
+  const [advertencia, setAdvertencia] = useState(false);
+  const [messajeError, setmessajeError] = useState("");
+  const [messageExito, setmessageExito] = useState("Caja cerrada con exito");
+  
+  const handleClicksnakBar = (adv) => {
+    setAdvertencia(adv)
+    setOpensnakBar(true);
+  };
+
+  const handleClosesnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpensnakBar(false);
+  };
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,21 +166,31 @@ export function CajaContextProvider({ children }) {
   }, [needUpdate]);
 
   return (
-    <CajaContext.Provider
-      value={{
-        getProductos,
-        productos,
-        cajaAbierta,
-        abrirCaja,
-        cerrarCaja,
-        agregarVenta,
-        actualizarContexto,
-        reducirStockEnProductos,
-        historial,
-        revertirHistorial
-      }}
-    >
-      {children}
-    </CajaContext.Provider>
+    <div>
+      <CajaContext.Provider
+        value={{
+          getProductos,
+          productos,
+          cajaAbierta,
+          abrirCaja,
+          cerrarCaja,
+          agregarVenta,
+          actualizarContexto,
+          reducirStockEnProductos,
+          historial,
+          revertirHistorial,
+          setmessajeError,
+          setmessageExito,
+          handleClicksnakBar
+        }}
+      >
+        {children}
+      </CajaContext.Provider>
+      <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
+        <Alert onClose={handleClosesnackBar} severity={advertencia ? "error" : "success"}>
+          {advertencia ? messajeError : messageExito}
+        </Alert>
+      </Snackbar>
+    </div>
   );
 }
