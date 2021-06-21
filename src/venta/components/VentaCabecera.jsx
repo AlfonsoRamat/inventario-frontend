@@ -8,7 +8,7 @@ import { GrRevert } from "react-icons/gr";
 import TextField from "@material-ui/core/TextField";
 import "./VentaCabecera.css";
 
-function VentaCabecera({ cliente, productosVenta, borrarItem,toggleCliente, agregarCliente, agregarModoDePago }) {
+function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agregarCliente, agregarModoDePago }) {
     const opcionesDePago = { EFECTIVO: "Efectivo", TARJETA: "Tarjeta", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", RESERVA: "Reserva", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
 
     const [subTotal, setSubTotal] = useState(0);
@@ -66,17 +66,47 @@ function VentaCabecera({ cliente, productosVenta, borrarItem,toggleCliente, agre
                     Total<h1 name="total">${subTotal}</h1>
                 </label>
                 {selectedCliente ? <label name="">
-                    cliente<h1 name="total">{selectedCliente.nombre} <GrRevert onClick={() => {
+                    cliente<h3 name="total">{selectedCliente.nombre} <GrRevert onClick={() => {
                         setSelectedCliente(null);
                         agregarCliente(null);
-                    }} /></h1>
+                    }} /></h3>
                 </label> : null}
-                {medioDePago ? <label name="">
-                    pago<h1 name="total">{medioDePago} <GrRevert onClick={() => {
-                        setMedioDePago(null);
-                        agregarModoDePago(null);
-                    }} /></h1>
-                </label> : null}
+                {medioDePago ?
+                    <div >
+                        <label name="">
+                            Pago<h3 name="total">{medioDePago} <GrRevert onClick={() => {
+                                setMedioDePago(null);
+                                agregarModoDePago(null);
+                            }}
+                            /></h3>
+
+                        </label>
+
+                        {medioDePago === "Tarjeta" ?
+                            <div className="descuento">
+                                <label >Ingrese un porcentaje de recargo
+
+                                </label>
+                                <input type="text" value="HOLA" />
+                            </div>
+                            : null}
+                        {medioDePago === "Efectivo + Tarjeta" ?
+                            <div className="descuento">
+                                <label >Ingrese monto en efectivo
+
+                                </label>
+                                <input type="text" value="HOLA" />
+                                <label >Ingrese un porcentaje de recargo
+
+                                </label>
+                                <input type="text" value="HOLA" />
+
+                            </div>
+                            : null}
+
+                    </div>
+
+                    : null}
                 <button className={buttonClassname} type="button">
                     Cobrar
                 </button>
@@ -89,6 +119,8 @@ function VentaCabecera({ cliente, productosVenta, borrarItem,toggleCliente, agre
                                 setMedioDePago(option);
                             }} />
                             {/*TODO: Tipos de pago deberia tener el mismo aspecto y tamaño que el input del cliente */}
+
+
                         </div>
                         : null}
                     {!selectedCliente ? <div>

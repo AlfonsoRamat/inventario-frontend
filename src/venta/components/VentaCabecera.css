@@ -19,3 +19,8 @@
 .opcionesDeCompra {
     margin-top: 10px;
 }
+.descuento{
+    display: flex;
+    flex-direction: column; 
+    margin-bottom: 10px;
+}
