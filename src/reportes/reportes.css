@@ -3,3 +3,12 @@
     flex-direction: row;
     align-items: center;
       }
+     .colunmas{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+          }
+          .colunmas button{
+            margin: 20px;
+width: 300px;
+          }
