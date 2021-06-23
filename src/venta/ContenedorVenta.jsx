@@ -26,7 +26,8 @@ function ContenedorVenta() {
     UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
-    monto: 1,
+    monto: 0,
+    montoTarjeta: 0,
     recargo: null,
     tipoPago: "efectivo",
     ventaRapida: null
@@ -38,7 +39,8 @@ function ContenedorVenta() {
     UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
-    monto: 1,
+    monto: 0,
+    montoTarjeta: 0,
     recargo: null,
     tipoPago: "efectivo",
     ventaRapida: null
@@ -50,7 +52,8 @@ function ContenedorVenta() {
     UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
-    monto: 1,
+    monto: 0,
+    montoTarjeta: 0,
     recargo: null,
     tipoPago: "efectivo",
     ventaRapida: null
@@ -62,7 +65,8 @@ function ContenedorVenta() {
     UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
-    monto: 1,
+    monto: 0,
+    montoTarjeta: 0,
     recargo: null,
     tipoPago: "efectivo",
     ventaRapida: null
@@ -74,7 +78,8 @@ function ContenedorVenta() {
     UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
-    monto: 1,
+    monto: 0,
+    montoTarjeta: 0,
     recargo: null,
     tipoPago: "efectivo",
     ventaRapida: null

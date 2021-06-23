@@ -9,10 +9,7 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos,revertirHistorial, 
-    setmessajeError,
-    setmessageExito,
-    handleClicksnakBar } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos,revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [cliente, setCliente] = useState([]);
@@ -101,7 +98,9 @@ function Venta({ venta, setVentas }) {
     setVentas(prev => {
       const nuevoArray = prev.map(entrada => {
         if (entrada.tabId === venta.tabId) {
-          entrada.tipoPago = pago;
+          entrada.tipoPago = pago.tipoPago;
+          entrada.monto = pago.monto;
+          entrada.montoTarjeta = pago.montoTarjeta;
           setNeedUpdate(true);
         }
         return entrada;

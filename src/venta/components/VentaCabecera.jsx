@@ -10,11 +10,29 @@ import "./VentaCabecera.css";
 
 function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agregarCliente, agregarModoDePago }) {
     const opcionesDePago = { EFECTIVO: "Efectivo", TARJETA: "Tarjeta", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", RESERVA: "Reserva", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
-
     const [subTotal, setSubTotal] = useState(0);
     const [selectedCliente, setSelectedCliente] = useState(null);
-    const [medioDePago, setMedioDePago] = useState(opcionesDePago.EFECTIVO);
+    const [medioDePago, setMedioDePago] = useState({
+        tipoPago: null,
+        monto: 0,
+        montoTarjeta: 0,
+        recargo: 0,
+    });
+
     const buttonClassname = "bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150";
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setMedioDePago(prev => {
+            return { ...prev, [name]: value }
+        });
+    }
+
+    function calcularMontos() {
+            let montoTarjeta = subTotal - medioDePago.monto;
+            if (medioDePago.recargo > 0) montoTarjeta += (montoTarjeta * medioDePago.recargo) / 100;
+            return montoTarjeta;
+    }
 
     useEffect(() => {
         const resultado = productosVenta.reduce((total, actual) => {
@@ -27,7 +45,6 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
         <div className="cabecera">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                 <h4 className="text-gray-800 text-xl font-bold">Productos vendidos</h4>
-
                 <div className="cabeceraIzqVenta">
                     <div className="Tablas">
                         <div className="table-responsive">
@@ -60,76 +77,73 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                     </div>
                 </div>
             </div>
-
             <div className="cabeceraDerVenta">
                 <label name="">
                     Total<h1 name="total">${subTotal}</h1>
                 </label>
-                {selectedCliente ? <label name="">
-                    cliente<h3 name="total">{selectedCliente.nombre} <GrRevert onClick={() => {
-                        setSelectedCliente(null);
-                        agregarCliente(null);
-                    }} /></h3>
-                </label> : null}
-                {medioDePago ?
+                {selectedCliente ?
+                    <label name="">
+                        cliente
+                        <h3 name="total">
+                            {selectedCliente.nombre} <GrRevert onClick={() => { setSelectedCliente(null); agregarCliente(null); }} />
+                        </h3>
+                    </label> : null}
+                {medioDePago.tipoPago ?
                     <div >
                         <label name="">
-                            Pago<h3 name="total">{medioDePago} <GrRevert onClick={() => {
-                                setMedioDePago(null);
-                                agregarModoDePago(null);
-                            }}
-                            /></h3>
-
+                            Pago
+                            <h3 name="total">
+                                {medioDePago.tipoPago} <GrRevert onClick={() => {
+                                    setMedioDePago({
+                                        tipoPago: null,
+                                        monto: 0,
+                                        montoTarjeta: 0,
+                                        recargo: 0
+                                    });
+                                }} />
+                            </h3>
                         </label>
-
-                        {medioDePago === "Tarjeta" ?
+                        {medioDePago.tipoPago === "Tarjeta" ?
                             <div className="descuento">
-                                <label >Ingrese un porcentaje de recargo
-
-                                </label>
-                                <input type="text" value="HOLA" />
+                                <label >Porcentaje de recargo</label>
+                                <input type="text" name="recargo" onChange={handleChange} value={medioDePago.recargo} />
                             </div>
                             : null}
-                        {medioDePago === "Efectivo + Tarjeta" ?
+                        {medioDePago.tipoPago === "Efectivo + Tarjeta" ?
                             <div className="descuento">
-                                <label >Ingrese monto en efectivo
-
-                                </label>
-                                <input type="text" value="HOLA" />
-                                <label >Ingrese un porcentaje de recargo
-
-                                </label>
-                                <input type="text" value="HOLA" />
-
+                                <label >Monto abonado en efectivo</label>
+                                <input type="text" name="monto" onChange={handleChange} value={medioDePago.monto} />
+                                <label >Ingrese un porcentaje de recargo</label>
+                                <input type="text" name="recargo" onChange={handleChange} value={medioDePago.recargo} />
+                                <label htmlFor="total-tarjeta">Monto total en tarjeta: ${calcularMontos()}</label>
                             </div>
                             : null}
-
                     </div>
-
-                    : null}
+                    : null
+                }
                 <button className={buttonClassname} type="button">
                     Cobrar
                 </button>
                 <div className="opcionesDeCompra">
-                    {!medioDePago ?
+                    {!medioDePago.tipoPago ?
                         <div className="renglonDeCompra">
                             <label>Tipo de pago </label>
                             <Autocomplete
-                            id="combo-box-pago"
-                            options={Object.values(opcionesDePago)}
-                            onChange={(_, value) => {
-                                if (value) {
-                                    agregarModoDePago(value);
-                                    setMedioDePago(value);
-
-                                }
-                            }}
-                            getOptionLabel={(option) => option}
-                            style={{ width: 300 }}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Tipo de Pago" variant="outlined" />
-                            )}
-                        />
+                                id="combo-box-pago"
+                                options={Object.values(opcionesDePago)}
+                                onChange={(_, value) => {
+                                    if (value) {
+                                        setMedioDePago(prev => {
+                                            return { ...prev, tipoPago: value }
+                                        });
+                                    }
+                                }}
+                                getOptionLabel={(option) => option}
+                                style={{ width: 300 }}
+                                renderInput={(params) => (
+                                    <TextField {...params} label="Tipo de Pago" variant="outlined" />
+                                )}
+                            />
 
 
 
