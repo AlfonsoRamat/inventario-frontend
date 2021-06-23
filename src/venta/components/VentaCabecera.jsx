@@ -29,9 +29,17 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
     }
 
     function calcularMontos() {
+        if (medioDePago.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
             let montoTarjeta = subTotal - medioDePago.monto;
             if (medioDePago.recargo > 0) montoTarjeta += (montoTarjeta * medioDePago.recargo) / 100;
             return montoTarjeta;
+        }
+
+        if (medioDePago.tipoPago === opcionesDePago.TARJETA) {
+            let montoTarjeta = subTotal;
+            if (medioDePago.recargo > 0) montoTarjeta += (montoTarjeta * medioDePago.recargo) / 100;
+            return montoTarjeta;
+        }
     }
 
     useEffect(() => {
@@ -107,6 +115,7 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                             <div className="descuento">
                                 <label >Porcentaje de recargo</label>
                                 <input type="text" name="recargo" onChange={handleChange} value={medioDePago.recargo} />
+                                <label htmlFor="total-tarjeta">Monto total en tarjeta: ${calcularMontos()}</label>
                             </div>
                             : null}
                         {medioDePago.tipoPago === "Efectivo + Tarjeta" ?
