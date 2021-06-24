@@ -24,6 +24,7 @@ export function CajaContextProvider({ children }) {
   const [historial, setHistorial] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(false)
+  let _isMounted = false;
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
@@ -41,7 +42,7 @@ export function CajaContextProvider({ children }) {
 
   function buscarCajaAbierta() {
     getCaja().then(caja => {
-      setCajaAbierta(caja);
+      if(_isMounted) setCajaAbierta(caja);
     }).catch(err => console.log('Error al obtener la caja', err));
   }
 
@@ -123,8 +124,6 @@ export function CajaContextProvider({ children }) {
     setProductos(productosReducidos);
   }
 
-
-
   async function agregarVenta() {
     try {
       const nuevaVenta = await addVenta(cajaAbierta.id);
@@ -137,7 +136,7 @@ export function CajaContextProvider({ children }) {
 
   function getProductos() {
     obtenerProductos().then(productos => {
-      setProductos(productos);
+      if(_isMounted) setProductos(productos);
     }).catch(err => console.log('Error al obtener los productos', err));
   }
   //snackbar ok
@@ -161,9 +160,13 @@ export function CajaContextProvider({ children }) {
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
+    _isMounted = true;
     buscarCajaAbierta();
     getProductos();
-    return () => setNeedUpdate(false);
+    return () => {
+      setNeedUpdate(false);
+    _isMounted = false;
+    }
   }, [needUpdate]);
 
   return (
