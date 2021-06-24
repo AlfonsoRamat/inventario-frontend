@@ -58,6 +58,11 @@ export function ReporteContextProvider({ children }) {
             console.log(error);
         }
     }
+//fiajar caja
+const[cajaSelected,setCajaSelected]=useState(null);
+//fijar venta
+const[ventaSelected,setventaSelected]=useState(null);
+
     // busqueda producto
     const [search, setSearch] = useState("");
     let columns = [];
@@ -66,8 +71,7 @@ export function ReporteContextProvider({ children }) {
 
             rows.filter(row =>
                 row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codigoPaquete.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
+                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 
             );
 
 
@@ -121,7 +125,7 @@ export function ReporteContextProvider({ children }) {
 
     }, [bandera]);
     return (
-        <ReporteContext.Provider value={{ llenarArrayCantidad,tipoRubro,VentaRubro,Colorrubro, rubros, getRubros,Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ cajaSelected,setCajaSelected, llenarArrayCantidad,tipoRubro,VentaRubro,Colorrubro, rubros, getRubros,Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }

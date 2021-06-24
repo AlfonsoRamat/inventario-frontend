@@ -1,5 +1,5 @@
-import React, { useContext,useEffect, useState } from 'react';
-import{ReporteContext} from "../../ReportesContext";
+import React, { useContext, useEffect, useState } from 'react';
+import { ReporteContext } from "../../ReportesContext";
 import '../../reportes.css';
 //import de la datatable
 import { customStyles, columnas, opcionesdepagina } from "../../../shared/configs/TablaCaja";
@@ -15,12 +15,12 @@ registerLocale("es", es);
 export default function CARD_LISTA_CAJAS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ Cajas }=  useContext(ReporteContext);
+    const { Cajas, setCajaSelected ,cajaSelected} = useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
-    
+
 
     function buscar(rows) {
 
@@ -28,17 +28,17 @@ export default function CARD_LISTA_CAJAS() {
 
             rows.filter(row => (
                 new Date(row.fecha).getTime() >= (fromDate.getTime() - 86400000) &&
-                new Date(row.fecha).getTime() <= (toDate.getTime()) &&(
-                 (turno_tarde && row.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1 ) ||
-                 (turno_mañana && row.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1 )
+                new Date(row.fecha).getTime() <= (toDate.getTime()) && (
+                    (turno_tarde && row.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1) ||
+                    (turno_mañana && row.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1)
                 )
-                ));
+            ));
 
         return columns
     }
 
     useEffect(() => {
-      
+
 
     }, []);
 
@@ -82,33 +82,44 @@ export default function CARD_LISTA_CAJAS() {
                                 </label>
                                 <label>
                                     .   Hasta:
-                                    
+
                                     <DatePicker selected={(toDate.getTime() < fromDate.getTime()) ? fromDate : toDate} onChange={date => Set_toDate(date)} locale="es" className="pickers" dateFormat="dd 'de' MMMM 'de' yyyy" />
                                 </label>
-                                
-                              
-                            </div>
-                            <div>
-                                <label><input type="checkbox" id="cbox1" value="first_checkbox" checked ={turno_mañana}
-                                onChange={ (e)=>{
-                                    
-                                    set_turno_mañana(prev=> !turno_mañana)
-                                }
 
-                                }
-                                /> Turno mañana </label>
 
                             </div>
                             <div>
-                                <label><input type="checkbox" id="cbox2" value="second_checkbox"checked ={turno_tarde}
-                                                                onChange={ (e)=>{
-                                                                    
-                                                                    set_turno_tarde(prev=> !turno_tarde )
-                                                                }
-                                
-                                                                }
-                                /> Turno tarde </label>
+                                <div className="colunmas">
+                                    <div>
+                                        <div>
+                                            <label><input type="checkbox" id="cbox1" value="first_checkbox" checked={turno_mañana}
+                                                onChange={(e) => {
+
+                                                    set_turno_mañana(prev => !turno_mañana)
+                                                }
+
+                                                }
+                                            /> Turno mañana </label>
+
+                                        </div>
+                                        <label><input type="checkbox" id="cbox2" value="second_checkbox" checked={turno_tarde}
+                                            onChange={(e) => {
+
+                                                set_turno_tarde(prev => !turno_tarde)
+                                            }
+
+                                            }
+                                        /> Turno tarde </label>
+                                    </div>
+                                    <div>
+                                        {
+                                        cajaSelected? <button onClick={()=>setCajaSelected(null)}>No fijar caja</button>:null
+                                        }
+                                      
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                         <ExcelFile
                             filename="productos Data"
@@ -125,6 +136,9 @@ export default function CARD_LISTA_CAJAS() {
                                 fixedHeader
                                 fixedHeaderScrollHeight="600px"
                                 highlightOnHover
+                                onRowClicked={selectedItem => {
+                                    setCajaSelected(selectedItem);
+                                }}
                                 responsive
                                 noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                                 customStyles={customStyles}
