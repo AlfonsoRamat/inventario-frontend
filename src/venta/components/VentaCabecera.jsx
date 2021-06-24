@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import ComboBox from "react-responsive-combo-box";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { columnasListaVenta, customStyles, } from "../../shared/configs/TablaInventario";
 import { BsTrash } from "react-icons/bs";

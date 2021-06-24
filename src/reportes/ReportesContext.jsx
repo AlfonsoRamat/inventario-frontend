@@ -9,23 +9,30 @@ export function ReporteContextProvider({ children }) {
     const [Productos, SetProductos] = useState([]);
     const [Cajas, Set_cajas] = useState([]);
     const [Ventas, Set_ventas] = useState([]);
-
     const [rubros, Set_rubros] = useState([]);
+    //fiajar caja
+    const [cajaSelected, setCajaSelected] = useState(null);
+    //fijar venta
+    // const [ventaSelected, setventaSelected] = useState(null);
+    // busqueda producto
+    const [search, setSearch] = useState("");
+
+    let columns = [];
+    const tipoRubro = [];
+    const VentaRubro = [];
+    const Colorrubro = [];
+
     //config lista de rubros
     async function getRubros() {
-
         try {
             llenar_data_rubro();
             const result = await (await AxiosInstance().get('/rubros')).data;
             Set_rubros(result);
-            
-
         } catch (error) {
             console.log(error);
         }
-
-
     }
+
     //config lista de ventas
     async function GetVentas() {
         try {
@@ -36,6 +43,7 @@ export function ReporteContextProvider({ children }) {
             console.log(error);
         }
     }
+
     // configuracion para traer productos  
     async function GetProductos() {
         try {
@@ -47,6 +55,7 @@ export function ReporteContextProvider({ children }) {
             console.log(error);
         }
     }
+
     // configuracion para trar cajas
     async function Get_cajas() {
         try {
@@ -58,26 +67,18 @@ export function ReporteContextProvider({ children }) {
             console.log(error);
         }
     }
-//fiajar caja
-const[cajaSelected,setCajaSelected]=useState(null);
-//fijar venta
-const[ventaSelected,setventaSelected]=useState(null);
 
-    // busqueda producto
-    const [search, setSearch] = useState("");
-    let columns = [];
     function buscar(rows) {
         columns =
 
             rows.filter(row =>
                 row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 
+                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
             );
 
 
         return columns
     }
-
 
     //config grafico producto
     function generarNumero(numero) {
@@ -90,12 +91,12 @@ const[ventaSelected,setventaSelected]=useState(null);
     let nombres = [];
     let cantidad = [];
     let color = [];
-    function llenarArrayCantidad(row){
-        
-            let value = row.Stocks.reduce((total, actual) => {
-              return total + parseFloat(actual.cantidad);
-            }, 0);
-            return value;
+    function llenarArrayCantidad(row) {
+
+        let value = row.Stocks.reduce((total, actual) => {
+            return total + parseFloat(actual.cantidad);
+        }, 0);
+        return value;
     }
     function llenar_array() {
 
@@ -104,12 +105,9 @@ const[ventaSelected,setventaSelected]=useState(null);
             cantidad.push(llenarArrayCantidad(Producto));
             color.push(colorRGB());
         });
-        
+
     }
 
-    const tipoRubro = [];
-    const VentaRubro = [];
-    const Colorrubro = [];
     function llenar_data_rubro() {
 
         rubros.forEach(rubro => {
@@ -120,12 +118,11 @@ const[ventaSelected,setventaSelected]=useState(null);
         });
     }
 
-
     useEffect(() => {
 
     }, [bandera]);
     return (
-        <ReporteContext.Provider value={{ cajaSelected,setCajaSelected, llenarArrayCantidad,tipoRubro,VentaRubro,Colorrubro, rubros, getRubros,Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }
