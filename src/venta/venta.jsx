@@ -9,11 +9,23 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos,revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [needUpdate, setNeedUpdate] = useState(false);
   const [cliente, setCliente] = useState([]);
   const [mostrarCliente, setMostrarCliente] = useState(false);
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setVentas(prev => {
+      return prev.map((entrada) => {
+        if (entrada.tabId === venta.tabId) {
+          entrada[name] = value;
+        }
+        return entrada;
+      });
+    });
+}
 
   function agregarEnVentas(producto) {
     const cantidadVendida = preguntarCantidad();
@@ -48,15 +60,19 @@ function Venta({ venta, setVentas }) {
     }
   }
 
+  function handleCobrar() {
+    console.log('cobrar: ', venta);
+  }
+
   function borrarItem(itemVenta) {
     revertirHistorial(itemVenta);
-    const itemsModificados = venta.ItemsVenta.filter(item =>{
+    const itemsModificados = venta.ItemsVenta.filter(item => {
       return item.id !== itemVenta.id;
     });
 
     setVentas(prev => {
-      return prev.map(entrada =>{
-        if(entrada.tabId === venta.tabId){
+      return prev.map(entrada => {
+        if (entrada.tabId === venta.tabId) {
           entrada.ItemsVenta = itemsModificados;
         }
         return entrada;
@@ -67,7 +83,7 @@ function Venta({ venta, setVentas }) {
 
   async function toggleCliente() {
     setMostrarCliente(!mostrarCliente);
-    if(mostrarCliente){
+    if (mostrarCliente) {
       getClientes()
     }
   }
@@ -94,21 +110,6 @@ function Venta({ venta, setVentas }) {
     })
   }
 
-  function agregarModoDePago(pago) {
-    setVentas(prev => {
-      const nuevoArray = prev.map(entrada => {
-        if (entrada.tabId === venta.tabId) {
-          entrada.tipoPago = pago.tipoPago;
-          entrada.monto = pago.monto;
-          entrada.montoTarjeta = pago.montoTarjeta;
-          setNeedUpdate(true);
-        }
-        return entrada;
-      });
-      return nuevoArray;
-    });
-  }
-
   useEffect(() => {
     const itemsArreglados = construirItems(venta, productos);
     setItemsConstruidos(itemsArreglados);
@@ -119,11 +120,11 @@ function Venta({ venta, setVentas }) {
 
   return (
     <div className="bodyVenta">
-      <VentaCabecera cliente={cliente} borrarItem={borrarItem} agregarModoDePago={agregarModoDePago} agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
+      <VentaCabecera cliente={cliente} handleChange={handleChange} venta={venta} handleCobrar={handleCobrar} borrarItem={borrarItem}  agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
       {mostrarCliente ? (<ClienteForm toggleCliente={toggleCliente} setmessajeError={setmessajeError}
-          setmessageExito={setmessageExito}
-          handleClicksnakBar={handleClicksnakBar}
-       />) : null}
+        setmessageExito={setmessageExito}
+        handleClicksnakBar={handleClicksnakBar}
+      />) : null}
       <PieDeVenta productos={productos} agregarEnVentas={agregarEnVentas} />
     </div>
   );

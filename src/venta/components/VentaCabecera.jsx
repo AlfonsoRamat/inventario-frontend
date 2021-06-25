@@ -7,38 +7,32 @@ import { GrRevert } from "react-icons/gr";
 import TextField from "@material-ui/core/TextField";
 import "./VentaCabecera.css";
 
-function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agregarCliente, agregarModoDePago }) {
+function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleCliente, handleChange, handleCobrar }) {
     const opcionesDePago = { EFECTIVO: "Efectivo", TARJETA: "Tarjeta", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", RESERVA: "Reserva", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
     const [subTotal, setSubTotal] = useState(0);
-    const [selectedCliente, setSelectedCliente] = useState(null);
-    const [medioDePago, setMedioDePago] = useState({
-        tipoPago: null,
-        monto: 0,
-        montoTarjeta: 0,
-        recargo: 0,
-    });
 
     const buttonClassname = "bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150";
 
-    function handleChange(e) {
-        const { name, value } = e.target;
-        setMedioDePago(prev => {
-            return { ...prev, [name]: value }
-        });
+    function calcularMontos() {
+        if (venta.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
+            let montoTarjeta = subTotal - venta.monto;
+            if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
+            return montoTarjeta;
+        }
+
+        if (venta.tipoPago === opcionesDePago.TARJETA) {
+            let montoTarjeta = subTotal;
+            if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
+            return montoTarjeta;
+        }
     }
 
-    function calcularMontos() {
-        if (medioDePago.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
-            let montoTarjeta = subTotal - medioDePago.monto;
-            if (medioDePago.recargo > 0) montoTarjeta += (montoTarjeta * medioDePago.recargo) / 100;
-            return montoTarjeta;
-        }
-
-        if (medioDePago.tipoPago === opcionesDePago.TARJETA) {
-            let montoTarjeta = subTotal;
-            if (medioDePago.recargo > 0) montoTarjeta += (montoTarjeta * medioDePago.recargo) / 100;
-            return montoTarjeta;
-        }
+    function getClienteName(id) {
+        let nombre = '';
+        cliente.forEach(cliente => {
+            if (cliente.id === id) nombre = cliente.nombre;
+        });
+        return nombre;
     }
 
     useEffect(() => {
@@ -88,52 +82,43 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                 <label name="">
                     Total<h1 name="total">${subTotal}</h1>
                 </label>
-                {selectedCliente ?
+                {venta.ClienteId ?
                     <label name="">
                         cliente
                         <h3 name="total">
-                            {selectedCliente.nombre} <GrRevert onClick={() => { setSelectedCliente(null); agregarCliente(null); }} />
+                            {getClienteName(venta.ClienteId)} <GrRevert onClick={() => { handleChange({ target: { name: "ClienteId", value: null } }); }} />
                         </h3>
                     </label> : null}
-                {medioDePago.tipoPago ?
+                {venta.tipoPago ?
                     <div >
                         <label name="">
                             Pago
                             <h3 name="total">
-                                {medioDePago.tipoPago} <GrRevert onClick={() => {
-                                    setMedioDePago({
-                                        tipoPago: null,
-                                        monto: 0,
-                                        montoTarjeta: 0,
-                                        recargo: 0
-                                    });
-                                }} />
+                                {venta.tipoPago} <GrRevert onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} />
                             </h3>
                         </label>
-                        {medioDePago.tipoPago === "Tarjeta" ?
+                        {venta.tipoPago === "Tarjeta" ?
                             <div className="descuento">
                                 <label >Porcentaje de recargo</label>
-                                <input type="text" name="recargo" onChange={handleChange} value={medioDePago.recargo} />
+                                <input type="text" name="recargo" onChange={handleChange} value={venta.recargo} />
                                 <label htmlFor="total-tarjeta">Monto total en tarjeta: ${calcularMontos()}</label>
                             </div>
                             : null}
-                        {medioDePago.tipoPago === "Efectivo + Tarjeta" ?
+                        {venta.tipoPago === "Efectivo + Tarjeta" ?
                             <div className="descuento">
                                 <label >Monto abonado en efectivo</label>
-                                <input type="text" name="monto" onChange={handleChange} value={medioDePago.monto} />
+                                <input type="text" name="monto" onChange={handleChange} value={venta.monto} />
                                 <label >Ingrese un porcentaje de recargo</label>
-                                <input type="text" name="recargo" onChange={handleChange} value={medioDePago.recargo} />
+                                <input type="text" name="recargo" onChange={handleChange} value={venta.recargo} />
                                 <label htmlFor="total-tarjeta">Monto total en tarjeta: ${calcularMontos()}</label>
                             </div>
                             : null}
                     </div>
                     : null
                 }
-                <button className={buttonClassname} type="button">
-                    Cobrar
-                </button>
+                <button className={buttonClassname} onClick={handleCobrar} type="button">Cobrar</button>
                 <div className="opcionesDeCompra">
-                    {!medioDePago.tipoPago ?
+                    {!venta.tipoPago ?
                         <div className="renglonDeCompra">
                             <label>Tipo de pago </label>
                             <Autocomplete
@@ -141,9 +126,7 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                                 options={Object.values(opcionesDePago)}
                                 onChange={(_, value) => {
                                     if (value) {
-                                        setMedioDePago(prev => {
-                                            return { ...prev, tipoPago: value }
-                                        });
+                                        handleChange({ target: { name: "tipoPago", value: value } });
                                     }
                                 }}
                                 getOptionLabel={(option) => option}
@@ -152,21 +135,16 @@ function VentaCabecera({ cliente, productosVenta, borrarItem, toggleCliente, agr
                                     <TextField {...params} label="Tipo de Pago" variant="outlined" />
                                 )}
                             />
-
-
-
-
                         </div>
                         : null}
-                    {!selectedCliente ? <div>
+                    {!venta.ClienteId ? <div>
                         <label>Clientes </label>
                         <Autocomplete
                             id="combo-box-cliente"
                             options={cliente}
                             onChange={(_, value) => {
                                 if (value) {
-                                    setSelectedCliente(value);
-                                    agregarCliente(value.id);
+                                    handleChange({ target: { name: "ClienteId", value: value.id } });
                                 }
                             }}
                             getOptionLabel={(option) => option.nombre}
