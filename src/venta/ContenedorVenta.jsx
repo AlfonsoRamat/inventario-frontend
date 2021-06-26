@@ -28,7 +28,7 @@ function ContenedorVenta() {
     estadoVenta: "abierta",
     monto: 0,
     montoTarjeta: 0,
-    recargo: null,
+    recargo: 0,
     tipoPago: "efectivo",
     ventaRapida: null
   },
@@ -41,7 +41,7 @@ function ContenedorVenta() {
     estadoVenta: "abierta",
     monto: 0,
     montoTarjeta: 0,
-    recargo: null,
+    recargo: 0,
     tipoPago: "efectivo",
     ventaRapida: null
   },
@@ -54,7 +54,7 @@ function ContenedorVenta() {
     estadoVenta: "abierta",
     monto: 0,
     montoTarjeta: 0,
-    recargo: null,
+    recargo: 0,
     tipoPago: "efectivo",
     ventaRapida: null
   },
@@ -67,7 +67,7 @@ function ContenedorVenta() {
     estadoVenta: "abierta",
     monto: 0,
     montoTarjeta: 0,
-    recargo: null,
+    recargo: 0,
     tipoPago: "efectivo",
     ventaRapida: null
   },
@@ -80,7 +80,7 @@ function ContenedorVenta() {
     estadoVenta: "abierta",
     monto: 0,
     montoTarjeta: 0,
-    recargo: null,
+    recargo: 0,
     tipoPago: "efectivo",
     ventaRapida: null
   },
@@ -90,7 +90,7 @@ function ContenedorVenta() {
     setTabValue(value);
   };
 
-  //afvertenica salir sin guardar
+  //advertencia salir sin guardar
   //TODO: https://javascript.plainenglish.io/how-to-alert-a-user-before-leaving-a-page-in-react-a2858104ca94  deberiamos hacer algo de esto
 
   return (
@@ -116,19 +116,19 @@ function ContenedorVenta() {
         <TablaReserva cajaAbierta={cajaAbierta} />
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
-        <Venta venta={ventas[0]} setVentas={setVentas} />
+        <Venta venta={ventas[0]} ventas={ventas} setVentas={setVentas} />
       </TabPanel>
       <TabPanel value={tabValue} index={3}>
-        <Venta venta={ventas[1]} setVentas={setVentas} />
+        <Venta venta={ventas[1]} ventas={ventas} setVentas={setVentas} />
       </TabPanel>
       <TabPanel value={tabValue} index={4}>
-        <Venta venta={ventas[2]} setVentas={setVentas} />
+        <Venta venta={ventas[2]} ventas={ventas} setVentas={setVentas} />
       </TabPanel>
       <TabPanel value={tabValue} index={5}>
-        <Venta venta={ventas[3]} setVentas={setVentas} />
+        <Venta venta={ventas[3]} ventas={ventas} setVentas={setVentas} />
       </TabPanel>
       <TabPanel value={tabValue} index={6}>
-        <Venta venta={ventas[4]} setVentas={setVentas} />
+        <Venta venta={ventas[4]} ventas={ventas} setVentas={setVentas} />
       </TabPanel>
     </div>
   );

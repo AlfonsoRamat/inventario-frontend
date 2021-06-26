@@ -109,7 +109,6 @@ export function ReporteContextProvider({ children }) {
     }
 
     function llenar_data_rubro() {
-
         rubros.forEach(rubro => {
             tipoRubro.push(rubro.rubro)
             const numerod = generarNumero(40);
@@ -121,6 +120,7 @@ export function ReporteContextProvider({ children }) {
     useEffect(() => {
 
     }, [bandera]);
+
     return (
         <ReporteContext.Provider value={{ cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}

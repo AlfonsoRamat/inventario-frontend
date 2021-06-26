@@ -15,14 +15,19 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
 
     function calcularMontos() {
         if (venta.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
-            let montoTarjeta = subTotal - venta.monto;
+            const total = venta.ItemsVenta.reduce((total, actual)=>{
+                return total += actual.precioVenta * actual.cantidad 
+            },0);
+            let montoTarjeta = total - venta.monto;
             if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
+            montoTarjeta = Number.parseFloat(montoTarjeta).toFixed(2);
             return montoTarjeta;
         }
 
         if (venta.tipoPago === opcionesDePago.TARJETA) {
-            let montoTarjeta = subTotal;
+            let montoTarjeta = venta.monto;
             if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
+            montoTarjeta = Number.parseFloat(montoTarjeta).toFixed(2);
             return montoTarjeta;
         }
     }
@@ -36,11 +41,15 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
     }
 
     useEffect(() => {
-        const resultado = productosVenta.reduce((total, actual) => {
-            return total + actual.precioVenta * actual.cantidad;
-        }, 0);
+        let resultado;
+        let recargoVerificado = parseFloat(venta.recargo);
+        if (isNaN(recargoVerificado)) recargoVerificado = 0;
+        if (recargoVerificado > 0 && venta.montoTarjeta > 0) resultado = venta.monto + (venta.montoTarjeta * (1 + (recargoVerificado / 100)));
+        if (recargoVerificado === 0) resultado = venta.monto + venta.montoTarjeta
+        resultado = Number.parseFloat(resultado).toFixed(2);
         setSubTotal(resultado);
-    }, [productosVenta]);
+
+    }, [venta.monto, venta.montoTarjeta, venta.recargo]);
 
     return (
         <div className="cabecera">
@@ -80,13 +89,13 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
             </div>
             <div className="cabeceraDerVenta">
                 <label name="">
-                    Total<h1 name="total">${subTotal}</h1>
+                    SubTotal<h1 name="total">${subTotal}</h1>
                 </label>
                 {venta.ClienteId ?
                     <label name="">
                         cliente
                         <h3 name="total" >
-                            {getClienteName(venta.ClienteId)} <GrRevert onClick={() => { handleChange({ target: { name: "ClienteId", value: null } }); } } className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150"/>
+                            {getClienteName(venta.ClienteId)} <GrRevert onClick={() => { handleChange({ target: { name: "ClienteId", value: null } }); }} className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                         </h3>
                     </label> : null}
                 {venta.tipoPago ?
@@ -94,7 +103,7 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                         <label name="">
                             Pago
                             <h3 name="total" >
-                                {venta.tipoPago} <GrRevert onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }}className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                                {venta.tipoPago} <GrRevert onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
                             </h3>
                         </label>
                         {venta.tipoPago === "Tarjeta" ?

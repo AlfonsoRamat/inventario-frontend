@@ -11,21 +11,51 @@ import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad 
 function Venta({ venta, setVentas }) {
   const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
-  const [needUpdate, setNeedUpdate] = useState(false);
   const [cliente, setCliente] = useState([]);
   const [mostrarCliente, setMostrarCliente] = useState(false);
 
+  const opcionesDePago = { EFECTIVO: "Efectivo", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", RESERVA: "Reserva", TARJETA: "Tarjeta", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
+
   function handleChange(e) {
     const { name, value } = e.target;
+    let valorVerificado = value;
     setVentas(prev => {
       return prev.map((entrada) => {
-        if (entrada.tabId === venta.tabId) {
-          entrada[name] = value;
+        if (entrada.tabId === venta.tabId) { // Controla que este en la venta asignada a la tab seleccionada
+          if (name === "monto" || name === "montoTarjeta" || name === "recargo") {
+            valorVerificado = parseFloat(value);
+            if (isNaN(valorVerificado)) valorVerificado = 0;
+            if (name === "monto") {
+              const precioTotal = venta.ItemsVenta.reduce((total, actual) => {
+                return total += actual.precioVenta * actual.cantidad;
+              }, 0);
+              if (name === "monto" && valorVerificado > precioTotal) valorVerificado = precioTotal;
+            }
+          }
+          entrada[name] = valorVerificado;
         }
         return entrada;
       });
     });
-}
+  }
+
+
+  function modificarPrecios(total) {
+    if (venta.tipoPago === opcionesDePago.TARJETA) {
+      handleChange({ target: { name: "montoTarjeta", value: total } });
+      handleChange({ target: { name: "monto", value: 0 } });
+      return;
+    }
+
+    if (venta.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
+      let totalTarjeta = total - venta.monto;
+      
+      handleChange({ target: { name: "montoTarjeta", value: totalTarjeta } });
+      return;
+    }
+    handleChange({ target: { name: "monto", value: total } });
+    handleChange({ target: { name: "montoTarjeta", value: 0 } });
+  }
 
   function agregarEnVentas(producto) {
     const cantidadVendida = preguntarCantidad();
@@ -42,7 +72,6 @@ function Venta({ venta, setVentas }) {
                 if (itemModificado.id === oldValue.id) return itemModificado;
                 return oldValue;
               })
-              setNeedUpdate(true);
             }
             return entrada;
           });
@@ -50,7 +79,6 @@ function Venta({ venta, setVentas }) {
           return prev.map((entrada) => {
             if (entrada.tabId === venta.tabId) {
               entrada.ItemsVenta.push(itemModificado);
-              setNeedUpdate(true);
             }
             return entrada;
           })
@@ -78,7 +106,6 @@ function Venta({ venta, setVentas }) {
         return entrada;
       });
     });
-    setNeedUpdate(true);
   }
 
   async function toggleCliente() {
@@ -102,7 +129,6 @@ function Venta({ venta, setVentas }) {
       return prev.map(entrada => {
         if (entrada.tabId === venta.tabId) {
           entrada.ClienteId = clienteId;
-          setNeedUpdate(true);
         }
         return entrada;
       });
@@ -111,16 +137,26 @@ function Venta({ venta, setVentas }) {
   }
 
   useEffect(() => {
+    console.log('Construir items');
     const itemsArreglados = construirItems(venta, productos);
     setItemsConstruidos(itemsArreglados);
     getClientes();
-    return () => setNeedUpdate(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needUpdate]);
+  }, [JSON.stringify(venta)]);
+
+  useEffect(() => {
+    let montoTotal = venta.ItemsVenta.reduce((total, actual) => {
+      return total + actual.precioVenta * actual.cantidad;
+    }, 0);
+    modificarPrecios(montoTotal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(venta)]);
+
+
 
   return (
     <div className="bodyVenta">
-      <VentaCabecera cliente={cliente} handleChange={handleChange} venta={venta} handleCobrar={handleCobrar} borrarItem={borrarItem}  agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
+      <VentaCabecera cliente={cliente} handleChange={handleChange} venta={venta} handleCobrar={handleCobrar} borrarItem={borrarItem} agregarCliente={agregarCliente} productosVenta={itemsConstruidos} toggleCliente={toggleCliente} />
       {mostrarCliente ? (<ClienteForm toggleCliente={toggleCliente} setmessajeError={setmessajeError}
         setmessageExito={setmessageExito}
         handleClicksnakBar={handleClicksnakBar}
