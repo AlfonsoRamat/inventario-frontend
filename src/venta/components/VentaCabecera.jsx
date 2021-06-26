@@ -48,9 +48,8 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
         if (recargoVerificado === 0) resultado = venta.monto + venta.montoTarjeta
         resultado = Number.parseFloat(resultado).toFixed(2);
         setSubTotal(resultado);
-
-    }, [venta.monto, venta.montoTarjeta, venta.recargo]);
-
+    }, [productosVenta]);
+ 
     return (
         <div className="cabecera">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
@@ -100,7 +99,7 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                     </label> : null}
                 {venta.tipoPago ?
                     <div >
-                        <label name="">
+                        <label name=""  >
                             Pago
                             <h3 name="total" >
                                 {venta.tipoPago} <GrRevert onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
