@@ -15,9 +15,9 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
 
     function calcularMontos() {
         if (venta.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
-            const total = venta.ItemsVenta.reduce((total, actual)=>{
-                return total += actual.precioVenta * actual.cantidad 
-            },0);
+            const total = venta.ItemsVenta.reduce((total, actual) => {
+                return total += actual.precioVenta * actual.cantidad
+            }, 0);
             let montoTarjeta = total - venta.monto;
             if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
             montoTarjeta = Number.parseFloat(montoTarjeta).toFixed(2);
@@ -49,7 +49,7 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
         resultado = Number.parseFloat(resultado).toFixed(2);
         setSubTotal(resultado);
     }, [productosVenta]);
- 
+
     return (
         <div className="cabecera">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
@@ -93,16 +93,16 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                 {venta.ClienteId ?
                     <label name="">
                         cliente
-                        <h3 name="total" >
-                            {getClienteName(venta.ClienteId)} <GrRevert onClick={() => { handleChange({ target: { name: "ClienteId", value: null } }); }} className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                        <h3 name="total" className="label" onClick={() => { handleChange({ target: { name: "ClienteId", value: null } }); }}>
+                            {getClienteName(venta.ClienteId)} <GrRevert className="px-2 py-2 " />
                         </h3>
                     </label> : null}
                 {venta.tipoPago ?
                     <div >
                         <label name=""  >
                             Pago
-                            <h3 name="total" >
-                                {venta.tipoPago} <GrRevert onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} className="px-2 py-2 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:shadow-outline w-full ease-linear transition-all duration-150" />
+                            <h3 name="total" className="label" onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} >
+                                {venta.tipoPago} <GrRevert className="px-2 py-2" />
                             </h3>
                         </label>
                         {venta.tipoPago === "Tarjeta" ?
@@ -124,7 +124,17 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                     </div>
                     : null
                 }
+                <TextField
+                    id="descuento"
+                    label="Descuento"
+                    variant="filled"
+                    onChange={(e) => {
+                        
+                      }}
+                />
                 <button className={buttonClassname} onClick={handleCobrar} type="button">Cobrar</button>
+
+
                 <div className="opcionesDeCompra">
                     {!venta.tipoPago ?
                         <div className="renglonDeCompra">
