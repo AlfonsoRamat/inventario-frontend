@@ -78,7 +78,21 @@
     flex-direction: col;
 }
 
-
+.bottones{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    
+}
+.bottones button{
+    margin: 10px;
+    width: 200px;
+}
 .cajaTablaVenta {
     width: 60%;
     margin-left: 10px;

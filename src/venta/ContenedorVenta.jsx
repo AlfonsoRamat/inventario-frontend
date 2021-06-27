@@ -7,7 +7,8 @@ import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
 import TabPanel from "./components/tabPanels"
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {withStyles } from '@material-ui/core/styles';
+
 // const EstadoVenta = {
 //   APROBADA: "finalizada",
 //   CANCELADA: "cancelada",
