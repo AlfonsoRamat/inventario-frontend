@@ -41,6 +41,7 @@ export async function obtenerProductos() {
 export async function obtenerVentasRapidas() {
     try {
         const ventasRapidas = await (await AxiosInstance().get('/usuarios/ventaRapida')).data;
+        console.log('Ventas rapidas', ventasRapidas);
         return ventasRapidas;
     } catch (error) {
         console.log(error);

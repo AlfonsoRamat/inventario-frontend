@@ -25,8 +25,12 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
         }
 
         if (venta.tipoPago === opcionesDePago.TARJETA) {
-            let montoTarjeta = venta.monto;
+            const total = venta.ItemsVenta.reduce((total, actual) => {
+                return total += actual.precioVenta * actual.cantidad
+            }, 0);
+            let montoTarjeta = total;
             if (venta.recargo > 0) montoTarjeta += (montoTarjeta * venta.recargo) / 100;
+            montoTarjeta -= venta.recargo;
             montoTarjeta = Number.parseFloat(montoTarjeta).toFixed(2);
             return montoTarjeta;
         }
@@ -42,12 +46,13 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
 
     useEffect(() => {
         let resultado;
-        let recargoVerificado = parseFloat(venta.recargo);
-        if (isNaN(recargoVerificado)) recargoVerificado = 0;
-        if (recargoVerificado > 0 && venta.montoTarjeta > 0) resultado = venta.monto + (venta.montoTarjeta * (1 + (recargoVerificado / 100)));
-        if (recargoVerificado === 0) resultado = venta.monto + venta.montoTarjeta
+        if (venta.recargo > 0 && venta.montoTarjeta > 0) resultado = venta.monto + (venta.montoTarjeta * (1 + (venta.recargo / 100)));
+        if (venta.recargo === 0) resultado = venta.monto + venta.montoTarjeta;
+        resultado -= venta.descuento;
+
         resultado = Number.parseFloat(resultado).toFixed(2);
         setSubTotal(resultado);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productosVenta]);
 
     return (
@@ -99,7 +104,7 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                     </label> : null}
                 {venta.tipoPago ?
                     <div >
-                        <label name=""  >
+                        <label name="" >
                             Pago
                             <h3 name="total" className="label" onClick={() => { handleChange({ target: { name: "tipoPago", value: null } }); }} >
                                 {venta.tipoPago} <GrRevert className="px-2 py-2" />
@@ -126,11 +131,11 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                 }
                 <TextField
                     id="descuento"
-                    label="Descuento"
+                    name="descuento"
+                    label="Descuento en $"
                     variant="filled"
-                    onChange={(e) => {
-                        
-                      }}
+                    value={venta.descuento}
+                    onChange={handleChange}
                 />
                 <button className={buttonClassname} onClick={handleCobrar} type="button">Cobrar</button>
 

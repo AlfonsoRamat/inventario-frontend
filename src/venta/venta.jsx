@@ -22,7 +22,7 @@ function Venta({ venta, setVentas }) {
     setVentas(prev => {
       return prev.map((entrada) => {
         if (entrada.tabId === venta.tabId) { // Controla que este en la venta asignada a la tab seleccionada
-          if (name === "monto" || name === "montoTarjeta" || name === "recargo") {
+          if (name === "monto" || name === "montoTarjeta" || name === "recargo"|| name === "descuento") {
             valorVerificado = parseFloat(value);
             if (isNaN(valorVerificado)) valorVerificado = 0;
             if (name === "monto") {
@@ -87,8 +87,25 @@ function Venta({ venta, setVentas }) {
   }
 
   function handleCobrar() {
-    console.log('cobrar: ', venta);
+
     console.log('Ventas rapidas', ventasRapidas);
+    const userVentaRapida = parseInt(prompt("Codigo del vendedor"));
+    if (isNaN(userVentaRapida)) { // Debe ser un numero valido
+      alert("Numero invalido");
+      return;
+    }
+    const some = ventasRapidas.some(({ ventaRapida }) => {
+      return ventaRapida === userVentaRapida;
+    });
+  
+    if (!some) {
+      alert('Codigo inexistente');
+      return;
+    }
+
+    handleChange({ target: { name: 'ventaRapida', value: userVentaRapida } });
+
+    console.log('cobrar: ', venta);
   }
 
   function borrarItem(itemVenta) {
