@@ -7,7 +7,7 @@ import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
 import TabPanel from "./components/tabPanels"
-
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 // const EstadoVenta = {
 //   APROBADA: "finalizada",
 //   CANCELADA: "cancelada",
@@ -15,6 +15,40 @@ import TabPanel from "./components/tabPanels"
 //   RETIRAR_EFECTIVO: "retirarEfectivo",
 //   AGREGAR_EFECTIVO: "agregarEfectivo",
 // };
+const StyledTab = withStyles((theme) => ({
+  root: {
+    textTransform: 'none',
+    fontSize: 20,
+    minWidth: 72,
+    fontWeight: 550,
+    marginRight: theme.spacing(4),
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(',')
+  },
+  selected: {},
+}))((props) => <Tab disableRipple {...props} />);
+const StyledTabs = withStyles({
+  indicator: {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    '& > span': {
+      maxWidth: 40,
+      width: '100%',
+      backgroundColor: '#e0536d',
+    },
+  },
+})((props) => <Tabs {...props} TabIndicatorProps={{ children: <span /> }} />);
 
 function ContenedorVenta() {
   const { cajaAbierta } = useContext(CajaContext);
@@ -100,20 +134,21 @@ function ContenedorVenta() {
 
   return (
     <div>
-      <Tabs
+      <StyledTabs
         value={tabValue}
         onChange={handleTabChange}
         variant="scrollable"
         scrollButtons="on"
+        aria-label="simple tabs example"
       >
-        <Tab label="Caja" />
-        <Tab label="Reserva" disabled={!cajaAbierta ? true : false} />
-        <Tab label="Venta 1" disabled={!cajaAbierta ? true : false} />
-        <Tab label="Venta 2" disabled={!cajaAbierta ? true : false} />
-        <Tab label="Venta 3" disabled={!cajaAbierta ? true : false} />
-        <Tab label="Venta 4" disabled={!cajaAbierta ? true : false} />
-        <Tab label="Venta 5" disabled={!cajaAbierta ? true : false} />
-      </Tabs>
+        <StyledTab label="Caja" />
+        <StyledTab label="Reserva" disabled={!cajaAbierta ? true : false} />
+        <StyledTab label="Venta 1" disabled={!cajaAbierta ? true : false} />
+        <StyledTab label="Venta 2" disabled={!cajaAbierta ? true : false} />
+        <StyledTab label="Venta 3" disabled={!cajaAbierta ? true : false} />
+        <StyledTab label="Venta 4" disabled={!cajaAbierta ? true : false} />
+        <StyledTab label="Venta 5" disabled={!cajaAbierta ? true : false} />
+      </StyledTabs>
       <TabPanel value={tabValue} index={0}>
         <ContenedorCaja />
       </TabPanel>

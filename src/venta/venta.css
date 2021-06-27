@@ -73,13 +73,14 @@
 }
 
 .cajaConteiner {
+    width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: col;
 }
 
 
 .cajaTablaVenta {
-    width: 50 vw;
+    width: 60%;
     margin-left: 10px;
     padding-left: 10px;
 }
