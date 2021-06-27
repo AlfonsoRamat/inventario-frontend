@@ -21,6 +21,7 @@ function ContenedorVenta() {
   const [tabValue, setTabValue] = useState(0);
   const [ventas, setVentas] = useState([{
     tabId: 0,
+    CajaId: null,
     ClienteId: null,
     ItemsVenta: [],
     descuento: 0,
@@ -28,11 +29,12 @@ function ContenedorVenta() {
     monto: 0,
     montoTarjeta: 0,
     recargo: 0,
-    tipoPago: "efectivo",
+    tipoPago: "",
     ventaRapida: null
   },
   {
     tabId: 1,
+    CajaId: null,
     ClienteId: null,
     ItemsVenta: [],
     descuento: 0,
@@ -40,11 +42,12 @@ function ContenedorVenta() {
     monto: 0,
     montoTarjeta: 0,
     recargo: 0,
-    tipoPago: "efectivo",
+    tipoPago: "",
     ventaRapida: null
   },
   {
     tabId: 2,
+    CajaId: null,
     ClienteId: null,
     ItemsVenta: [],
     descuento: 0,
@@ -52,11 +55,12 @@ function ContenedorVenta() {
     monto: 0,
     montoTarjeta: 0,
     recargo: 0,
-    tipoPago: "efectivo",
+    tipoPago: "",
     ventaRapida: null
   },
   {
     tabId: 3,
+    CajaId: null,
     ClienteId: null,
     ItemsVenta: [],
     descuento: 0,
@@ -64,11 +68,12 @@ function ContenedorVenta() {
     monto: 0,
     montoTarjeta: 0,
     recargo: 0,
-    tipoPago: "efectivo",
+    tipoPago: "",
     ventaRapida: null
   },
   {
     tabId: 4,
+    CajaId: null,
     ClienteId: null,
     ItemsVenta: [],
     descuento: 0,
@@ -76,7 +81,7 @@ function ContenedorVenta() {
     monto: 0,
     montoTarjeta: 0,
     recargo: 0,
-    tipoPago: "efectivo",
+    tipoPago: "",
     ventaRapida: null
   },
   ]);
@@ -87,14 +92,11 @@ function ContenedorVenta() {
 
 
   useEffect(() => {
-    window.onbeforeunload = confirmExit;
-    function confirmExit()
-    {
-      return "show warning";
-    }
-}, [])
-  //advertencia salir sin guardar
-  //TODO: https://javascript.plainenglish.io/how-to-alert-a-user-before-leaving-a-page-in-react-a2858104ca94  deberiamos hacer algo de esto
+    if (cajaAbierta) setVentas(prev => prev.map(venta => {
+      venta.CajaId = cajaAbierta.id
+      return venta;
+    }))
+  }, [cajaAbierta])
 
   return (
     <div>

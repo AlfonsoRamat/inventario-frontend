@@ -3,22 +3,33 @@ import DataTable from 'react-data-table-component'
 import { CajaContext } from '../CajaContext';
 import CuadroCaja from './CuadroCaja'
 import { columnas, customStyles, opcionesdepagina } from "../../shared/configs/tablaVenta";
+import AxiosInstance from '../../shared/configs/AxiosInstance';
 
 function ContenedorCaja() {
 
     const { cajaAbierta } = useContext(CajaContext);
-
+    const [clientes, setClientes] = useState([])
     const [ventas, setVentas] = useState([]);
 
-
-useEffect(() => {
-    if(!cajaAbierta) return;
-    cajaAbierta.Ventas.forEach(venta =>{
-        if(venta.estadoVenta === "finalizada"){
-            setVentas(prev => [...prev, venta]);
+    async function getClientes() {
+        try {
+            const result = await (await AxiosInstance().get("/cliente")).data;
+            setClientes(result);
+        } catch (error) {
+            console.log(error);
         }
-    })
-}, [cajaAbierta]);
+    }
+
+    useEffect(() => {
+        if (!cajaAbierta) return;
+        getClientes();
+        cajaAbierta.Ventas.forEach(venta => {
+            if (venta.estadoVenta === "finalizada") {
+                console.log('Venta finalizada', venta);
+                setVentas(prev => [...prev, venta]);
+            }
+        })
+    }, [cajaAbierta]);
 
     return (
         <div className='cajaConteiner'>
@@ -30,7 +41,7 @@ useEffect(() => {
             <div className="cajaTablaVenta">
                 <div className="table-responsive">
                     <DataTable
-                        columns={columnas}
+                        columns={columnas(clientes)}
                         data={ventas}
                         pagination
                         paginationComponentOptions={opcionesdepagina}

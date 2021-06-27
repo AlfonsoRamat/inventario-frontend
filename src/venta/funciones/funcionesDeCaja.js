@@ -12,7 +12,6 @@ export async function getCaja() {
 export async function addCaja(montoEfectivoInicio) {
     try {
         const resultado = await (await AxiosInstance().post("/caja/abrir-caja", { montoEfectivoInicio })).data;
-        console.log('resultado de addCaja', resultado);
         return resultado;
     } catch (error) {
         console.log('Error al añadir caja', error);
@@ -41,17 +40,16 @@ export async function obtenerProductos() {
 export async function obtenerVentasRapidas() {
     try {
         const ventasRapidas = await (await AxiosInstance().get('/usuarios/ventaRapida')).data;
-        console.log('Ventas rapidas', ventasRapidas);
         return ventasRapidas;
     } catch (error) {
         console.log(error);
     }
 }
 
-export async function addVenta(id) {
+export async function addVenta(venta) {
     try {
-        const cajaActualizada = await (await AxiosInstance().post("/caja/agregarVenta", { id })).data;
-        return cajaActualizada;
+        await AxiosInstance().post("/caja/agregarVenta", { venta });
+        return true;
     } catch (error) {
         console.log('Error al añadir venta y actualizar la caja', error);
     }

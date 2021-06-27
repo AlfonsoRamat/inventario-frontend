@@ -24,6 +24,7 @@ export function CajaContextProvider({ children }) {
   const [ventasRapidas, setVentasRapidas] = useState([]);
   const [historial, setHistorial] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
+  const [reload, setReload] = useState(false);
   //snackbar ok
   const [opensnakBar, setOpensnakBar] = useState(false);
   const [advertencia, setAdvertencia] = useState(false);
@@ -132,10 +133,10 @@ export function CajaContextProvider({ children }) {
     }).catch(err => console.log('Error al obtener los productos', err));
   }
 
-  async function agregarVenta() {
+  async function agregarVenta(venta) {
     try {
-      const nuevaVenta = await addVenta(cajaAbierta.id);
-      return nuevaVenta;
+      const seAgregoConExito = await addVenta(venta);
+      if(seAgregoConExito) setReload(true);
     } catch (error) {
       console.log('Error al agregar una venta a la caja', error)
     }
@@ -171,25 +172,13 @@ export function CajaContextProvider({ children }) {
     return () => {
       _isMounted = false;
     }
-  }, []);
+  }, [reload]);
 
   return (
     <div>
       <CajaContext.Provider
         value={{
-          getProductos,
-          productos,
-          cajaAbierta,
-          abrirCaja,
-          cerrarCaja,
-          agregarVenta,
-          reducirStockEnProductos,
-          historial,
-          ventasRapidas,
-          revertirHistorial,
-          setmessajeError,
-          setmessageExito,
-          handleClicksnakBar
+          getProductos, productos, cajaAbierta, abrirCaja, cerrarCaja, agregarVenta, reducirStockEnProductos, historial, ventasRapidas, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar
         }}
       >
         {children}

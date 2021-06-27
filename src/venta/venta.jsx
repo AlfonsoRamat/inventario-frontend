@@ -9,20 +9,20 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar, ventasRapidas } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar, ventasRapidas, agregarVenta } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [cliente, setCliente] = useState([]);
   const [mostrarCliente, setMostrarCliente] = useState(false);
 
-  const opcionesDePago = { EFECTIVO: "Efectivo", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", RESERVA: "Reserva", TARJETA: "Tarjeta", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
+  const opcionesDePago = { EFECTIVO: "Efectivo", DEBITO: "Debito", CUENTA_CORRIENTE: "Cuenta Corriente", TARJETA: "Tarjeta", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
 
   function handleChange(e) {
     const { name, value } = e.target;
     let valorVerificado = value;
     setVentas(prev => {
       return prev.map((entrada) => {
-        if (entrada.tabId === venta.tabId) { // Controla que este en la venta asignada a la tab seleccionada
-          if (name === "monto" || name === "montoTarjeta" || name === "recargo"|| name === "descuento") {
+        if (entrada.tabId === venta.tabId) {
+          if (name === "monto" || name === "montoTarjeta" || name === "recargo" || name === "descuento") {
             valorVerificado = parseFloat(value);
             if (isNaN(valorVerificado)) valorVerificado = 0;
             if (name === "monto") {
@@ -87,8 +87,17 @@ function Venta({ venta, setVentas }) {
   }
 
   function handleCobrar() {
+    // Verificacion del cliente
+    if (!venta.ClienteId || venta.ClienteId === '') return alert('Debe seleccionar un cliente');
 
-    console.log('Ventas rapidas', ventasRapidas);
+    // Verificacion de los items de la venta
+    if (venta.ItemsVenta.length === 0) return alert('La venta no posee productos');
+
+    // Verificacion del medio de pago
+    let esMedioDePagoValido = false;
+    if (Object.values(opcionesDePago).indexOf(venta.tipoPago) > -1) esMedioDePagoValido = true;
+    if (!esMedioDePagoValido) return alert('Debe seleccionar un metodo de pago valido');
+
     const userVentaRapida = parseInt(prompt("Codigo del vendedor"));
     if (isNaN(userVentaRapida)) { // Debe ser un numero valido
       alert("Numero invalido");
@@ -97,14 +106,31 @@ function Venta({ venta, setVentas }) {
     const some = ventasRapidas.some(({ ventaRapida }) => {
       return ventaRapida === userVentaRapida;
     });
-  
     if (!some) {
       alert('Codigo inexistente');
       return;
     }
-
     handleChange({ target: { name: 'ventaRapida', value: userVentaRapida } });
 
+    agregarVenta(venta).then(res => {
+      setVentas(prev => {
+        return prev.map(entrada => {
+          if (entrada.tabId === venta.tabId) {
+            entrada.CajaId = null;
+            entrada.ClienteId = null;
+            entrada.ItemsVenta = [];
+            entrada.descuento = 0;
+            entrada.estadoVenta = "abierta";
+            entrada.monto = 0;
+            entrada.montoTarjeta = 0;
+            entrada.recargo = 0;
+            entrada.tipoPago = "";
+            entrada.ventaRapida = null;
+          }
+          return entrada;
+        })
+      })
+    }).catch(error => console.log(error));
     console.log('cobrar: ', venta);
   }
 
@@ -153,7 +179,6 @@ function Venta({ venta, setVentas }) {
   }
 
   useEffect(() => {
-    console.log('Construir items');
     const itemsArreglados = construirItems(venta, productos);
     setItemsConstruidos(itemsArreglados);
     getClientes();
