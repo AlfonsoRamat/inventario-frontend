@@ -130,7 +130,7 @@ export function CajaContextProvider({ children }) {
     obtenerVentasRapidas().then(vr => {
       if (_isMounted) setVentasRapidas(vr);
 
-    }).catch(err => console.log('Error al obtener los productos', err));
+    }).catch(err => console.log('Error al obtener las ventas rapidas', err));
   }
 
   async function agregarVenta(venta) {

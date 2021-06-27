@@ -6,19 +6,18 @@ const AuthContext = React.createContext(null);
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
 
-  const getData = () => {
-    AxiosInstance()
-      .get("/usuarios/getuser")
-      .then((res) => {
-        setUser(res.data);
-      })
-      .catch((err) => {
-        signOut();
-      });
+  const getData = async () => {
+    try {
+      const obtainedUser = await (await AxiosInstance().get("/usuarios/getuser")).data
+      if (obtainedUser) setUser(obtainedUser);
+    } catch (error) {
+      console.log(error);
+      signOut();
+    }
   };
 
   function signIn(nombre, password) {
-   
+
     const request = {
       nombre: nombre,
       password: password,
@@ -31,8 +30,7 @@ function AuthProvider({ children }) {
         getData();
       })
       .catch((err) => {
-        const mensaje = err.data.error.message;
-        return mensaje;
+        return err;
       });
   }
 

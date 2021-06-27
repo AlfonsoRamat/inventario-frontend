@@ -5,7 +5,7 @@ export async function getCaja() {
         const cajaAbierta = await (await AxiosInstance().get("/caja/caja-abierta")).data;
         return cajaAbierta;
     } catch (error) {
-        console.log('Error al buscar una caja', error);
+        console.log('Error al buscar una caja', error.data.error);
     }
 }
 

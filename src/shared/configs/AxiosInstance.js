@@ -8,7 +8,8 @@ const AxiosInstance = () => {
 
     const axiosInstance = axios.create({
         baseURL: baseURL,
-        withCredentials: true
+        withCredentials: true,
+        timeout: 3000
     });
 
     axiosInstance.interceptors.request.use(req => { // Incluye el token de autorizacion en todas las request cuando este disponible
