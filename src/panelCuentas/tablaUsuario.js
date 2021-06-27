@@ -39,6 +39,11 @@ const customStyles = {
       selector: 'permisos',
       sortable: true
     },
+    {
+      name: 'Codigo de venta',
+      selector: 'ventaRapida',
+      sortable: true
+    },
 
   ];
   
