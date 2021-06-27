@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Venta from "./venta";
 import { Tabs, Tab } from "@material-ui/core";
 import "react-tabs/style/react-tabs.css";
@@ -23,7 +23,6 @@ function ContenedorVenta() {
     tabId: 0,
     ClienteId: null,
     ItemsVenta: [],
-    UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
     monto: 0,
@@ -36,7 +35,6 @@ function ContenedorVenta() {
     tabId: 1,
     ClienteId: null,
     ItemsVenta: [],
-    UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
     monto: 0,
@@ -49,7 +47,6 @@ function ContenedorVenta() {
     tabId: 2,
     ClienteId: null,
     ItemsVenta: [],
-    UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
     monto: 0,
@@ -62,7 +59,6 @@ function ContenedorVenta() {
     tabId: 3,
     ClienteId: null,
     ItemsVenta: [],
-    UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
     monto: 0,
@@ -75,7 +71,6 @@ function ContenedorVenta() {
     tabId: 4,
     ClienteId: null,
     ItemsVenta: [],
-    UsuarioId: null,
     descuento: null,
     estadoVenta: "abierta",
     monto: 0,
@@ -86,10 +81,18 @@ function ContenedorVenta() {
   },
   ]);
 
-  const handleTabChange = (event, value) => {
+  const handleTabChange = (_, value) => {
     setTabValue(value);
   };
 
+
+  useEffect(() => {
+    window.onbeforeunload = confirmExit;
+    function confirmExit()
+    {
+      return "show warning";
+    }
+}, [])
   //advertencia salir sin guardar
   //TODO: https://javascript.plainenglish.io/how-to-alert-a-user-before-leaving-a-page-in-react-a2858104ca94  deberiamos hacer algo de esto
 

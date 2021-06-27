@@ -9,7 +9,7 @@ import { CajaContext } from "../venta/CajaContext";
 import { checkearStock, checkItemsDuplicados, construirItems, preguntarCantidad } from "./funciones/funcionesDeVenta";
 
 function Venta({ venta, setVentas }) {
-  const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar } = useContext(CajaContext);
+  const { productos, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar, ventasRapidas } = useContext(CajaContext);
   const [itemsConstruidos, setItemsConstruidos] = useState([]);
   const [cliente, setCliente] = useState([]);
   const [mostrarCliente, setMostrarCliente] = useState(false);
@@ -39,7 +39,6 @@ function Venta({ venta, setVentas }) {
     });
   }
 
-
   function modificarPrecios(total) {
     if (venta.tipoPago === opcionesDePago.TARJETA) {
       handleChange({ target: { name: "montoTarjeta", value: total } });
@@ -49,7 +48,6 @@ function Venta({ venta, setVentas }) {
 
     if (venta.tipoPago === opcionesDePago.EFECTIVO_Y_TARJETA) {
       let totalTarjeta = total - venta.monto;
-      
       handleChange({ target: { name: "montoTarjeta", value: totalTarjeta } });
       return;
     }
@@ -90,6 +88,7 @@ function Venta({ venta, setVentas }) {
 
   function handleCobrar() {
     console.log('cobrar: ', venta);
+    console.log('Ventas rapidas', ventasRapidas);
   }
 
   function borrarItem(itemVenta) {
@@ -151,8 +150,6 @@ function Venta({ venta, setVentas }) {
     modificarPrecios(montoTotal);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(venta)]);
-
-
 
   return (
     <div className="bodyVenta">

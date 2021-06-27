@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { addCaja, addVenta, closeCaja, getCaja, obtenerProductos } from "./funciones/funcionesDeCaja";
+import { addCaja, addVenta, closeCaja, getCaja, obtenerProductos, obtenerVentasRapidas } from "./funciones/funcionesDeCaja";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -21,16 +21,17 @@ export const CajaContext = createContext(null);
 
 export function CajaContextProvider({ children }) {
   const [productos, setProductos] = useState([]);
+  const [ventasRapidas, setVentasRapidas] = useState([]);
   const [historial, setHistorial] = useState([]);
   const [cajaAbierta, setCajaAbierta] = useState(null);
-  const [needUpdate, setNeedUpdate] = useState(false)
+  //snackbar ok
+  const [opensnakBar, setOpensnakBar] = useState(false);
+  const [advertencia, setAdvertencia] = useState(false);
+  const [messajeError, setmessajeError] = useState("");
+  const [messageExito, setmessageExito] = useState("Caja cerrada con exito");
   let _isMounted = false;
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
-
-  function actualizarContexto() {
-    setNeedUpdate(true);
-  }
 
   function revertirHistorial(itemVenta) {
     historial.forEach(movimiento => {
@@ -42,7 +43,7 @@ export function CajaContextProvider({ children }) {
 
   function buscarCajaAbierta() {
     getCaja().then(caja => {
-      if(_isMounted) setCajaAbierta(caja);
+      if (_isMounted) setCajaAbierta(caja);
     }).catch(err => console.log('Error al obtener la caja', err));
   }
 
@@ -62,12 +63,12 @@ export function CajaContextProvider({ children }) {
           handleClicksnakBar(false)
         }
       })
-      .catch(({data}) => {
-        const {error}=data;
-        setmessajeError(error.message+" Intentelo nuevamente");
+      .catch(({ data }) => {
+        const { error } = data;
+        setmessajeError(error.message + " Intentelo nuevamente");
         handleClicksnakBar(true);
 
-        });
+      });
   }
 
   function aumentarStockEnProductos(devolucion) {
@@ -124,6 +125,13 @@ export function CajaContextProvider({ children }) {
     setProductos(productosReducidos);
   }
 
+  function getVentasRapidas() {
+    obtenerVentasRapidas().then(vr => {
+      if (_isMounted) setVentasRapidas(vr);
+
+    }).catch(err => console.log('Error al obtener los productos', err));
+  }
+
   async function agregarVenta() {
     try {
       const nuevaVenta = await addVenta(cajaAbierta.id);
@@ -136,15 +144,11 @@ export function CajaContextProvider({ children }) {
 
   function getProductos() {
     obtenerProductos().then(productos => {
-      if(_isMounted) setProductos(productos);
+      if (_isMounted) setProductos(productos);
     }).catch(err => console.log('Error al obtener los productos', err));
   }
-  //snackbar ok
-  const [opensnakBar, setOpensnakBar] = useState(false);
-  const [advertencia, setAdvertencia] = useState(false);
-  const [messajeError, setmessajeError] = useState("");
-  const [messageExito, setmessageExito] = useState("Caja cerrada con exito");
-  
+
+
   const handleClicksnakBar = (adv) => {
     setAdvertencia(adv)
     setOpensnakBar(true);
@@ -163,11 +167,11 @@ export function CajaContextProvider({ children }) {
     _isMounted = true;
     buscarCajaAbierta();
     getProductos();
+    getVentasRapidas();
     return () => {
-      setNeedUpdate(false);
-    _isMounted = false;
+      _isMounted = false;
     }
-  }, [needUpdate]);
+  }, []);
 
   return (
     <div>
@@ -179,9 +183,9 @@ export function CajaContextProvider({ children }) {
           abrirCaja,
           cerrarCaja,
           agregarVenta,
-          actualizarContexto,
           reducirStockEnProductos,
           historial,
+          ventasRapidas,
           revertirHistorial,
           setmessajeError,
           setmessageExito,
