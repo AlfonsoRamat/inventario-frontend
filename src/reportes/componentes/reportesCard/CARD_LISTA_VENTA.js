@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { ReporteContext } from "../../ReportesContext";
 import '../../reportes.css';
 //import de la datatable
-import { customStyles, columnas, opcionesdepagina } from "../../../shared/configs/TablaCaja";
+import { customStyles, columnasventaReporte, opcionesdepagina } from "../../../shared/configs/TablaCaja";
 import DataTable from 'react-data-table-component';
 //import del esxtractor de exel
 import ReactExport from 'react-data-export';
@@ -15,22 +15,22 @@ registerLocale("es", es);
 export default function CARD_LISTA_VENTA() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const { Ventas, ventaSelected, setventaSelected, cajaSelected } = useContext(ReporteContext);
+    const { Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas } = useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
-
+    const [ventas, SetVentas] = useState([]);
 
     function buscar(rows) {
 
         const columns =
 
             rows.filter(row => (
-                new Date(row.fecha).getTime() >= (fromDate.getTime() - 86400000) &&
-                new Date(row.fecha).getTime() <= (toDate.getTime()) && (
-                    (turno_tarde && row.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1) ||
-                    (turno_mañana && row.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1)
+                new Date(row.updatedAt).getTime() >= (fromDate.getTime() - 86400000) &&
+                new Date(row.updatedAt).getTime() <= (toDate.getTime()) && (
+                    (turno_tarde && new Date(row.updatedAt).getHours() >= 12) ||
+                    (turno_mañana && new Date(row.updatedAt).getHours() < 12)
                 )
             ));
 
@@ -43,7 +43,7 @@ export default function CARD_LISTA_VENTA() {
         {
             columns: [
 
-                { title: "Estado Venta:", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
+               { title: "Estado Venta:", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
                 { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Tipo de pago", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Monto", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
@@ -51,10 +51,9 @@ export default function CARD_LISTA_VENTA() {
                 { title: "Recargo", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },  // width in pixels
 
             ],
-            data: buscar(Ventas).map((data) => [
-                { value: data.EstadoVenta, style: { font: { sz: "14" } } },
-                //sacar fecha de algun lado
-                { value: data.descuento, style: { font: { sz: "14" } } },
+            data: buscar(ventas).map((data) => [
+               { value: data.estadoVenta, style: { font: { sz: "14" } } },
+                { value: data.updatedAt, style: { font: { sz: "14" } } },
                 { value: data.tipoPago, style: { font: { sz: "14" } } },
                 { value: data.monto, style: { font: { sz: "14" } } },
                 { value: data.descuento, style: { font: { sz: "14" } } },
@@ -62,10 +61,19 @@ export default function CARD_LISTA_VENTA() {
             ])
         }
     ]
-
+    useEffect(() => {
+        if (cajaSelected) {
+            cajaSelected.Ventas.forEach(venta => {
+                               
+                    SetVentas(prev => [...prev, venta]);
+                
+            })
+        }else { GetVentas(); SetVentas(Ventas); }
+    }, [])
 
     return (
         <>
+           
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="hip">
@@ -111,7 +119,7 @@ export default function CARD_LISTA_VENTA() {
                                     </div>
                                     <div>
                                         {
-                                            cajaSelected&&ventaSelected ? <button onClick={() => setventaSelected(null)}>No fijar caja</button> : null
+                                            cajaSelected && ventaSelected ? <button onClick={() => setventaSelected(null)}>No fijar venta</button> : null
                                         }
 
                                     </div>
@@ -128,8 +136,8 @@ export default function CARD_LISTA_VENTA() {
 
                         <div className="table-responsive">
                             <DataTable
-                                columns={columnas}
-                                data={buscar(Ventas)}
+                                columns={columnasventaReporte}
+                                data={buscar(ventas)}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 fixedHeader

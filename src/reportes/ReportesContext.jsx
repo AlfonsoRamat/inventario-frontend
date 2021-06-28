@@ -13,7 +13,7 @@ export function ReporteContextProvider({ children }) {
     //fiajar caja
     const [cajaSelected, setCajaSelected] = useState(null);
     //fijar venta
-    // const [ventaSelected, setventaSelected] = useState(null);
+     const [ventaSelected, setventaSelected] = useState(null);
     // busqueda producto
     const [search, setSearch] = useState("");
 
@@ -117,12 +117,10 @@ export function ReporteContextProvider({ children }) {
         });
     }
 
-    useEffect(() => {
 
-    }, [bandera]);
 
     return (
-        <ReporteContext.Provider value={{ cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ ventaSelected, setventaSelected,cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }

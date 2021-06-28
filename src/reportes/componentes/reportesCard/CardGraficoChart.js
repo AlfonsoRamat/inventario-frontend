@@ -3,42 +3,49 @@ import { ReporteContext } from "../../ReportesContext";
 import Chart from "chart.js";
 
 export default function CARD_GRAFICO_Ventas() {
-    const { GetVentas, Ventas } = useContext(ReporteContext);
+    const { Ventas,  cajaSelected,GetVentas } = useContext(ReporteContext);
     const [bandera, SetBandera] = useState(false)
-
+    const [ventas, SetVentas] = useState([]);
     async function ObtenerData() {
-        await GetVentas();
+        if(cajaSelected){
+            cajaSelected.Ventas.forEach(venta => {
+                if (venta.estadoVenta === "finalizada") {
+                    SetVentas(prev => [...prev, venta]);
+                }
+            })
+        }else{GetVentas(); SetVentas(Ventas);}
         await SetBandera(true);
     }
 
     const fecha_turno_tarde = [];
     const venta_turno_tarde = [];
+    let fecha_turno_mañana = [];
+    let venta_turno_mañana = [];
 
     function llenar_turno_tarde() {
-        Ventas.forEach((Venta) => {
+        ventas.forEach((Venta) => {
             if
-                (Venta.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1) { fecha_turno_tarde.push(Venta.fecha) }
+                (new Date(Venta.updatedAt).getHours() >= 12) { fecha_turno_tarde.push(Venta.updatedAt) }
 
             if
-                (Venta.turno.toString().toLowerCase().indexOf("TARDE".toLowerCase()) > -1) { venta_turno_tarde.push(Venta.montoTotalVendido) }
+                (new Date(Venta.updatedAt).getHours() >= 12) { venta_turno_tarde.push(Venta.monto) }
         });
 
     }
 
     function llenar_turno_mañana() {
-        Ventas.forEach((Venta) => {
-            if ((Venta.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1)) { fecha_turno_mañana.push(Venta.fecha) }
+        ventas.forEach((Venta) => {
+            if (new Date(Venta.updatedAt).getHours() < 12) { fecha_turno_mañana.push(Venta.updatedAt) }
 
 
             if
-                (Venta.turno.toString().toLowerCase().indexOf("MAÑANA".toLowerCase()) > -1) { venta_turno_mañana.push(Venta.montoTotalVendido) }
+                (new Date(Venta.updatedAt).getHours() < 12) { venta_turno_mañana.push(Venta.monto) }
 
         });
 
     }
 
-    let fecha_turno_mañana = [];
-    let venta_turno_mañana = [];
+
     var config = {
         type: "line",
         data: {
