@@ -59,15 +59,15 @@ const columnas = (clientes) => {
     }
   ]
 }
-const columnasMovimiento = (clientes) => {
+const columnasMovimiento = (ventasRapidas) => {
   return [
     {
-      name: 'Cliente',
+      name: 'Vendedor',
       selector: (row) =>{
         let nombre = '';
-        clientes.forEach(cliente =>{
-          if(cliente.id === row.ClienteId){
-            nombre = cliente.nombre;
+        ventasRapidas.forEach(codigo =>{
+          if(codigo.id === row.UsuarioId){
+            nombre = codigo.nombre;
           }
         })
         return nombre;
@@ -76,23 +76,15 @@ const columnasMovimiento = (clientes) => {
     },
     {
       name: 'Importe',
-      selector: (row) => {
-        let total = 0;
-        if (row.monto > 0) total += row.monto;
-        if (row.montoTarjeta > 0) total += row.montoTarjeta;
-        if (row.recargo > 0) total += (row.montoTarjeta * (row.recargo / 100));
-        if (row.descuento > 0) total -= row.descuento;
-        return total;
-      },
+      selector: (row) => `\$${row.monto}`,
       sortable: true
     },
     {
       name: 'Tipo de movimiento',
-      selector: 'tipoMovimiento',
+      selector: 'operacion',
       sortable: true
     },
     {
-
       button: true,
       cell: row => <BsTrash onClick={console.log("borrar movimiento" + row.nombre)} />,
     }

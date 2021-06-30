@@ -106,10 +106,12 @@ function Venta({ venta, setVentas }) {
     const some = ventasRapidas.some(({ ventaRapida }) => {
       return ventaRapida === userVentaRapida;
     });
+   
     if (!some) {
       alert('Codigo inexistente');
       return;
     }
+    
     handleChange({ target: { name: 'ventaRapida', value: userVentaRapida } });
 
     agregarVenta(venta).then(res => {

@@ -7,15 +7,6 @@ import MuiAlert from "@material-ui/lab/Alert";
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-// const useStyles = makeStyles({
-//   root: {
-//     maxWidth: 345,
-//   },
-//   media: {
-//     height: 140,
-//   },
-// });
-
 
 export const CajaContext = createContext(null);
 
@@ -136,7 +127,7 @@ export function CajaContextProvider({ children }) {
   async function agregarVenta(venta) {
     try {
       const seAgregoConExito = await addVenta(venta);
-      if(seAgregoConExito) setReload(true);
+      if (seAgregoConExito) setReload(true);
     } catch (error) {
       console.log('Error al agregar una venta a la caja', error)
     }
@@ -178,7 +169,8 @@ export function CajaContextProvider({ children }) {
     <div>
       <CajaContext.Provider
         value={{
-          getProductos, productos, cajaAbierta, abrirCaja, cerrarCaja, agregarVenta, reducirStockEnProductos, historial, ventasRapidas, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar
+          productos, cajaAbierta, historial, ventasRapidas,
+          getProductos, abrirCaja, cerrarCaja, agregarVenta, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar
         }}
       >
         {children}

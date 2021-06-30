@@ -8,11 +8,13 @@ import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 import ModalMovimiento from '../components/ModalMovimiento'
 
 function ContenedorCaja() {
-
-    const { cajaAbierta } = useContext(CajaContext);
-    const [clientes, setClientes] = useState([])
+    const { cajaAbierta, ventasRapidas } = useContext(CajaContext);
+    const [clientes, setClientes] = useState([]);
+    const [modal, setModal] = useState(false);
     const [ventas, setVentas] = useState([]);
     const [movimientos, setMovimientos] = useState([]);
+    const [operacion, setOperacion] = useState("deposito");
+
     //TODO: agregar movimiento borrar ventas y movimientos
     async function getClientes() {
         try {
@@ -22,15 +24,24 @@ function ContenedorCaja() {
             console.log(error);
         }
     }
-    //modal
-    const [modal, setModal] = useState(false);
-    function toggleModal() {
-                setModal((prev) => prev ? false : true);
 
+    function agregarMovimiento(mov) {
+        setMovimientos(prev => [...prev, mov]);
     }
+
+    function toggleModal(opt) {
+        setOperacion(opt);
+        setModal(!modal);
+    }
+
+    function asignarMovimientos() {
+        setMovimientos(cajaAbierta.Movimientos);
+    }
+
     useEffect(() => {
         if (!cajaAbierta) return;
         getClientes();
+        asignarMovimientos();
         cajaAbierta.Ventas.forEach(venta => {
             if (venta.estadoVenta === "finalizada") {
                 console.log('Venta finalizada', venta);
@@ -41,22 +52,22 @@ function ContenedorCaja() {
 
     return (
         <div className='cajaConteiner'>
-            <ModalMovimiento modal={modal} toggleModal={toggleModal}  />
+            <ModalMovimiento modal={modal} toggleModal={toggleModal} agregarMovimiento={agregarMovimiento} CajaId={cajaAbierta?.id} ventasRapidas={ventasRapidas} operacion={operacion} />
             <div className="cajaizquierda">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                     <CuadroCaja />
                 </div>
                 {cajaAbierta ? <div>
                     <div className="bottones">
-                        <button onClick={() => { toggleModal() }}  >
+                        <button onClick={() => { toggleModal("deposito") }}  >
                             Depositar <GiReceiveMoney size="1.5em" /> </button>
-                        <button  onClick={() => { toggleModal() }} >
+                        <button onClick={() => { toggleModal("extraccion") }} >
                             Retirar <GiPayMoney size="1.5em" /> </button>
                     </div>
                     <div className="table-responsive">
                         <DataTable
                             title={"Movimiento"}
-                            columns={columnasMovimiento(clientes)}
+                            columns={columnasMovimiento(ventasRapidas)}
                             data={movimientos}
                             pagination
                             paginationComponentOptions={opcionesdepagina}
