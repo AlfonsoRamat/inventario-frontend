@@ -19,7 +19,32 @@ const customStyles = {
     },
   };
 
- 
+  const columnasventaReporte = [
+
+    {
+        name: 'Tipo de pago',
+        selector: 'tipoPago',
+        sortable: true
+    },
+    {
+        name: 'Monto efectivo',
+        selector: 'monto',
+        sortable: true
+    },
+
+    {
+        name: 'Monto tarjeta',
+        selector: 'montoTarjeta',
+        sortable: true
+    },
+    {
+        name: 'Fecha',
+        selector: 'updatedAt',
+        sortable: true
+    },
+   
+    
+];
     const columnas = [
         {
             name: 'Turno',
@@ -63,4 +88,4 @@ const opcionesdepagina = {
     selectAllRowsItemText: 'Todo'
 }
 
-export { customStyles, columnas, opcionesdepagina};
+export { customStyles, columnas, opcionesdepagina,columnasventaReporte};
