@@ -140,7 +140,6 @@ export function CajaContextProvider({ children }) {
     }).catch(err => console.log('Error al obtener los productos', err));
   }
 
-
   const handleClicksnakBar = (adv) => {
     setAdvertencia(adv)
     setOpensnakBar(true);

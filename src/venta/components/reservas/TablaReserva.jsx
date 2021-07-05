@@ -1,19 +1,57 @@
-import React, {  useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { CajaContext } from '../../CajaContext';
 import DataTable from 'react-data-table-component';
-import { getColumnas, customStyles, opcionesdepagina } from "./Reserva.config";
+import { getColumnas, customStyles, opcionesdepagina, columnasReserva } from "./Reserva.config";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+import { useContext } from 'react';
+import AxiosInstance from '../../../shared/configs/AxiosInstance';
+import ProductSelect from './ProductSelect';
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 function TablaPedidos({ cajaAbierta }) {
 
+    const { productos } = useContext(CajaContext);
+    const [reservas, setReservas] = useState([]);
+    const [nuevaReserva, setNuevaReserva] = useState();
+    const [clientes, setClientes] = useState([]);
+    const [iniciarReserva, setIniciarReserva] = useState(false);
     const [search, setSearch] = useState("");
-    const [reserva, setReserva] = useState(null);
+    //snackbar ok
+    const [opensnakBar, setOpensnakBar] = useState(false);
+    const [advertencia, setAdvertencia] = useState(false)
 
+    const handleClicksnakBar = (adv) => {
+        setAdvertencia(adv)
+        setOpensnakBar(true);
+    };
 
+    const handleClosesnackBar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpensnakBar(false);
+    };
 
+    async function getReservas() {
+        try {
+            const result = await (await AxiosInstance().get("/reserva")).data;
+            setReservas(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async function getClientes() {
+        try {
+            const result = await (await AxiosInstance().get("/cliente")).data;
+            setClientes(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     function buscar(rows) {
         if (rows) {
@@ -25,58 +63,52 @@ function TablaPedidos({ cajaAbierta }) {
         } else return [];
     }
 
-    //snackbar ok
-    const [opensnakBar, setOpensnakBar] = useState(false);
-    const [advertencia, setAdvertencia] = useState(false)
-    const handleClicksnakBar = (adv) => {
-        setAdvertencia(adv)
-        setOpensnakBar(true);
-    };
+    function pagar(reserva) {
+        console.log(reserva);
+    }
 
-    const handleClosesnackBar = (event, reason) => {
-        if (reason === 'clickaway') {
-            return;
-        }
+    useEffect(() => {
+        getClientes();
+        getReservas();
+    }, [])
 
-        setOpensnakBar(false);
-    };
-
-
-
-    return (<div>
+    return (
         <div className="Tablas">
-           <div className='titulo-tabla'>
-                <div className='titulo-der'>
-                    <div className="input-icono">
-                        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+            {(!iniciarReserva) ?
+                <>
+                    <div className='titulo-tabla'>
+                        <div className='titulo-der'>
+                            <div className="input-icono">
+                                <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Buscar..." />
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div className="table-responsive">
-                <DataTable
-                    columns={getColumnas}
-                    expandableRows={true}
-                    data={buscar(reserva)}
-                    pagination
-                    paginationComponentOptions={opcionesdepagina}
-                    fixedHeader
-                    fixedHeaderScrollHeight="600px"
-                    highlightOnHover
-                    onRowClicked={selectedItem => {
-
-                    }}
-                    responsive
-                    noDataComponent={<div>No hay informacion disponible para mostrar</div>}
-                    customStyles={customStyles}
-                />
-            </div>
+                    <div className="table-responsive">
+                        <DataTable
+                            columns={columnasReserva(productos, clientes, pagar)}
+                            data={buscar(reservas)}
+                            pagination
+                            paginationComponentOptions={opcionesdepagina}
+                            fixedHeader
+                            fixedHeaderScrollHeight="600px"
+                            highlightOnHover
+                            onRowClicked={selectedItem => { }}
+                            responsive
+                            noDataComponent={<div>No hay informacion disponible para mostrar</div>}
+                            customStyles={customStyles}
+                        />
+                    </div>
+                    <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
+                        onClick={() => { setIniciarReserva(true) }} type="button">Crear Reserva</button>
+                </>
+                : (<ProductSelect productos={productos} />)
+            }
             <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
                 <Alert onClose={handleClosesnackBar} severity={advertencia ? "warning" : "success"}>
                     {advertencia ? "Pago realizado." : "Problemas en el pago."}
                 </Alert>
             </Snackbar>
         </div>
-    </div>)
+    )
 }
-export default TablaPedidos
+export default TablaPedidos;

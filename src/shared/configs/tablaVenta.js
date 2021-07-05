@@ -76,7 +76,7 @@ const columnasMovimiento = (ventasRapidas) => {
     },
     {
       name: 'Importe',
-      selector: (row) => `\$${row.monto}`,
+      selector: (row) => `$${row.monto}`,
       sortable: true
     },
     {

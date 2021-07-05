@@ -4,7 +4,9 @@ axios.defaults.withCredentials = true;
 
 const AxiosInstance = () => {
 
-    const baseURL = 'http://localhost:3004';
+    let baseURL = 'http://vps-1964821-x.dattaweb.com:3004';
+    if (process.env.NODE_ENV === 'development') baseURL = 'http://localhost:3004';
+
 
     const axiosInstance = axios.create({
         baseURL: baseURL,
@@ -39,7 +41,7 @@ const AxiosInstance = () => {
                         }
                         resolve(res);
                     });
-                    
+
                 }
                 reject(error.response);
             });
