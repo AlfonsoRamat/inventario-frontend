@@ -117,10 +117,10 @@ export function ReporteContextProvider({ children }) {
         });
     }
 
-
+const[tab,setTab]=useState(0);
 
     return (
-        <ReporteContext.Provider value={{ ventaSelected, setventaSelected,cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ tab,setTab,ventaSelected, setventaSelected,cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }

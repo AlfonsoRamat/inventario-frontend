@@ -15,7 +15,7 @@ registerLocale("es", es);
 export default function CARD_LISTA_VENTA() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const { Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas } = useContext(ReporteContext);
+    const { Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas,setTab } = useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
@@ -145,6 +145,7 @@ export default function CARD_LISTA_VENTA() {
                                 highlightOnHover
                                 onRowClicked={selectedItem => {
                                     setventaSelected(selectedItem);
+                                    setTab(2);
                                 }}
                                 responsive
                                 noDataComponent={<div>No hay informacion disponible para mostrar</div>}

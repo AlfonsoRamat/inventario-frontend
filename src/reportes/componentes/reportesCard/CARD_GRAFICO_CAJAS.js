@@ -2,7 +2,7 @@ import React, { useContext,useEffect, useState } from 'react';
 import{ReporteContext} from "../../ReportesContext";
 import Chart from "chart.js";
 
-export default function CARD_GRAFICO_CAJAS() {
+export default function CARD_GRAFICO_CAJAS(setTabValue) {
     const{ Get_cajas,Cajas }=  useContext(ReporteContext);
     const [bandera,SetBandera]=useState(false)
 

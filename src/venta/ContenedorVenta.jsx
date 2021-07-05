@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import Venta from "./venta";
-import { Tabs, Tab } from "@material-ui/core";
-import "react-tabs/style/react-tabs.css";
+
 import TablaReserva from "./components/reservas/TablaReserva";
 import "./venta.css";
 import ContenedorCaja from "./components/ContenedorCaja";
 import { CajaContext } from "./CajaContext";
+import { Tabs, Tab } from "@material-ui/core";
 import TabPanel from "./components/tabPanels"
 import {withStyles } from '@material-ui/core/styles';
 
