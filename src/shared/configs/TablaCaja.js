@@ -39,12 +39,13 @@ const customStyles = {
     },
     {
         name: 'Fecha',
-        selector: 'updatedAt',
+        cell: row=> new Date(row.updatedAt).toLocaleDateString('es-AR', options),
         sortable: true
     },
    
     
 ];
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const columnas = [
         {
             name: 'Turno',
@@ -74,7 +75,7 @@ const customStyles = {
         },
         {
             name: 'Fecha',
-            selector: 'fecha',
+            cell: row=> new Date(row.fecha).toLocaleDateString('es-AR', options),
             sortable: true
         },
        
