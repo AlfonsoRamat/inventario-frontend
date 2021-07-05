@@ -92,7 +92,7 @@ export function InventarioProvider({ children }) {
     }, [reload]);
 
     return (
-        <InventarioContext.Provider value={{ tabreload, setTabReload,productos, proveedores, rubros, setReload, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
+        <InventarioContext.Provider value={{ tabreload, setTabReload,productos,getProductos, proveedores, rubros, setReload, productosDispatch, proveedoresDispatch, rubrosDispatch }}>
             {children}
         </InventarioContext.Provider>
     )

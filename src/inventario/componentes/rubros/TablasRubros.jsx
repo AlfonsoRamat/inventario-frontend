@@ -15,9 +15,10 @@ function Alert(props) {
 function TablasRubros() {
 
     const [search, setSearch] = useState("");
-    const { rubros, rubrosDispatch, setReload } = useContext(InventarioContext);
+    const { rubros, rubrosDispatch, setReload,getProductos } = useContext(InventarioContext);
     const [rubrosModalState, setRubrosModalState] = useState(false);
 
+    
     function toogleRubrosModalState() {
         setRubrosModalState(!rubrosModalState);
     }
@@ -37,6 +38,7 @@ function TablasRubros() {
                     .then(() => {
                         setReload(prev => !prev);
                         handleClicksnakBar(true);
+                        getProductos();
                     })
                     .catch(err => console.log("Algo salio mal", err));
             }
