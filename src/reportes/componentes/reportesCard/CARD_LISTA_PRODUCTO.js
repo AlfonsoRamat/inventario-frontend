@@ -17,11 +17,13 @@ export default function CARD_LISTA_PRODUCTOS() {
         setProducto([]);
         if (ventaSelected) {
             ventaSelected.ItemsVenta.forEach(item => {
-                setProducto(prev => [...prev, item.Producto]);
+                const aux = item.Producto;
+                aux.cantidad=item.cantidad;
+                setProducto(prev => [...prev, aux]);
+                console.log("aux",aux);
                           });
-                          console.log("productos seleccionados",productos);
-                          console.log("productos todos",Productos);
-           if(!reset){setReset(!reset)} 
+                         
+                                if(!reset){setReset(!reset)} 
         }else {  setProducto(Productos);if(!reset){setReset(!reset)} }
     }, [reset])
     const DataSet = [
@@ -32,7 +34,7 @@ export default function CARD_LISTA_PRODUCTOS() {
                 { title: "Codigo de barra", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Nombre", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 300 } }, // width in pixels
-                { title: "Cantidad", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+                ventaSelected?null: { title: "Cantidad", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Precio", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
 
 
@@ -43,7 +45,7 @@ export default function CARD_LISTA_PRODUCTOS() {
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
-                { value: ventaSelected?null: data.Stocks.reduce((total, actual) => {
+                ventaSelected?null:{ value:  data.Stocks.reduce((total, actual) => {
                     return total + parseFloat(actual.cantidad);
                   }, 0), style: { font: { sz: "14" } } },
                 { value: data.precioVenta, style: { font: { color: { rgb: "ffffff" } }, fill: { patternType: "solid", fgColor: { rgb: "eb1207" } } } },
@@ -66,11 +68,11 @@ export default function CARD_LISTA_PRODUCTOS() {
                                     </div>
                                 </div> : null}
                         </div>
-                        <ExcelFile
+                        {ventaSelected?null: <ExcelFile
                             filename="productos Data"
                             element={<button type="button" className="">Descargar informacion</button>}>
                             <ExcelSheet dataSet={DataSet} name="tabla de productos" />
-                        </ExcelFile>
+                        </ExcelFile>}
 
                         <div className="table-responsive">
                             <DataTable

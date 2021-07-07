@@ -122,10 +122,13 @@ const columnasVenta = [
   {
     name: 'Cantidad',
     selector: (row) => {
+      var value=0;
+      if(row.Stocks){
+        value = row.Stocks?.reduce((total, actual) => {
+          return total + parseFloat(actual.cantidad);
+        }, 0);
+      }else{ value=row.cantidad}
 
-      let value = row.Stocks?.reduce((total, actual) => {
-        return total + parseFloat(actual.cantidad);
-      }, 0);
       return value;
     },
     sortable: true
