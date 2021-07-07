@@ -92,7 +92,7 @@ function       nombreMovimiento (UsuarioId) {
 
     const [reset,setReset]=useState(false)
     useEffect(() => {
-        console.log(Movimientos);
+        
         SetVentas([]);
         Setmovimientos([]);
         if (cajaSelected) {
