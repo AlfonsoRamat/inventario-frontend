@@ -13,7 +13,7 @@ export function ReporteContextProvider({ children }) {
     //fiajar caja
     const [cajaSelected, setCajaSelected] = useState(null);
     //fijar venta
-     const [ventaSelected, setventaSelected] = useState(null);
+    const [ventaSelected, setventaSelected] = useState(null);
     // busqueda producto
     const [search, setSearch] = useState("");
 
@@ -37,14 +37,13 @@ export function ReporteContextProvider({ children }) {
     async function GetVentas() {
         try {
             Set_ventas([])
-            Cajas.forEach(caja =>
-                {
-                    caja.Ventas.forEach(venta => {
-                                   
-                        Set_ventas (prev => [...prev, venta]);
-                    
+            Cajas.forEach(caja => {
+                caja.Ventas.forEach(venta => {
+
+                    Set_ventas(prev => [...prev, venta]);
+
                 })
-                })
+            })
 
         } catch (error) {
             console.log(error);
@@ -87,7 +86,7 @@ export function ReporteContextProvider({ children }) {
         return columns
     }
 
-    //config grafico producto
+    //config grafico colores
     function generarNumero(numero) {
         return (Math.random() * numero).toFixed(0);
     }
@@ -95,23 +94,32 @@ export function ReporteContextProvider({ children }) {
         var coolor = "(" + generarNumero(255) + "," + generarNumero(255) + "," + generarNumero(255) + ")";
         return "rgb" + coolor;
     }
+    //config grafico producto
     let nombres = [];
     let cantidad = [];
     let color = [];
     function llenarArrayCantidad(row) {
-
-        let value = row.Stocks.reduce((total, actual) => {
-            return total + parseFloat(actual.cantidad);
-        }, 0);
+      
+          let  value = row.Stocks.reduce((total, actual) => {
+                return total + parseFloat(actual.cantidad);
+            }, 0);
+       
         return value;
     }
     function llenar_array() {
 
-        Productos.forEach(Producto => {
+        if(!ventaSelected)
+        {Productos.forEach(Producto => {
             nombres.push(Producto.nombre)
             cantidad.push(llenarArrayCantidad(Producto));
             color.push(colorRGB());
-        });
+        });}else{
+            ventaSelected.ItemsVenta.forEach(item => {
+                nombres.push(item.Producto.nombre);
+                cantidad.push(item.cantidad);
+                color.push(colorRGB());
+                                         });
+        }
 
     }
 
@@ -124,10 +132,10 @@ export function ReporteContextProvider({ children }) {
         });
     }
 
-const[tab,setTab]=useState(0);
+    const [tab, setTab] = useState(0);
 
     return (
-        <ReporteContext.Provider value={{ tab,setTab,ventaSelected, setventaSelected,cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
+        <ReporteContext.Provider value={{ tab, setTab, ventaSelected, setventaSelected, cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}
         </ReporteContext.Provider>)
 }
