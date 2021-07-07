@@ -39,7 +39,15 @@ export default function CARD_LISTA_VENTA() {
         return columns
     }
 
-
+function       nombreMovimiento (UsuarioId) {
+    let nombre = '';
+    ventasRapidas.forEach(codigo =>{
+      if(codigo.id === UsuarioId){
+        nombre = codigo.nombre;
+      }
+    })
+    return nombre;
+  }
 
     const DataSet = [
         {
@@ -60,6 +68,25 @@ export default function CARD_LISTA_VENTA() {
                 { value: data.monto, style: { font: { sz: "14" } } },
                 { value: data.descuento, style: { font: { sz: "14" } } },
                 { value: data.recargo, style: { font: { sz: "14" } } },
+            ])
+        }
+    ]
+    const DataSetmov = [
+        {
+            columns: [
+
+                { title: "vendedor", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
+                { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
+                { title: "Operacion", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
+                { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
+               
+            ],
+            data: buscar(movimientos).map((data) => [
+                { value: nombreMovimiento(data.UsuarioId) , style: { font: { sz: "14" } } },
+                { value: data.descripcion, style: { font: { sz: "14" } } },
+                { value: data.operacion, style: { font: { sz: "14" } } },
+                { value: data.updatedAt, style: { font: { sz: "14" } } },
+               
             ])
         }
     ]
@@ -146,9 +173,10 @@ export default function CARD_LISTA_VENTA() {
                             </div>
                         </div>
                         <ExcelFile
-                            filename="productos Data"
+                            filename="venta Data"
                             element={<button type="button" >Descargar informacion</button>}>
-                            <ExcelSheet dataSet={DataSet} name="tabla de productos" />
+                            <ExcelSheet dataSet={DataSet} name="tabla de venta" />
+                            <ExcelSheet dataSet={DataSetmov} name="tabla de movimientos" />
                         </ExcelFile>
 
                         <div className="table-responsive">
