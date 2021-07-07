@@ -57,7 +57,7 @@ export default function CARD_LISTA_PRODUCTOS() {
                 
             });
             if (!reset) { setReset(!reset) }
-        } else { setProducto(Productos); if (!reset) { setReset(!reset);  console.log(Productos)}  }
+        } else { setProducto(Productos); if (!reset) { setReset(!reset);  }  }
     }, [reset,Productos])
     return (
         <>

@@ -8,8 +8,8 @@ import{ReporteContext} from "../../ReportesContext";
 export default function CardRubrosVentas() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ rubros,VentaRubro }=  useContext(ReporteContext);
-    
+    const{ rubros }=  useContext(ReporteContext);
+
 
     const [search, setSearch] = useState("");
     let columns= [];
@@ -25,14 +25,6 @@ export default function CardRubrosVentas() {
    
 }
 
-const cantidadVentas = {
-    name:'cantidad',
-    cell: row =>VentaRubro.value,
-    sortable: true}
-    useEffect(() => {
-       
-        
-    }, []);
 
     const DataSet = [
         {
@@ -48,6 +40,10 @@ const cantidadVentas = {
         }
     ]
 
+
+useEffect(() => {
+
+}, [JSON.stringify(rubros)])
 
     return (
         <>
@@ -71,7 +67,7 @@ const cantidadVentas = {
 
                         <div className="table-responsive">
                             <DataTable
-                                columns={[...columnas,cantidadVentas]}
+                                columns={[...columnas]}
                                 data={buscar(rubros)}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}

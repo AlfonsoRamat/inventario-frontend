@@ -33,6 +33,11 @@ const columnas = [
     name: 'Tipo rubro',
     selector: 'rubro',
     sortable: true
+  },
+  {
+    name:'cantidad',
+    cell: row =>row.cantidad,
+    sortable: true
   }
 
 

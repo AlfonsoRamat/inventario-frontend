@@ -10,6 +10,7 @@ export function ReporteContextProvider({ children }) {
     const [Cajas, Set_cajas] = useState([]);
     const [Ventas, Set_ventas] = useState([]);
     const [rubros, Set_rubros] = useState([]);
+    
     //fiajar caja
     const [cajaSelected, setCajaSelected] = useState(null);
     //fijar venta
@@ -24,10 +25,27 @@ export function ReporteContextProvider({ children }) {
 
     //config lista de rubros
     async function getRubros() {
+        GetProductos();
         try {
-            llenar_data_rubro();
+  
+            const cantidadRubro = function(arr,val){
+                return arr.reduce((acc,elem)=>{
+                 return (val === elem.RubroRubro ? acc+1:acc)
+                },0);
+            }
+            const aux=[];
+      
             const result = await (await AxiosInstance().get('/rubros')).data;
-            Set_rubros(result);
+            
+            llenar_data_rubro();
+           
+             result.forEach(rubro =>
+                {
+                    aux.push({rubro:rubro.rubro,cantidad:cantidadRubro(Productos,rubro.rubro)})                   
+                }
+                )
+                Set_rubros(aux);
+            
         } catch (error) {
             console.log(error);
         }
