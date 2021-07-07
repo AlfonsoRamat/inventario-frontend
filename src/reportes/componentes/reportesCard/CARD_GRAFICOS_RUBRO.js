@@ -19,21 +19,17 @@ const[bandera,SetBandera]=useState(false)
 
           label: "",
           backgroundColor: Colorrubro,
-
-
-          
-
           data: VentaRubro,
           fill: false,
         },
       ],
     },
     options: {
-      maintainAspectRatio: true,
+    
       responsive: true,
       title: {
         display: false,
-        text: "",
+        text: "Productos por rubro",
         fontColor: "black",
       },
       legend: {
@@ -64,7 +60,7 @@ const[bandera,SetBandera]=useState(false)
               borderDash: [2],
               borderDashOffset: [2],
               color: "rgba(33, 37, 41, 0.3)",
-              zeroLineColor: "rgba(0, 0, 0, 0)",
+              zeroLineColor: "rgba(0,255,0,0.3)",
               zeroLineBorderDash: [2],
               zeroLineBorderDashOffset: [2],
             },
@@ -104,7 +100,7 @@ const[bandera,SetBandera]=useState(false)
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify (Colorrubro),bandera]);
+  }, [JSON.stringify (Colorrubro)]);
   return (
 
     <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
