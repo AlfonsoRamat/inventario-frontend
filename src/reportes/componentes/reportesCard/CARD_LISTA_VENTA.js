@@ -61,15 +61,18 @@ export default function CARD_LISTA_VENTA() {
             ])
         }
     ]
+    const [reset,setReset]=useState(false)
     useEffect(() => {
+        SetVentas([])
         if (cajaSelected) {
             cajaSelected.Ventas.forEach(venta => {
                                
                     SetVentas(prev => [...prev, venta]);
                 
-            })
-        }else { GetVentas(); SetVentas(Ventas); }
-    }, [])
+            });
+           if(!reset){setReset(!reset)} 
+        }else { GetVentas(); SetVentas(Ventas);if(!reset){setReset(!reset)} }
+    }, [reset])
 
     return (
         <>

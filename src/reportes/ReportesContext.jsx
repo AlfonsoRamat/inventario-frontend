@@ -36,8 +36,15 @@ export function ReporteContextProvider({ children }) {
     //config lista de ventas
     async function GetVentas() {
         try {
-            const result = await (await AxiosInstance().get('/')).data;
-            Set_ventas(result);
+            Set_ventas([])
+            Cajas.forEach(caja =>
+                {
+                    caja.Ventas.forEach(venta => {
+                                   
+                        Set_ventas (prev => [...prev, venta]);
+                    
+                })
+                })
 
         } catch (error) {
             console.log(error);

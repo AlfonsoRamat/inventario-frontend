@@ -123,7 +123,7 @@ const columnasVenta = [
     name: 'Cantidad',
     selector: (row) => {
 
-      let value = row.Stocks.reduce((total, actual) => {
+      let value = row.Stocks?.reduce((total, actual) => {
         return total + parseFloat(actual.cantidad);
       }, 0);
       return value;

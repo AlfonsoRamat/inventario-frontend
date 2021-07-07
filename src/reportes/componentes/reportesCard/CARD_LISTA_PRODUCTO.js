@@ -1,4 +1,4 @@
-import React, { useContext,useEffect } from 'react';
+import React, { useContext,useEffect,useState } from 'react';
 import { columnasVenta, customStyles, opcionesdepagina } from "../../../shared/configs/TablaInventario";
 // components
 import ReactExport from 'react-data-export';
@@ -8,17 +8,22 @@ import{ReporteContext} from "../../ReportesContext";
 export default function CARD_LISTA_PRODUCTOS() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const{ setSearch,buscar,search, Productos }=  useContext(ReporteContext);
-    
+    const{ setSearch,buscar,search, Productos,ventaSelected }=  useContext(ReporteContext);
+  
 
-
-
-
+    const [reset,setReset]=useState(false);
+    const [productos, setProducto] = useState([]);
     useEffect(() => {
-        
-
-    }, []);
-
+        setProducto([]);
+        if (ventaSelected) {
+            ventaSelected.ItemsVenta.forEach(item => {
+                setProducto(prev => [...prev, item.Producto]);
+                          });
+                          console.log("productos seleccionados",productos);
+                          console.log("productos todos",Productos);
+           if(!reset){setReset(!reset)} 
+        }else {  setProducto(Productos);if(!reset){setReset(!reset)} }
+    }, [reset])
     const DataSet = [
         {
             columns: [
@@ -33,12 +38,12 @@ export default function CARD_LISTA_PRODUCTOS() {
 
 
             ],
-            data: buscar(Productos).map((data) => [
+            data: buscar(productos).map((data) => [
                 { value: data.codInterno, style: { font: { sz: "14" } } },
                 { value: data.codigoPaquete, style: { font: { sz: "14" } } },
                 { value: data.nombre, style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
-                { value: data.Stocks.reduce((total, actual) => {
+                { value: ventaSelected?null: data.Stocks.reduce((total, actual) => {
                     return total + parseFloat(actual.cantidad);
                   }, 0), style: { font: { sz: "14" } } },
                 { value: data.precioVenta, style: { font: { color: { rgb: "ffffff" } }, fill: { patternType: "solid", fgColor: { rgb: "eb1207" } } } },
@@ -70,7 +75,7 @@ export default function CARD_LISTA_PRODUCTOS() {
                         <div className="table-responsive">
                             <DataTable
                                 columns={columnasVenta}
-                                data={buscar(Productos)}
+                                data={buscar(productos)}
                                 pagination
                                 paginationComponentOptions={opcionesdepagina}
                                 fixedHeader
