@@ -27,7 +27,7 @@ export function ReporteContextProvider({ children }) {
     async function getRubros() {
         GetProductos();
         try {
-  
+            llenar_data_rubro();
             const cantidadRubro = function(arr,val){
                 return arr.reduce((acc,elem)=>{
                  return (val === elem.RubroRubro ? acc+1:acc)
@@ -37,7 +37,7 @@ export function ReporteContextProvider({ children }) {
       
             const result = await (await AxiosInstance().get('/rubros')).data;
             
-            llenar_data_rubro();
+           
            
              result.forEach(rubro =>
                 {
@@ -45,7 +45,7 @@ export function ReporteContextProvider({ children }) {
                 }
                 )
                 Set_rubros(aux);
-            
+                
         } catch (error) {
             console.log(error);
         }
@@ -145,13 +145,16 @@ export function ReporteContextProvider({ children }) {
         rubros.forEach(rubro => {
             tipoRubro.push(rubro.rubro)
             const numerod = generarNumero(40);
-            VentaRubro.push(numerod);
+            VentaRubro.push(rubro.cantidad*100/(Productos.length+1));
             Colorrubro.push(colorRGB());
         });
     }
 
     const [tab, setTab] = useState(0);
-
+useEffect(() => {
+GetProductos();
+getRubros();
+}, [])
     return (
         <ReporteContext.Provider value={{ tab, setTab, ventaSelected, setventaSelected, cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>
             {children}

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Chart from "chart.js";
 import { ReporteContext } from "../../ReportesContext";
 export default function CARD_GRAFICO_PRODUCTOS() {
-  const { bandera, SetBandera, getRubros, tipoRubro,Colorrubro,VentaRubro } = useContext(ReporteContext);
-
+  const {  getRubros, tipoRubro,Colorrubro,VentaRubro } = useContext(ReporteContext);
+const[bandera,SetBandera]=useState(false)
   async function ObtenerData() {
-    await getRubros();
+     getRubros();
 
-    await SetBandera(false);
+    if(!bandera) SetBandera(true);
   }
 
   var config = {
@@ -104,7 +104,7 @@ export default function CARD_GRAFICO_PRODUCTOS() {
     var ctx = document.getElementById("bar-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bandera]);
+  }, [JSON.stringify (Colorrubro),bandera]);
   return (
 
     <div className="relative flex flex-col min-w-0 break-words mb-6 shadow-lg rounded bg-gray-800">
