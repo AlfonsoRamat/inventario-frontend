@@ -93,8 +93,8 @@ const [mensajeError,setMensajeError]=useState("");
 
   useEffect(() => {
     getUsuario();
-    
-  }, []);
+   
+  }, [usuarios]);
 
   return (
     <div className="">

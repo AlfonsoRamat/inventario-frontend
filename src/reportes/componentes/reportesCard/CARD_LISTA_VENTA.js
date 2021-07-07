@@ -10,7 +10,6 @@ import ReactExport from 'react-data-export';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
-import { columnasMovimiento } from '../../../shared/configs/tablaVenta';
 registerLocale("es", es);
 
 export default function CARD_LISTA_VENTA() {

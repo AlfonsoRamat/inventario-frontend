@@ -9,7 +9,6 @@ import CARD_LISTA_CAJAS from './componentes/reportesCard/Card_lista_cajas';
 import CARD_LISTA_PRODUCTO from './componentes/reportesCard/CARD_LISTA_PRODUCTO';
 import CARD_LISTA_VENTA from './componentes/reportesCard/CARD_LISTA_VENTA';
 import CardRubrosVentas from './componentes/reportesCard/CardRubrosVentas';
-import SwitchSelector from "react-switch-selector";
 import { Tabs, Tab } from "@material-ui/core";
 import TabPanel from "../venta/components/tabPanels"
 import { withStyles } from '@material-ui/core/styles';

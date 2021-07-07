@@ -51,7 +51,6 @@ export function ReporteContextProvider({ children }) {
     }
 
     //config lista de ventas
-    let _isMounted = false;
     const [ventasRapidas, setVentasRapidas] = useState([]);
     async function obtenerVentasRapidas() {
         try {
