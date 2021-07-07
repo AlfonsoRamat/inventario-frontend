@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ReporteContext } from "../../ReportesContext";
 import '../../reportes.css';
 //import de la datatable
-import { customStyles, columnasventaReporte, opcionesdepagina } from "../../../shared/configs/TablaCaja";
+import { customStyles, columnasventaReporte, opcionesdepagina,columnasmovimientoReporte } from "../../../shared/configs/TablaCaja";
 import DataTable from 'react-data-table-component';
 //import del esxtractor de exel
 import ReactExport from 'react-data-export';
@@ -10,17 +10,19 @@ import ReactExport from 'react-data-export';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
+import { columnasMovimiento } from '../../../shared/configs/tablaVenta';
 registerLocale("es", es);
 
 export default function CARD_LISTA_VENTA() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const { Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas,setTab } = useContext(ReporteContext);
+    const {ventasRapidas, Movimientos,Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas,setTab } = useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
     const [toDate, Set_toDate] = useState(new Date());
     const [ventas, SetVentas] = useState([]);
+    const [movimientos, Setmovimientos] = useState([]);
 
     function buscar(rows) {
 
@@ -61,17 +63,29 @@ export default function CARD_LISTA_VENTA() {
             ])
         }
     ]
+
     const [reset,setReset]=useState(false)
     useEffect(() => {
-        SetVentas([])
+        console.log(Movimientos);
+        SetVentas([]);
+        Setmovimientos([]);
         if (cajaSelected) {
             cajaSelected.Ventas.forEach(venta => {
                                
                     SetVentas(prev => [...prev, venta]);
                 
             });
+            cajaSelected.Movimientos.forEach(movimiento => {
+
+                Setmovimientos(prev => [...prev, movimiento]);
+
+            })
            if(!reset){setReset(!reset)} 
-        }else { GetVentas(); SetVentas(Ventas);if(!reset){setReset(!reset)} }
+        }else { 
+            GetVentas(); 
+            SetVentas(Ventas);
+            Setmovimientos(Movimientos);
+            if(!reset){setReset(!reset)} }
     }, [reset])
 
     return (
@@ -81,7 +95,7 @@ export default function CARD_LISTA_VENTA() {
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="hip">
                         <div className='relative flex flex-row'>
-                            <div className='titulo-izq'><h1>Listado de Ventas</h1></div>
+                            <div className='titulo-izq'><h1>Listado de Ventas y movimiento</h1></div>
 
                             <div>
                                 <label>
@@ -139,6 +153,7 @@ export default function CARD_LISTA_VENTA() {
 
                         <div className="table-responsive">
                             <DataTable
+                                title="Ventas"
                                 columns={columnasventaReporte}
                                 data={buscar(ventas)}
                                 pagination
@@ -150,6 +165,19 @@ export default function CARD_LISTA_VENTA() {
                                     setventaSelected(selectedItem);
                                     setTab(2);
                                 }}
+                                responsive
+                                noDataComponent={<div>No hay informacion disponible para mostrar</div>}
+                                customStyles={customStyles}
+                            />
+                            <DataTable
+                                title="movimientos"
+                                columns={columnasmovimientoReporte(ventasRapidas)}
+                                data={buscar(movimientos)}
+                                pagination
+                                paginationComponentOptions={opcionesdepagina}
+                                fixedHeader
+                                fixedHeaderScrollHeight="600px"
+                                highlightOnHover
                                 responsive
                                 noDataComponent={<div>No hay informacion disponible para mostrar</div>}
                                 customStyles={customStyles}
