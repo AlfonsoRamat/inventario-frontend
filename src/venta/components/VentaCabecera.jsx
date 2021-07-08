@@ -45,12 +45,13 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
     }
 
     useEffect(() => {
-        let resultado;
+        let resultado = venta.monto;
         if (venta.recargo > 0 && venta.montoTarjeta > 0) resultado = venta.monto + (venta.montoTarjeta * (1 + (venta.recargo / 100)));
         if (venta.recargo === 0) resultado = venta.monto + venta.montoTarjeta;
         resultado -= venta.descuento;
-
+        console.log('resultado', resultado);
         resultado = Number.parseFloat(resultado).toFixed(2);
+        console.log('resultado', resultado);
         setSubTotal(resultado);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [productosVenta]);
