@@ -47,7 +47,7 @@ export default function CARD_LISTA_PRODUCTOS() {
     ]
 
     useEffect(() => {
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
         if (ventaSelected) {
             setProducto([]);
             ventaSelected.ItemsVenta.forEach(item => {

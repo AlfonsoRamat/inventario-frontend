@@ -42,7 +42,7 @@ export default function CardRubrosVentas() {
 
 
 useEffect(() => {
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
 }, [JSON.stringify(rubros)])
 
     return (

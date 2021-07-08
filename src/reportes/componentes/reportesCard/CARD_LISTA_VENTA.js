@@ -92,7 +92,7 @@ function       nombreMovimiento (UsuarioId) {
 
     const [reset,setReset]=useState(false)
     useEffect(() => {
-        
+          // eslint-disable-next-line react-hooks/exhaustive-deps
         SetVentas([]);
         Setmovimientos([]);
         if (cajaSelected) {
