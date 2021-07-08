@@ -58,6 +58,7 @@ export default function CARD_LISTA_PRODUCTOS() {
             });
             if (!reset) { setReset(!reset) }
         } else { setProducto(Productos); if (!reset) { setReset(!reset);  }  }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reset,Productos])
     return (
         <>

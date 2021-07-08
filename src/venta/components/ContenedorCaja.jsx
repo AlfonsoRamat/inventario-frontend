@@ -48,6 +48,7 @@ function ContenedorCaja() {
                 setVentas(prev => [...prev, venta]);
             }
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [cajaAbierta]);
 
     return (

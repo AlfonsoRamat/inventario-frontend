@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ReporteContext } from "../../ReportesContext";
 import '../../reportes.css';
 //import de la datatable
-import { customStyles, columnasventaReporte, opcionesdepagina,columnasmovimientoReporte } from "../../../shared/configs/TablaCaja";
+import { customStyles, columnasventaReporte, opcionesdepagina, columnasmovimientoReporte } from "../../../shared/configs/TablaCaja";
 import DataTable from 'react-data-table-component';
 //import del esxtractor de exel
 import ReactExport from 'react-data-export';
@@ -15,7 +15,7 @@ registerLocale("es", es);
 export default function CARD_LISTA_VENTA() {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const {ventasRapidas, Movimientos,Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas,setTab } = useContext(ReporteContext);
+    const { ventasRapidas, Movimientos, Ventas, ventaSelected, setventaSelected, cajaSelected, GetVentas, setTab } = useContext(ReporteContext);
     const [turno_mañana, set_turno_mañana] = useState(true);
     const [turno_tarde, set_turno_tarde] = useState(true);
     const [fromDate, Set_fromDate] = useState(new Date());
@@ -38,21 +38,21 @@ export default function CARD_LISTA_VENTA() {
         return columns
     }
 
-function       nombreMovimiento (UsuarioId) {
-    let nombre = '';
-    ventasRapidas.forEach(codigo =>{
-      if(codigo.id === UsuarioId){
-        nombre = codigo.nombre;
-      }
-    })
-    return nombre;
-  }
+    function nombreMovimiento(UsuarioId) {
+        let nombre = '';
+        ventasRapidas.forEach(codigo => {
+            if (codigo.id === UsuarioId) {
+                nombre = codigo.nombre;
+            }
+        })
+        return nombre;
+    }
 
     const DataSet = [
         {
             columns: [
 
-               { title: "Estado Venta:", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
+                { title: "Estado Venta:", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } }, // width in pixels
                 { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
                 { title: "Tipo de pago", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Monto", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
@@ -61,7 +61,7 @@ function       nombreMovimiento (UsuarioId) {
 
             ],
             data: buscar(ventas).map((data) => [
-               { value: data.estadoVenta, style: { font: { sz: "14" } } },
+                { value: data.estadoVenta, style: { font: { sz: "14" } } },
                 { value: data.updatedAt, style: { font: { sz: "14" } } },
                 { value: data.tipoPago, style: { font: { sz: "14" } } },
                 { value: data.monto, style: { font: { sz: "14" } } },
@@ -78,45 +78,47 @@ function       nombreMovimiento (UsuarioId) {
                 { title: "Descripcion", style: { font: { sz: "18", bold: true } }, width: { wpx: 100 } }, // width in pixels
                 { title: "Operacion", style: { font: { sz: "18", bold: true } }, width: { wpx: 125 } },
                 { title: "Fecha", style: { font: { sz: "18", bold: true } }, width: { wch: 30 } }, // width in characters
-               
+
             ],
             data: buscar(movimientos).map((data) => [
-                { value: nombreMovimiento(data.UsuarioId) , style: { font: { sz: "14" } } },
+                { value: nombreMovimiento(data.UsuarioId), style: { font: { sz: "14" } } },
                 { value: data.descripcion, style: { font: { sz: "14" } } },
                 { value: data.operacion, style: { font: { sz: "14" } } },
                 { value: data.updatedAt, style: { font: { sz: "14" } } },
-               
+
             ])
         }
     ]
 
-    const [reset,setReset]=useState(false)
+    const [reset, setReset] = useState(false)
     useEffect(() => {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         SetVentas([]);
         Setmovimientos([]);
         if (cajaSelected) {
             cajaSelected.Ventas.forEach(venta => {
-                               
-                    SetVentas(prev => [...prev, venta]);
-                
+
+                SetVentas(prev => [...prev, venta]);
+
             });
             cajaSelected.Movimientos.forEach(movimiento => {
 
                 Setmovimientos(prev => [...prev, movimiento]);
 
             })
-           if(!reset){setReset(!reset)} 
-        }else { 
-            GetVentas(); 
+            if (!reset) { setReset(!reset) }
+        } else {
+            GetVentas();
             SetVentas(Ventas);
             Setmovimientos(Movimientos);
-            if(!reset){setReset(!reset)} }
+            if (!reset) { setReset(!reset) }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [reset])
 
     return (
         <>
-           
+
             <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
                 <div className="rounded-t mb-0 px-4 py-3 border-0">
                     <div className="hip">

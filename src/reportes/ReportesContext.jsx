@@ -173,6 +173,7 @@ export function ReporteContextProvider({ children }) {
         GetProductos();
         getRubros();
         obtenerVentasRapidas();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
         <ReporteContext.Provider value={{ ventasRapidas, Movimientos, tab, setTab, ventaSelected, setventaSelected, cajaSelected, setCajaSelected, llenarArrayCantidad, tipoRubro, VentaRubro, Colorrubro, rubros, getRubros, Ventas, GetVentas, Get_cajas, Cajas, bandera, SetBandera, setSearch, search, buscar, GetProductos, columns, llenar_array, Productos, nombres, color, cantidad }}>

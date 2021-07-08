@@ -38,6 +38,7 @@ export const columnasReserva = (productos, clientes, pagar) => {
                 let nombre = "";
                 productos.map(producto => {
                     if(producto.id === row.ProductoId) nombre = producto.nombre; 
+                    return producto;
                 })
                 return nombre
             },
