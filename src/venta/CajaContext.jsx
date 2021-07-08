@@ -56,6 +56,7 @@ export function CajaContextProvider({ children }) {
         }
       })
       .catch(({ data }) => {
+        console.log(data);
         const { error } = data;
         setmessajeError(error.message + " Intentelo nuevamente");
         handleClicksnakBar(true);

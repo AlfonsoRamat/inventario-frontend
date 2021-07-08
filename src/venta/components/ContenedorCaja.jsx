@@ -39,7 +39,10 @@ function ContenedorCaja() {
     }
 
     useEffect(() => {
-        if (!cajaAbierta) return;
+        if (!cajaAbierta) {
+           setMovimientos([]);
+            return;
+        }
         getClientes();
         asignarMovimientos();
         cajaAbierta?.Ventas.forEach(venta => {
