@@ -42,6 +42,11 @@ const columnasmovimientoReporte = (ventasRapidas) => {
     name: 'Operacion',
     selector: 'operacion',
     sortable: true
+  }, 
+   {
+    name: 'Estado',
+    selector: 'estado',
+    sortable: true
   },
   {
 
@@ -67,6 +72,11 @@ const columnasventaReporte = [
   {
     name: 'Monto tarjeta',
     selector: 'montoTarjeta',
+    sortable: true
+  },
+  {
+    name: 'Estado',
+    selector: 'estado',
     sortable: true
   },
   {
