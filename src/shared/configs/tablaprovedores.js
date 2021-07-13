@@ -50,12 +50,12 @@ const customStyles = {
           name: 'Borrar',
           button: true,
           cell: row => <BsTrash onClick={() => {
-        if (window.confirm(`Seguro que desea eliminar ${row.nombre}`)) {
-          AxiosInstance().delete('/proveedores', { data: { id: row.id } })
-          .then(res => {
-            dispatch({type: 'borrar', payload: {id: row.id}});
-          })
-          .catch(err => console.log(err));}}} />,
+            if (window.confirm(`Seguro que desea eliminar ${row.nombre}`)) {
+              AxiosInstance().delete('/proveedores', { data: { id: row.id } })
+              .then(res => {
+                dispatch({type: 'borrar', payload: {id: row.id}});
+              })
+              .catch(err => console.log(err));}}} />,
         }
     ];
     return columnas;

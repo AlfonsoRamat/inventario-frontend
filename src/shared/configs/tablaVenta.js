@@ -1,4 +1,5 @@
 import { BsTrash } from "react-icons/bs";
+import AxiosInstance from "./AxiosInstance";
 const customStyles = {
   rows: {
     style: {
@@ -55,11 +56,12 @@ const columnas = (clientes) => {
     {
 
       button: true,
-      cell: row => <BsTrash onClick={console.log("borrar item" + row.nombre)} />,
+      cell: row => <BsTrash onClick={ () => console.log("borrar item", row)} />,
     }
   ]
 }
-const columnasMovimiento = (ventasRapidas) => {
+
+const columnasMovimiento = (ventasRapidas, setReload) => {
   return [
     {
       name: 'Vendedor',
@@ -86,7 +88,14 @@ const columnasMovimiento = (ventasRapidas) => {
     },
     {
       button: true,
-      cell: row => <BsTrash onClick={console.log("borrar movimiento" + row.nombre)} />,
+      cell: row => <BsTrash onClick={() => {
+        if (window.confirm(`Cancelar el movimiento?`)) {
+          AxiosInstance().delete('/caja/bajaMovimiento', { data: { id: row.id } })
+          .then(res => {
+            setReload(prev => !prev);
+          })
+          .catch(err => console.log(err));}
+      }} />,
     }
   ]
 }
