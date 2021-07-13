@@ -49,6 +49,7 @@ function ContenedorCaja() {
         }
         getClientes();
         asignarMovimientos();
+        setVentas([]);
         cajaAbierta?.Ventas.forEach(venta => {
             if (venta.estadoVenta === "finalizada") {
                 setVentas(prev => [...prev, venta]);
