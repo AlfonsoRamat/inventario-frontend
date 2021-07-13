@@ -76,7 +76,7 @@ const columnasventaReporte = [
   },
   {
     name: 'Estado',
-    selector: 'estado',
+    selector: 'estadoVenta',
     sortable: true
   },
   {
