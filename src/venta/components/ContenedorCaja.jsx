@@ -93,7 +93,7 @@ function ContenedorCaja() {
                     <div className="table-responsive">
                         <DataTable
                             title={"Ventas"}
-                            columns={columnas(clientes)}
+                            columns={columnas(clientes, setReload)}
                             data={ventas}
                             pagination
                             paginationComponentOptions={opcionesdepagina}

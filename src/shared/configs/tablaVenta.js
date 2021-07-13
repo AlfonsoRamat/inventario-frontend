@@ -21,7 +21,7 @@ const customStyles = {
   },
 };
 
-const columnas = (clientes) => {
+const columnas = (clientes, setReload) => {
   return [
     {
       name: 'Cliente',
@@ -56,7 +56,14 @@ const columnas = (clientes) => {
     {
 
       button: true,
-      cell: row => <BsTrash onClick={ () => console.log("borrar item", row)} />,
+      cell: row => <BsTrash onClick={ () => {
+        if (window.confirm(`Cancelar la venta?`)) {
+          AxiosInstance().delete('/caja/bajaVenta', { data: { id: row.id } })
+          .then(res => {
+            setReload(prev => !prev);
+          })
+          .catch(err => console.log(err));}
+      }} />,
     }
   ]
 }
