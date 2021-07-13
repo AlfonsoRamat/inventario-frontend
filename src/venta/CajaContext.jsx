@@ -170,7 +170,7 @@ export function CajaContextProvider({ children }) {
       <CajaContext.Provider
         value={{
           productos, cajaAbierta, historial, ventasRapidas,
-          getProductos, abrirCaja, cerrarCaja, agregarVenta, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar
+          setReload, getProductos, abrirCaja, cerrarCaja, agregarVenta, reducirStockEnProductos, revertirHistorial, setmessajeError, setmessageExito, handleClicksnakBar
         }}
       >
         {children}

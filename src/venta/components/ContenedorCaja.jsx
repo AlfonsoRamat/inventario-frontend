@@ -8,7 +8,7 @@ import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 import ModalMovimiento from '../components/ModalMovimiento'
 
 function ContenedorCaja() {
-    const { cajaAbierta, ventasRapidas } = useContext(CajaContext);
+    const { cajaAbierta, ventasRapidas, setReload } = useContext(CajaContext);
     const [clientes, setClientes] = useState([]);
     const [modal, setModal] = useState(false);
     const [ventas, setVentas] = useState([]);
@@ -35,19 +35,22 @@ function ContenedorCaja() {
     }
 
     function asignarMovimientos() {
-        setMovimientos(cajaAbierta.Movimientos);
+        const movimientosFinalizados = cajaAbierta.Movimientos.filter(movimiento =>{
+            return movimiento.estado === "finalizada"
+        });
+        setMovimientos(movimientosFinalizados);
     }
 
     useEffect(() => {
         if (!cajaAbierta) {
-           setMovimientos([]);
+            setMovimientos([]);
+            setVentas([]);
             return;
         }
         getClientes();
         asignarMovimientos();
         cajaAbierta?.Ventas.forEach(venta => {
             if (venta.estadoVenta === "finalizada") {
-                console.log('Venta finalizada', venta);
                 setVentas(prev => [...prev, venta]);
             }
         })
@@ -71,16 +74,16 @@ function ContenedorCaja() {
                     <div className="table-responsive">
                         <DataTable
                             title={"Movimiento"}
-                            columns={columnasMovimiento(ventasRapidas)}
+                            columns={columnasMovimiento(ventasRapidas, setReload)}
                             data={movimientos}
                             pagination
-                            paginationComponentOptions={opcionesdepagina}
-                            fixedHeader
-                            fixedHeaderScrollHeight="600px"
-                            highlightOnHover
-                            responsive
-                            customStyles={customStyles}
-                            noDataComponent={<div>No existen movimiento realizados</div>}
+                        paginationComponentOptions={opcionesdepagina}
+                        fixedHeader
+                        fixedHeaderScrollHeight="600px"
+                        highlightOnHover
+                        responsive
+                        customStyles={customStyles}
+                        noDataComponent={<div>No existen movimiento realizados</div>}
                         />
                     </div>
                 </div> : null}
