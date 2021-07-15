@@ -1,4 +1,5 @@
 import { BsCheckBox, BsXSquare } from "react-icons/bs";
+import { IconContext } from "react-icons";
 import { RiMoneyDollarBoxLine } from "react-icons/ri";
 export const customStyles = {
     rows: {
@@ -24,20 +25,23 @@ export const customStyles = {
 };
 
 export const columnasReserva = (productos, clientes, pagar) => {
-   return [
+    return [
         {
             name: 'Cliente',
             selector: (row) => {
-                const cliente = clientes.filter(cliente => cliente.id === row.ClienteId);
-                return cliente.nombre;
+                let nombre;
+                const cliente = clientes.map(cliente => {
+                    if (cliente.id === row.ClienteId) nombre = cliente.nombre;
+                });
+                return nombre;
             },
             sortable: true
-        },{
-            name: 'Producto', 
+        }, {
+            name: 'Producto',
             selector: (row) => {
                 let nombre = "";
                 productos.map(producto => {
-                    if(producto.id === row.ProductoId) nombre = producto.nombre; 
+                    if (producto.id === row.ProductoId) nombre = producto.nombre;
                     return producto;
                 })
                 return nombre
@@ -45,24 +49,32 @@ export const columnasReserva = (productos, clientes, pagar) => {
             sortable: true
         },
         {
-            name: 'Precio Total', 
+            name: 'Precio Total',
             selector: 'monto',
             sortable: true
-        },{
-            name: 'Monto abonado', 
+        }, {
+            name: 'Monto abonado',
             selector: 'montoAbonado',
             sortable: true
-        },{
-            name: 'Entregado', 
+        }, {
+            name: 'Entregado',
             selector: (row) => {
-                if(row.entregado) return <BsCheckBox />
-                return <BsXSquare/>
+                if (row.entregado) return (
+                    <IconContext.Provider value={{ color: "green", size: '30px' }}>
+                        <BsCheckBox />
+                    </IconContext.Provider>
+                )
+                return (
+                    <IconContext.Provider value={{ color: "red", size: '30px' }}>
+                        <BsXSquare />
+                    </IconContext.Provider>
+                )
             },
             sortable: true
-        },{
-            name: 'Realizar Pago', 
+        }, {
+            name: 'Realizar Pago',
             selector: (row) => {
-                <RiMoneyDollarBoxLine onclick={pagar(row)} />
+                <RiMoneyDollarBoxLine onclick={() => pagar(row)} />
             },
             sortable: true
         },
@@ -74,5 +86,5 @@ export const opcionesdepagina = {
     rangeSeparatorText: 'de',
     selectAllRowsItem: true,
     selectAllRowsItemText: 'Todo',
-  
-  }
+
+}

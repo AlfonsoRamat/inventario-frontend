@@ -3,9 +3,9 @@ import "./ClienteForm.css"
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import AxiosInstance from '../../shared/configs/AxiosInstance';
 
-function ClienteForm({ toggleCliente ,    setmessajeError,
+function ClienteForm({ toggleCliente, setmessajeError,
     setmessageExito,
-    handleClicksnakBar}) {
+    handleClicksnakBar }) {
 
     const initialValues = {
         nombre: '',
@@ -22,12 +22,12 @@ function ClienteForm({ toggleCliente ,    setmessajeError,
                 handleClicksnakBar(false);
                 toggleCliente();
             })
-            .catch(({data}) => {
-                const {error}=data;
-                setmessajeError(error.message+" Intentelo nuevamente");
+            .catch(({ data }) => {
+                const { error } = data;
+                setmessajeError(error.message + " Intentelo nuevamente");
                 handleClicksnakBar(true);
-        
-                });
+
+            });
     };
 
     return (

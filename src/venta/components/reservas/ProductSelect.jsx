@@ -3,7 +3,7 @@ import DataTable from 'react-data-table-component';
 import { columnasListaVenta } from '../../../shared/configs/TablaInventario';
 import { customStyles, opcionesdepagina } from './Reserva.config';
 
-function ProductSelect({ productos }) {
+function ProductSelect({ productos, setNuevaReserva }) {
 
     const [search, setSearch] = useState("");
 
@@ -36,7 +36,9 @@ function ProductSelect({ productos }) {
                     fixedHeaderScrollHeight="600px"
                     highlightOnHover
                     onRowClicked={selectedItem => {
-
+                        setNuevaReserva(prev => {
+                            return { ...prev, ProductoId: selectedItem.id, monto: selectedItem.precioVenta }
+                        });
                     }}
                     responsive
                     noDataComponent={<div>No hay informacion disponible para mostrar</div>}

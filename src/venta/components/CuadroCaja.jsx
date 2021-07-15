@@ -5,22 +5,21 @@ import './CuadroCaja.css'
 function CuadroCaja() {
     const [monto, setMonto] = useState(0);
     const { cajaAbierta, abrirCaja, cerrarCaja } = useContext(CajaContext);
-    
+
     function handleClick(event) {
         event.preventDefault();
         if (!cajaAbierta) {
             abrirCaja(monto);
             return;
-        }else
-        {
+        } else {
             cerrarCaja(monto);
-           
-         }
+
+        }
     }
 
-useEffect(() => {
-  
-}, [])
+    useEffect(() => {
+
+    }, [])
     return (
         <div>
             <div className="rounded-t bg-white mb-0 px-6 py-6">

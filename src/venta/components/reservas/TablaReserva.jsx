@@ -7,6 +7,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { useContext } from 'react';
 import AxiosInstance from '../../../shared/configs/AxiosInstance';
 import ProductSelect from './ProductSelect';
+import UserSelect from './UserSelect';
+import FinishReservationForm from './FinishReservationForm';
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -17,7 +19,6 @@ function TablaPedidos({ cajaAbierta }) {
     const [reservas, setReservas] = useState([]);
     const [nuevaReserva, setNuevaReserva] = useState();
     const [clientes, setClientes] = useState([]);
-    const [iniciarReserva, setIniciarReserva] = useState(false);
     const [search, setSearch] = useState("");
     //snackbar ok
     const [opensnakBar, setOpensnakBar] = useState(false);
@@ -38,7 +39,8 @@ function TablaPedidos({ cajaAbierta }) {
     async function getReservas() {
         try {
             const result = await (await AxiosInstance().get("/reserva")).data;
-            setReservas(result);
+            const reservasPendientes = result.filter(res => res.estado === "pendiente");
+            setReservas(reservasPendientes);
         } catch (error) {
             console.log(error);
         }
@@ -53,16 +55,6 @@ function TablaPedidos({ cajaAbierta }) {
         }
     }
 
-    function buscar(rows) {
-        if (rows) {
-            return rows.filter(row =>
-                row.nombre.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.descripcion.toString().toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-                row.codigo.toString().toLowerCase().indexOf(search.toLowerCase()) > -1
-            );
-        } else return [];
-    }
-
     function pagar(reserva) {
         console.log(reserva);
     }
@@ -74,7 +66,7 @@ function TablaPedidos({ cajaAbierta }) {
 
     return (
         <div className="Tablas">
-            {(!iniciarReserva) ?
+            {(!nuevaReserva) ?
                 <>
                     <div className='titulo-tabla'>
                         <div className='titulo-der'>
@@ -86,7 +78,7 @@ function TablaPedidos({ cajaAbierta }) {
                     <div className="table-responsive">
                         <DataTable
                             columns={columnasReserva(productos, clientes, pagar)}
-                            data={buscar(reservas)}
+                            data={reservas}
                             pagination
                             paginationComponentOptions={opcionesdepagina}
                             fixedHeader
@@ -99,9 +91,21 @@ function TablaPedidos({ cajaAbierta }) {
                         />
                     </div>
                     <button className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                        onClick={() => { setIniciarReserva(true) }} type="button">Crear Reserva</button>
+                        onClick={() => { setNuevaReserva({
+                            monto: 0,
+                            estado: "pendiente",
+                            montoAbonado: 0,
+                            ClienteId: "",
+                            ProductoId: "",
+                        }) }} type="button">Crear Reserva</button>
                 </>
-                : (<ProductSelect productos={productos} />)
+                :
+                (nuevaReserva.ProductoId === "") ? 
+                (<ProductSelect productos={productos} setNuevaReserva={setNuevaReserva} />) 
+                : 
+                (nuevaReserva.ClienteId === "") ? 
+                <UserSelect clientes={clientes} setNuevaReserva={setNuevaReserva} /> 
+                : <FinishReservationForm nuevaReserva={nuevaReserva} setNuevaReserva={setNuevaReserva} />
             }
             <Snackbar open={opensnakBar} autoHideDuration={3000} onClose={handleClosesnackBar}>
                 <Alert onClose={handleClosesnackBar} severity={advertencia ? "warning" : "success"}>

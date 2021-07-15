@@ -143,7 +143,7 @@ function ContenedorVenta() {
         aria-label="simple tabs example"
       >
         <StyledTab label="Caja" />
-        <StyledTab label="Reserva" disabled={!cajaAbierta ? true : true} />
+        <StyledTab label="Reserva" disabled={!cajaAbierta ? true : false} />
         <StyledTab label="Venta 1" disabled={!cajaAbierta ? true : false} />
         <StyledTab label="Venta 2" disabled={!cajaAbierta ? true : false} />
         <StyledTab label="Venta 3" disabled={!cajaAbierta ? true : false} />

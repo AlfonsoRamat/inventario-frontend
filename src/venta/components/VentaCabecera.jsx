@@ -159,30 +159,31 @@ function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleClien
                             />
                         </div>
                         : null}
-                    {!venta.ClienteId ? <div>
-                        <label>Clientes </label>
-                        <Autocomplete
-                            id="combo-box-cliente"
-                            options={cliente}
-                            onChange={(_, value) => {
-                                if (value) {
-                                    handleChange({ target: { name: "ClienteId", value: value.id } });
-                                }
-                            }}
-                            getOptionLabel={(option) => option.nombre}
-                            style={{ width: 300 }}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Cliente" variant="outlined" />
-                            )}
-                        />
-                        <button
-                            className={buttonClassname}
-                            onClick={toggleCliente}
-                            type="button"
-                        >
-                            Crear cliente
-                        </button>
-                    </div> : null}
+                    {!venta.ClienteId ?
+                        <div>
+                            <label>Clientes </label>
+                            <Autocomplete
+                                id="combo-box-cliente"
+                                options={cliente}
+                                onChange={(_, value) => {
+                                    if (value) {
+                                        handleChange({ target: { name: "ClienteId", value: value.id } });
+                                    }
+                                }}
+                                getOptionLabel={(option) => option.nombre}
+                                style={{ width: 300 }}
+                                renderInput={(params) => (
+                                    <TextField {...params} label="Cliente" variant="outlined" />
+                                )}
+                            />
+                            <button
+                                className={buttonClassname}
+                                onClick={toggleCliente}
+                                type="button"
+                            >
+                                Crear cliente
+                            </button>
+                        </div> : null}
                 </div>
             </div>
         </div>
