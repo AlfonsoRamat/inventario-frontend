@@ -73,9 +73,10 @@ export const columnasReserva = (productos, clientes, pagar) => {
             sortable: true
         }, {
             name: 'Realizar Pago',
-            selector: (row) => {
-                <RiMoneyDollarBoxLine onclick={() => pagar(row)} />
-            },
+            button: true,
+            cell: (row) => 
+                <RiMoneyDollarBoxLine onClick={() => pagar(row)} />
+            ,
             sortable: true
         },
     ];
