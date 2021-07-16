@@ -110,6 +110,7 @@ function ContenedorCaja() {
                             customStyles={customStyles}
                             noDataComponent={<div>No existen ventas realizadas</div>}
                         />
+                        //TODO: completar esto
                         <Switch checked={llavestate} onChange={handleChange} name="checkedA" />
                         Ver monto total de la caja acumulado
                         {llavestate?<h1>Total "montototal(suma de todas las ventas y movimiento en efectivo) "</h1>:null}
