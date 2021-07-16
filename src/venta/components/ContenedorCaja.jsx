@@ -5,7 +5,8 @@ import CuadroCaja from './CuadroCaja'
 import { columnas, customStyles, opcionesdepagina, columnasMovimiento } from "../../shared/configs/tablaVenta";
 import AxiosInstance from '../../shared/configs/AxiosInstance';
 import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
-import ModalMovimiento from '../components/ModalMovimiento'
+import ModalMovimiento from '../components/ModalMovimiento';
+import Switch from '@material-ui/core/Switch';
 
 function ContenedorCaja() {
     const { cajaAbierta, ventasRapidas, setReload } = useContext(CajaContext);
@@ -15,6 +16,10 @@ function ContenedorCaja() {
     const [movimientos, setMovimientos] = useState([]);
     const [operacion, setOperacion] = useState("deposito");
 
+    const [llavestate, setLlaveState] = useState(false);
+      const handleChange = (event) => {
+        setLlaveState( event.target.checked );
+      };
     //TODO: agregar movimiento borrar ventas y movimientos
     async function getClientes() {
         try {
@@ -105,6 +110,9 @@ function ContenedorCaja() {
                             customStyles={customStyles}
                             noDataComponent={<div>No existen ventas realizadas</div>}
                         />
+                        <Switch checked={llavestate} onChange={handleChange} name="checkedA" />
+                        Ver monto total de la caja acumulado
+                        {llavestate?<h1>Total "montototal(suma de todas las ventas y movimiento en efectivo) "</h1>:null}
                     </div>
                 </div> : null}
             </div>
