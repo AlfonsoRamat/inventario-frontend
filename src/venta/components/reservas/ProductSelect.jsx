@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import { columnasListaVenta } from '../../../shared/configs/TablaInventario';
 import { customStyles, opcionesdepagina } from './Reserva.config';
@@ -6,6 +7,8 @@ import { customStyles, opcionesdepagina } from './Reserva.config';
 function ProductSelect({ productos, setNuevaReserva }) {
 
     const [search, setSearch] = useState("");
+
+    const [productosFiltrados, setProductosFiltrado] = useState();
 
     function buscar(rows) {
         if (rows) {
@@ -16,6 +19,16 @@ function ProductSelect({ productos, setNuevaReserva }) {
             );
         } else return [];
     }
+
+    useEffect(() => {
+        const productosConStock = productos.filter(producto => {
+            const cantidad = producto.Stocks?.reduce((total, actual) => {
+                return total + parseFloat(actual.cantidad);
+            }, 0);
+            if (cantidad > 0) return true;
+        });
+        setProductosFiltrado(productosConStock);
+    }, [])
 
     return (
         <div className="Tablas">
@@ -29,7 +42,7 @@ function ProductSelect({ productos, setNuevaReserva }) {
             <div className="table-responsive">
                 <DataTable
                     columns={columnasListaVenta}
-                    data={buscar(productos)}
+                    data={buscar(productosFiltrados)}
                     pagination
                     paginationComponentOptions={opcionesdepagina}
                     fixedHeader
