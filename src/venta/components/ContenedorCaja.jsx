@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { CajaContext } from '../CajaContext';
 import CuadroCaja from './CuadroCaja'
+import CuadroDatosCaja from './cuadroDatosCaja'
 import { columnas, customStyles, opcionesdepagina, columnasMovimiento } from "../../shared/configs/tablaVenta";
 import AxiosInstance from '../../shared/configs/AxiosInstance';
 import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
@@ -63,6 +64,7 @@ function ContenedorCaja() {
             <div className="cajaizquierda">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0">
                     <CuadroCaja />
+                   {cajaAbierta? <CuadroDatosCaja/>:null}
                 </div>
                 {cajaAbierta ? <div>
                     <div className="bottones">
