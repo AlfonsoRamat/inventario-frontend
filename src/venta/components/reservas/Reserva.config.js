@@ -30,7 +30,7 @@ export const columnasReserva = (productos, clientes, pagar) => {
             name: 'Cliente',
             selector: (row) => {
                 let nombre;
-                const cliente = clientes.map(cliente => {
+                clientes.forEach(cliente => {
                     if (cliente.id === row.ClienteId) nombre = cliente.nombre;
                 });
                 return nombre;
@@ -74,9 +74,9 @@ export const columnasReserva = (productos, clientes, pagar) => {
         }, {
             name: 'Realizar Pago',
             button: true,
-            cell: (row) => 
-                <RiMoneyDollarBoxLine onClick={() => pagar(row)} />
-            ,
+            cell: (row) => {
+                return <RiMoneyDollarBoxLine onClick={() => pagar(row)} />
+            },
             sortable: true
         },
     ];

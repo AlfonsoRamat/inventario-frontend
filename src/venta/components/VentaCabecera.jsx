@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import "./VentaCabecera.css";
 
 function VentaCabecera({ cliente, productosVenta, venta, borrarItem, toggleCliente, handleChange, handleCobrar }) {
-    const opcionesDePago = { EFECTIVO: "Efectivo", TARJETA: "Tarjeta", DEBITO: "Debito", RESERVA: "Reserva", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
+    const opcionesDePago = { EFECTIVO: "Efectivo", TARJETA: "Tarjeta", DEBITO: "Debito", EFECTIVO_Y_TARJETA: "Efectivo + Tarjeta" };
     const [subTotal, setSubTotal] = useState(0);
 
     const buttonClassname = "bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 ease-linear transition-all duration-150";
