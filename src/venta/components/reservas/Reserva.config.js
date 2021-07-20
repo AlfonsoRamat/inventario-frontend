@@ -58,14 +58,15 @@ export const columnasReserva = (productos, clientes, pagar) => {
             sortable: true
         }, {
             name: 'Entregado',
+            button: true,
             selector: (row) => {
                 if (row.entregado) return (
-                    <IconContext.Provider value={{ color: "green", size: '30px' }}>
+                    <IconContext.Provider value={{ color: "green", size: "2em" }}>
                         <BsCheckBox />
                     </IconContext.Provider>
                 )
                 return (
-                    <IconContext.Provider value={{ color: "red", size: '30px' }}>
+                    <IconContext.Provider value={{ color: "red", size: "2em" }}>
                         <BsXSquare />
                     </IconContext.Provider>
                 )
@@ -75,7 +76,7 @@ export const columnasReserva = (productos, clientes, pagar) => {
             name: 'Realizar Pago',
             button: true,
             cell: (row) => {
-                return <RiMoneyDollarBoxLine onClick={() => pagar(row)} />
+                return <RiMoneyDollarBoxLine size="2em" onClick={() => pagar(row)} />
             },
             sortable: true
         },
